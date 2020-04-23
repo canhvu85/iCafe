@@ -74,13 +74,44 @@ namespace Test_coffe.Controllers
            // tableOld.updated_at = DateTime.Now;          
             _context.Entry(tableOld).State = EntityState.Modified;
 
+<<<<<<< HEAD
             try
+=======
+            var tableOld = _context.Tables.Where(t => t.permalink == table.permalink && t.FloorsId == table.FloorsId && t.isDeleted == false).ToList().FirstOrDefault();
+            if (tableOld != null && tableOld.id != table.id)
+>>>>>>> 8ccfdc251a22ff7a961cf280bd66af831a7f8ff4
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
+<<<<<<< HEAD
                 if (!TableExists(id))
+=======
+
+                tableOld = _context.Tables.Find(id);
+
+                tableOld.status = table.status;
+                if (table.name != null)
+                {
+                    var tableOld1 = _context.Tables.Where(t => t.permalink == table.permalink 
+                                                            && t.id != table.id
+                                                            && t.FloorsId == table.FloorsId
+                                                            && t.isDeleted == false).ToList().FirstOrDefault();
+                    if (tableOld1 != null)
+                    {
+                        tableOld.permalink = table.permalink + "_1";
+                    }else
+                        tableOld.permalink = table.permalink;
+
+                    tableOld.name = table.name;                  
+                    tableOld.FloorsId = table.FloorsId;
+                }
+                // tableOld.updated_at = DateTime.Now;          
+                _context.Entry(tableOld).State = EntityState.Modified;
+
+                try
+>>>>>>> 8ccfdc251a22ff7a961cf280bd66af831a7f8ff4
                 {
                     return NotFound();
                 }
@@ -122,8 +153,28 @@ namespace Test_coffe.Controllers
         [HttpPost]
         public async Task<ActionResult<Tables>> PostTable(Tables table)
         {
+<<<<<<< HEAD
             _context.Tables.Add(table);
             await _context.SaveChangesAsync();
+=======
+            var tableOld = _context.Tables.Where(t => t.permalink == table.permalink && t.FloorsId == table.FloorsId && t.isDeleted == false).ToList().FirstOrDefault();
+            if (tableOld != null)
+            {
+                return Content("Bàn này đã có, hãy nhập tên khác");
+            }
+            else
+            {
+                var tableOld1 = _context.Tables.Where(t => t.permalink == table.permalink 
+                                                        && t.id != table.id
+                                                        && t.FloorsId == table.FloorsId
+                                                        && t.isDeleted == false).ToList().FirstOrDefault();
+                if (tableOld1 != null)
+                {
+                    table.permalink += "_1";
+                }
+                _context.Tables.Add(table);
+                await _context.SaveChangesAsync();
+>>>>>>> 8ccfdc251a22ff7a961cf280bd66af831a7f8ff4
 
             return CreatedAtAction("GetTable", new { id = table.id }, table);
         }

@@ -23,7 +23,7 @@ function addItem(item) {
         //arr.push(item.trim());
         let newData = {
             "name": item.trim(),
-            "permalink": toSlug(item.trim()),
+            "permalink": toSlug(item.trim() + " " + $('#cFilterFloor').val()),
             "floorsId": $('#cFilterFloor').val()*1
         };      
         axios({
@@ -145,7 +145,7 @@ function editItem(tdid, val, flid) {
         var newData = {
             'id': tdid,
             'name': input.value.trim(),
-            'permalink': toSlug(input.value.trim()),
+            'permalink': toSlug(input.value.trim() + " " + floor.value),
             'floorsId': floor.value*1
         }
         axios({
