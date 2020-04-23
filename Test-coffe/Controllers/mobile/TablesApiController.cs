@@ -24,7 +24,7 @@ namespace Test_coffe.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tables>>> GetTable(int? shop_id)
         {
-            return await _context.Tables.Include(t => t.Floors).Where(t => t.Floors.ShopsId == shop_id && t.isDeleted == false).ToListAsync();
+            return await _context.Tables.Where(t => t.Floors.ShopsId == shop_id && t.isDeleted == false).ToListAsync();
         }
 
         [HttpGet("floor")]
@@ -62,45 +62,35 @@ namespace Test_coffe.Controllers
             {
                 return BadRequest();
             }
-
-            var tableOld = _context.Tables.Where(t => t.name == table.name && t.FloorsId == table.FloorsId && t.isDeleted == false).ToList().FirstOrDefault();
-            if (tableOld != null && tableOld.id != table.id)
+            var tableOld = _context.Tables.Find(id);
+           
+            tableOld.status = table.status;
+            if(table.name != null)
             {
-                return Content("Bàn này đã có, hãy nhập tên khác");
+                tableOld.name = table.name;
+                tableOld.permalink = table.permalink;
+                tableOld.FloorsId = table.FloorsId;
             }
-            else
+           // tableOld.updated_at = DateTime.Now;          
+            _context.Entry(tableOld).State = EntityState.Modified;
+
+            try
             {
-
-                tableOld = _context.Tables.Find(id);
-
-                tableOld.status = table.status;
-                if (table.name != null)
-                {
-                    tableOld.name = table.name;
-                    tableOld.permalink = table.permalink;
-                    tableOld.FloorsId = table.FloorsId;
-                }
-                // tableOld.updated_at = DateTime.Now;          
-                _context.Entry(tableOld).State = EntityState.Modified;
-
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TableExists(id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-                return NoContent();
+                await _context.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TableExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
 
@@ -132,18 +122,10 @@ namespace Test_coffe.Controllers
         [HttpPost]
         public async Task<ActionResult<Tables>> PostTable(Tables table)
         {
-            var tableOld = _context.Tables.Where(t => t.name == table.name && t.FloorsId == table.FloorsId && t.isDeleted == false).ToList().FirstOrDefault();
-            if (tableOld != null)
-            {
-                return Content("Bàn này đã có, hãy nhập tên khác");
-            }
-            else
-            {
-                _context.Tables.Add(table);
-                await _context.SaveChangesAsync();
+            _context.Tables.Add(table);
+            await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetTable", new { id = table.id }, table);
-            }
+            return CreatedAtAction("GetTable", new { id = table.id }, table);
         }
 
         // DELETE: api/TablesApi/5

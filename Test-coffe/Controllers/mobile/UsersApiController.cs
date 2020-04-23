@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
 namespace Test_coffe.Controllers.mobile
@@ -15,12 +14,10 @@ namespace Test_coffe.Controllers.mobile
     public class UsersApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly ITokenBuilder _tokenBuilder;
 
-        public UsersApiController(ApplicationDbContext context, ITokenBuilder tokenBuilder)
+        public UsersApiController(ApplicationDbContext context)
         {
             _context = context;
-            _tokenBuilder = tokenBuilder;
         }
 
         // GET: api/Users
@@ -58,14 +55,11 @@ namespace Test_coffe.Controllers.mobile
                               && u.ShopsId == user.ShopsId
                               && u.Shops.time_open <= dateCurrent
                               && dateCurrent <= u.Shops.time_close
-                          select new
+                          select new Users
                           {
                               id = u.id,
                               name = u.name,
-                              images = u.images,
-                              u.username,
-                              positionsId = u.PositionsId,
-                              shopsId = u.ShopsId
+                              images = u.images
                           }).FirstOrDefault();
 
             // Console.WriteLine(result);
@@ -73,25 +67,8 @@ namespace Test_coffe.Controllers.mobile
             {
                 return NotFound();
             }
-            else
-            {
-                var token = _tokenBuilder.BuildToken(user.username);
 
-                var userData = _context.Users.Find(result.id);
-                userData.token = token;
-                _context.Update(userData);
-                _context.SaveChangesAsync();
-
-                var us = new Users();
-                us.username = user.username;
-                us.ShopsId = user.ShopsId;
-                us.PositionsId = userData.PositionsId;
-                us.token = token;
-                HttpContext.Session.SetObjectAsJson("user", us);
-                //return Ok(token);
-                return Ok(result);
-            }
-
+            return Ok(result);
         }
 
 

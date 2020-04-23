@@ -43,7 +43,7 @@ $.ajax({
 		let k1 = data1.length;
 		let str1 = '';
 		for (let i = 0; i < k1; i++) {
-			let avatar = data1[i].images != null ? JSON.parse(data1[i].images).avatar : "#";
+			let avatar = data[i].images != null ? JSON.parse(data[i].images).avatar : "#";
 			str1 += `<div class="item">
 				<div class="col-md-12" style="padding: 0;">
 				<div class="item-img col-md-2">

@@ -179,14 +179,14 @@ function ProductList() {
 		contentType: "application/json",
 		success: function (result) {
 			let data = result;
-			console.log(data);
+			//console.log(result);
 			let items;
 			let active = ' active';
 				for (var i = 0; i < groupItemCount; i++) {
 				items = data.filter(function (rs) {
 					return rs.catalogesId == groupItemArray[i];
 				});
-					console.log(items);
+				 
 				let j = items.length;
 				if (j > 0) {
 					let str = `<div id="group-item-${groupItemArray[i]}" class="list-items ${active}">`;
@@ -304,11 +304,8 @@ function changeTable(table_per, table_id) {
 	localStorage.setItem('table_id_to_cart', table_id_to_cart);
 
 	console.log(table01);
-
-	//BillDetailList(table_id);
-	//BillOfTable(table_id);
-
-
+	BillDetailList(table_id);
+	BillOfTable(table_id)
 	 // Click table on Mobile
     //$(".num-table a").click(function() {
     //	$(".list-table-mobile .num-table").removeClass("active");
@@ -471,7 +468,6 @@ function btnPlus() {
 
 
 function BillOfTable(table_id) {
-	$("#total-money-1 .col-md-4").html("");
 	$.ajax({
 		url: "/api/mobile/BillsApi/?table_id=" + table_id,
 		method: "GET",
@@ -493,15 +489,11 @@ function BillOfTable(table_id) {
 			str = '';
 			str += `<p><b>${addCommas(data[0].total_money)}</b></p>`;
 				$("#total-money-1 .col-md-4").html(str);
-		},
-		error: function (error) {
-			$("#total-money-1 .col-md-4").html("");
-        }
+		}
 	});
 }
 
 function BillDetailList(table_id) {
-	$("#table-bill-1").html("");
 	$.ajax({
 		url: "/api/mobile/BillDetailsApi/?table_id=" + table_id,
 		method: "GET",
@@ -531,9 +523,6 @@ function BillDetailList(table_id) {
 					'</div>';
 			}
 			$("#table-bill-1").html(str1);
-		},
-		error: function (error) {
-			$("#table-bill-1").html("");
 		}
 	});
 }

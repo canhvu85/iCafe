@@ -4,16 +4,13 @@
 //    displayItems();
 //});
 
-var hdnUserSession = $("#hdnUserSession").data("value");
-var shopId = hdnUserSession.ShopsId;
-
 function addItem(item) {
     if (item.trim().length > 0) {
         //arr.push(item.trim());
         let newData = {
             "name": item.trim(),
             "permalink": toSlug(item.trim()),
-            'shopsId': shopId
+            'shopsId': 1
         };
         axios({
             url: "/api/mobile/FloorsApi",
@@ -22,23 +19,13 @@ function addItem(item) {
             headers: { 'Content-Type': "application/json"},
             data: JSON.stringify(newData)
         }).then(function (response) {
-            if (response.status == 200) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Cảnh báo',
-                    text: response.data
-                });
-            } else {
-                $("#formCreate")[0].reset();
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Tạo mới thành công',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                displayItems(shopId);
-            }
+            $("#formCreate")[0].reset();
+            Swal.fire(
+                'Thông báo',
+                'Tạo tầng mới thành công.',
+                'success'
+            );
+            displayItems(1);
         }).catch(function () {
             Swal.fire({
                 icon: 'error',
@@ -54,7 +41,7 @@ function addItem(item) {
 }
 
 var listFloor = [];
-displayItems(shopId);
+displayItems(1);
 
 function displayItems(shop_id) {
     shop_id *= 1;
@@ -67,7 +54,7 @@ function displayItems(shop_id) {
         url: st,
         method: "GET",
         dataType: "json",
-       // async: false,
+        async: false,
         headers: { 'Content-Type': 'application/json' }
     }).then(function (response) {
         listFloor = response.data;
@@ -124,48 +111,36 @@ function editItem(tdid, val) {
         var newData = {
             'id': tdid,
             'name': input.value.trim(),
-            'permalink': toSlug(input.value.trim()),   
-            'shopsId': shopId
+            'permalink': toSlug(input.value.trim())          
         }
         axios({
             url: "/api/mobile/FloorsApi/" + tdid,
             method: "PUT",
             dataType: "json",
-           // async: false,
+            async: false,
             headers: { 'Content-Type': "application/json" },
             data: JSON.stringify(newData)
-        }).catch(function (error) {
-           // $("#showEdit").modal("hide");
+        }).catch(function () {
+            $("#showEdit").modal("hide");
             Swal.fire({
                 icon: 'error',
                 title: 'Cảnh báo',
                 text: 'Đã xảy ra lỗi!',
             });
         }).then(function (result) {
-            if (result.status == 200) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Cảnh báo',
-                    text: result.data
-                });
-            } else
-                if (result.status == 204) {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Sửa thông tin thành công',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                    $(btnChange).remove();
-                    $(btnCancel).remove();
-                    $(".btnEdit").css("visibility", 'visible');
-                    $(".btnDel").css("visibility", 'visible');
-                    $(input).remove();
-                    $("#span" + tdid).show();
-
-                    displayItems(shopId);
-                }
+            Swal.fire(
+                'Thông báo',
+                'Sửa thông tin thành công.',
+                'success'
+            );
+            $(btnChange).remove();
+            $(btnCancel).remove();
+            $(".btnEdit").css("visibility", 'visible');
+            $(".btnDel").css("visibility", 'visible');
+            $(input).remove();
+            $("#span" + tdid).show();
+          
+            displayItems(1);
         });
     //};
     });
@@ -182,7 +157,7 @@ function editItem(tdid, val) {
         $(input).remove();
         $("#span" + tdid).show("slow");
 
-        displayItems(shopId);
+        displayItems(1);
     };
     form.appendChild(btnCancel);
 

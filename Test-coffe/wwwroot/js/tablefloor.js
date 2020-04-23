@@ -1,40 +1,21 @@
-﻿var hdnUserSession = $("#hdnUserSession").data("value");
-var shopId = hdnUserSession.ShopsId;
-
+﻿
 var floorList = [];
 getFloors();
 
-function getFloors() {
-    axios({
-        url: "api/mobile/FloorsApi/?shop_id=" + shopId,
-        method: "get",
-        // async: false,
-        headers: { 'Content-Type': 'application/json' }
-    }).then(function (response) {
-        floorList = response.data;
-        drawFloors();
-       // console.log("aaa");
-    });
+for (let i = 0; i < floorList.length; i++) {
+    var z = document.createElement("option");
+    z.setAttribute("value", floorList[i].id);
+    var t = document.createTextNode(floorList[i].name);
+    z.appendChild(t);
+    document.getElementById("cFilterFloor").appendChild(z);
 }
 
-function drawFloors() {
-    for (let i = 0; i < floorList.length; i++) {
-        var z = document.createElement("option");
-        z.setAttribute("value", floorList[i].id);
-        var t = document.createTextNode(floorList[i].name);
-        z.appendChild(t);
-        document.getElementById("cFilterFloor").appendChild(z);
-        //console.log("bb");
-    }
-
-    for (let i = 0; i < floorList.length; i++) {
-        var z = document.createElement("option");
-        z.setAttribute("value", floorList[i].id);
-        var t = document.createTextNode(floorList[i].name);
-        z.appendChild(t);
-        document.getElementById("FilterFloor").appendChild(z);
-        //console.log("cc");
-    }
+for (let i = 0; i < floorList.length; i++) {
+    var z = document.createElement("option");
+    z.setAttribute("value", floorList[i].id);
+    var t = document.createTextNode(floorList[i].name);
+    z.appendChild(t);
+    document.getElementById("FilterFloor").appendChild(z);
 }
 
 function addItem(item) {
@@ -52,20 +33,12 @@ function addItem(item) {
             headers: { 'Content-Type': "application/json" },
             data: JSON.stringify(newData)
         }).then(function (data) {
-            if (data.status == 200) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Cảnh báo',
-                    text: data.data
-                });
-            } else {
-                Swal.fire(
-                    'Thông báo',
-                    'Tạo bàn mới thành công.',
-                    'success'
-                );
-                displayItems($("#cFilterFloor").val());
-            }
+            Swal.fire(
+                'Thông báo',
+                'Tạo bàn mới thành công.',
+                'success'
+            );
+            displayItems($("#cFilterFloor").val());
         }).catch(function () {
             Swal.fire({
                 icon: 'error',
@@ -81,15 +54,13 @@ function addItem(item) {
 }
 
 var listTable = [];
-displayItems("");
+displayItems(1);
 
 function displayItems(floor_id) {
     floor_id *= 1;
-    var st = "/api/mobile/TablesApi/";
+    var st = "/api/mobile/TablesApi/floor";
     if (floor_id != "") {
-        st += "floor?floor_id=" + floor_id;
-    } else {
-        st += "?shop_id=" + shopId;
+        st += "?floor_id=" + floor_id;
     }
 
     axios({
@@ -110,7 +81,8 @@ function displayItems(floor_id) {
             text += `<td id="tdEdit${data[i].id}"><button id="btnEdit${data[i].id}" onclick="editItem(${data[i].id},'${data[i].name}','${data[i].floorsId}');" class="btn btnEdit"><i class="fa fa-edit edit-btn"></i>Sửa</button></td>`;
             text += `<td><button id="btnDel${data[i].id}" onclick="deleteItem(${data[i].id})" class="btn btnDel"><i class="fa fa-trash-alt delete-btn"></i>Xóa</button></td>`;
             text += `</tr>`;
-        }   
+        }
+    
         //document.getElementById('countItem').innerHTML = data.length + " bàn";
         //if (data.length > 1) {
         //    document.getElementById('countItem').innerHTML += "s";
@@ -191,28 +163,20 @@ function editItem(tdid, val, flid) {
                 text: 'Đã xảy ra lỗi!',
             });
         }).then(function (result) {
-            if (result.status == 200) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Cảnh báo',
-                    text: result.data
-                });
-            } else {
-                Swal.fire(
-                    'Thông báo',
-                    'Sửa thông tin thành công.',
-                    'success'
-                );
-                $(btnChange).remove();
-                $(btnCancel).remove();
-                $(".btnEdit").css("visibility", 'visible');
-                $(".btnDel").css("visibility", 'visible');
-                $(input).remove();
-                $("#span" + tdid).show();
-                $("#spanf" + tdid).show();
-                $("#FilterFloor").val(floor.value);
-                displayItems($("#FilterFloor").val());
-            }
+            Swal.fire(
+                'Thông báo',
+                'Sửa thông tin thành công.',
+                'success'
+            );
+            $(btnChange).remove();
+            $(btnCancel).remove();
+            $(".btnEdit").css("visibility", 'visible');
+            $(".btnDel").css("visibility", 'visible');
+            $(input).remove();
+            $("#span" + tdid).show();
+            $("#spanf" + tdid).show();
+            $("#FilterFloor").val(floor.value);
+            displayItems($("#FilterFloor").val());
         });
        
     //};
@@ -278,6 +242,16 @@ $("#FilterFloor").change(function () {
     displayItems(this.value);
 });
 
+async function getFloors() {
+    axios({
+        url: "api/mobile/FloorsApi/?shop_id=1",
+        method: "GET",
+       // async: false,
+        headers: { 'Content-Type': 'application/json' }
+    }).then(await function (response) {
+        floorList = response.data;
+    });
+}
 
 $("#formCreate").submit(function (event) {
     event.preventDefault();

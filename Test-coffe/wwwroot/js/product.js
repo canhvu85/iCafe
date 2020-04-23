@@ -1,5 +1,4 @@
-﻿var hdnUserSession = $("#hdnUserSession").data("value");
-var shopId = hdnUserSession.ShopsId;
+﻿
 
 var product = product || {};
 
@@ -39,7 +38,7 @@ for (let i = 0; i < catalogeList.length; i++) {
 
 function getCataloges() {
     $.ajax({
-        url: "api/mobile/CatalogesAPI/?shop_id=" + shopId,
+        url: "api/mobile/CatalogesAPI/?shop_id=1",
         method: "GET",
         dataType: "json",
         async: false,
@@ -75,7 +74,7 @@ product.openAddProduct = function (number) {
 };
 
 
-function createProduct(value) {
+function createCustomer1(value) {
     $.ajax({
         url: "/api/mobile/ProductsApi/",
         method: "POST",
@@ -169,7 +168,13 @@ product.save = function () {
         showList("");
     }
 
-    createProduct(formData); 
+    //$("#FilterCataloge").val("");
+    //showList("");
+    // console.log(toSlug(files[0].name));
+   // if (checkform() == true) {
+       createCustomer1(formData);
+   // }
+    
 }
 
 function clearModalCreate() {
@@ -187,8 +192,6 @@ function showList(cataId) {
     var st = "/api/mobile/ProductsApi/";
     if (cataId != "") {
         st += "?cataId=" + cataId;
-    } else {
-        st += "shop/cp/?shop_id=" + shopId;
     }
 
     $.ajax({
@@ -603,6 +606,25 @@ $("#FilterCataloge").change(function () {
     $('#tbl2').DataTable().destroy();
     showList(this.value);
 });
+
+//function checkform() {
+//    if ($("#name").val().length == 0 )
+//    {
+//        // something is wrong
+//        alert('Bạn chưa nhập tên');
+//        return false;
+//    }
+//	else if ($("#price").val()<=0)
+//    {
+//        // something else is wrong
+//        alert('Bạn chưa nhập giá');
+//        return false;
+//    }
+//    // If the script gets this far through all of your fields
+//    // without problems, it's ok and you can submit the form
+
+//    return true;
+//}
 
 var formatter = new Intl.NumberFormat("ru", {
     style: "currency",
