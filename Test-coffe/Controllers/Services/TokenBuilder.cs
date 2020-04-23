@@ -33,7 +33,7 @@ namespace Test_coffe.Controllers.Services
                 new Claim("ShopsId", users.ShopsId.ToString()),
                 new Claim("PositionsId", users.PositionsId.ToString()),
             };
-            var jwt = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddMinutes(1), signingCredentials: signingCredentials);
+            var jwt = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddMinutes(5), signingCredentials: signingCredentials);
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             return encodedJwt;
 
@@ -80,6 +80,7 @@ namespace Test_coffe.Controllers.Services
                 var jwttoken = new JwtSecurityTokenHandler().ReadToken(remember_token);
                 var expTime = jwttoken.ValidTo;
                 var currentTime = DateTime.UtcNow;
+                Console.WriteLine("remember_token " + remember_token);
                 Console.WriteLine("jwttoken " + jwttoken);
                 Console.WriteLine("exp " + expTime);
                 Console.WriteLine("current " + currentTime);

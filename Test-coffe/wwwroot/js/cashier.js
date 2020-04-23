@@ -398,3 +398,21 @@ function checkout() {
 		});
 	});
 }
+
+
+$("#logOut").on("click", function () {
+	axios({
+		url: LogOut,
+		method: "POST",
+		headers: { 'content-type': 'application/json' },
+		data: JSON.stringify({
+			id: hdnUserSession.id,
+			updated_by: hdnUserSession.username
+		})
+	}).then(function () {
+		alert("Đã logout");
+		window.location.replace("/");
+	}).catch(function () {
+		alert("loi");
+	})
+});
