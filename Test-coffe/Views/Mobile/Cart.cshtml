@@ -1,0 +1,274 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>iCafe</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-4.4.1.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/custom.style.css">
+    <link rel="stylesheet" type="text/css" href="css/account.css">
+    <link rel="stylesheet" type="text/css" href="~/css/sweetalert.css">
+
+</head>
+
+<body>
+    <div id="main">
+        <div id="nav-top">
+            <nav class="nav_tablet_mobile hide-on-pc">
+                <div class="" style="float: left; padding: 10px;">
+                    <label>Giỏ hàng</label>
+                </div>
+                <div class="" style="float: right; padding-right: 10px; padding-top: 10px;">
+                    <a href="javascript:;" class="nav_mobile-link nav-cart"><i class="fa fa-trash-o"></i></a>
+                </div>
+            </nav>
+        </div>
+        <div class="container">
+            <div class="main-order-left">
+                <div class="group-list-items-mobile">
+                    <div id="group-item-billsdetail" class="list-items active">
+
+                    </div>
+                    <div id="group-item" class="list-items active">
+                        @*<div id="item-1" class="item" data-item-id="1" data-item-name="Cà phê đen" data-item-price="12000" data-item-count="1">
+                                <div class="col-md-12" style="padding: 0;">
+                                    <div class="item-img col-md-2">
+                                        <img src="images/glass-green.jpg">
+                                    </div>
+                                    <div class="item-info col-md-6">
+                                        <p><b>Cà phê đen</b></p>
+                                        <p>12.000 vnđ</p>
+                                    </div>
+                                    <div class="item-count col-md-1">
+                                        <span>1</span>
+                                    </div>
+                                    <div class="item-money col-md-23">
+                                        <p>
+                                            <span>12.000</span>
+                                            <span>&nbsp;</span>
+                                            <u>đ</u>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="item-delete" data-item-id="1">
+                                    Xóa
+                                </div>
+                            </div>
+                            <div id="item-2" class="item" data-item-id="2" data-item-name="Cà phê sữa" data-item-price="15000" data-item-count="2">
+                                <div class="col-md-12" style="padding: 0;">
+                                    <div class="item-img col-md-2">
+                                        <img src="images/glass-blue.jpg">
+                                    </div>
+                                    <div class="item-info col-md-6">
+                                        <p><b>Cà phê sữa</b></p>
+                                        <p>15.000 vnđ</p>
+                                    </div>
+                                    <div class="item-count col-md-1">
+                                        <span>2</span>
+                                    </div>
+                                    <div class="item-money col-md-23">
+                                        <p>
+                                            <span>30.000</span>
+                                            <span>&nbsp;</span>
+                                            <u>đ</u>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="item-delete" data-item-id="2">
+                                    Xóa
+                                </div>
+                            </div>
+                            <div id="item-3" class="item" data-item-id="3" data-item-name="Cà phê đen sài gòn" data-item-price="18000" data-item-count="1">
+                                <div class="col-md-12" style="padding: 0;">
+                                    <div class="item-img col-md-2">
+                                        <img src="images/glass-red.jpg">
+                                    </div>
+                                    <div class="item-info col-md-6">
+                                        <p><b>Cà phê đen sài gòn</b></p>
+                                        <p>18.000 vnđ</p>
+                                    </div>
+                                    <div class="item-count col-md-1">
+                                        <span>1</span>
+                                    </div>
+                                    <div class="item-money col-md-23">
+                                        <p>
+                                            <span>18.000</span>
+                                            <span>&nbsp;</span>
+                                            <u>đ</u>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="item-delete" data-item-id="3">
+                                    Xóa
+                                </div>
+                            </div>
+                            <div id="item-4" class="item" data-item-id="4" data-item-name="Cà phê sữa sài gòn" data-item-price="20000" data-item-count="2">
+                                <div class="col-md-12" style="padding: 0;">
+                                    <div class="item-img col-md-2">
+                                        <img src="images/glass-yellow.jpg">
+                                    </div>
+                                    <div class="item-info col-md-6">
+                                        <p><b>Cà phê sữa sài gòn</b></p>
+                                        <p>20.000 vnđ</p>
+                                    </div>
+                                    <div class="item-count col-md-1">
+                                        <span>2</span>
+                                    </div>
+                                    <div class="item-money col-md-23">
+                                        <p>
+                                            <span>40.000</span>
+                                            <span>&nbsp;</span>
+                                            <u>đ</u>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="item-delete" data-item-id="4">
+                                    Xóa
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-order-right">
+                <div id="main-order-1" class="main-order-right main-order" style="display: block;">
+
+                    <div class="menu-order">
+                        <div id="table-order-name" class="table-name">
+
+                        </div>
+                        <div id="table-bill-1" class="table-bill">
+
+                        </div>
+                        <div id="sub-total-money-1" class="sub-total-money">
+                            <div class="col-md-8">
+                                <p><b>Tiền sản phẩm</b></p>
+                                <p>Phí dịch vụ</p>
+                            </div>
+                            <div class="col-md-4" style="text-align: right;">
+                            </div>
+                        </div>
+                        <div id="total-money-1" class="total-money">
+                            <div class="col-md-8">
+                                <p><b>Tổng tiền</b></p>
+                            </div>
+                            <div class="col-md-4" style="text-align: right;">
+
+                            </div>
+                        </div>
+                        <!-- <div class="checkout">
+                            <button type="button" class="btn btn-success">Đặt món cho khách bàn 01</button>
+                        </div> -->
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <label class="cart_nav_overlay_mobile"></label>
+
+    <div id="edit-item">
+        <div class="col-md-12" style="display: flex; border-bottom: solid 1px #ccc;">
+            <div class="col-md-2">
+                <button class="btn-close" style="" data-id="1" data-name="Cà phê đen" data-price="12000"><i class="fa fa-times"></i></button>
+            </div>
+            <div class="col-md-8 item-name-selected center">
+                <span></span>
+            </div>
+            <div class="col-md-2">
+                <button class="btn-check" style="" data-id="1" data-name="Cà phê đen" data-price="12000"><i class="fa fa-check"></i></button>
+            </div>
+        </div>
+        <div class="col-md-12" style="display: block; text-align: center; line-height: 35px;">
+            <span>Số lượng</span>
+        </div>
+        <div class="col-md-12" style="display: flex;">
+            <div class="col-md-2">
+                <button class="btn-minus" style="" data-id="1" data-name="Cà phê đen" data-price="12000"><i class="fa fa-minus"></i></button>
+            </div>
+            <div class="col-md-8 item-count-selected center">
+                <input type="text" readonly>
+            </div>
+            <div class="col-md-2">
+                <button class="btn-plus" style="" data-id="1" data-name="Cà phê đen" data-price="12000"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-12 cart-checkout-fix">
+        <a href="" class="cart-checkout">
+            <div class="col-md-2 cart-count-total" style="text-align: center;">6</div>
+            <div class="col-md-8 cart-money-total" style="text-align: center;">Gọi món </div>
+            <div class="col-md-2" style="text-align: right;">
+                <img src="images/arrow-right.png" height="16px">
+            </div>
+        </a>
+    </div>
+
+    <div class="nav-bottom">
+        <nav class="nav_tablet_mobile">
+            <ul class="nav_mobile-list">
+                <li>
+                    <div class="">
+                        <a href="index" class="nav_mobile-link">
+                            <i class="fa fa-home"></i>
+                            <p style="margin-top: -10px;"><span>Trang chủ</span></p>
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="">
+                        <a href="" class="nav_mobile-link">
+                            <i class="fa fa-table"></i>
+                            <p style="margin-top: -10px;"><span>Bàn</span></p>
+                        </a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="">
+                        <a href="" class="nav_mobile-link">
+                            <i class="fa fa-inbox"></i>
+                            <p style="margin-top: -10px;"><span>Tin nhắn</span></p>
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <a href="" class="nav_mobile-link">
+                        <i class="fa fa-bell" style="position: absolute; top: 6px; left: 39px;"></i>
+                        <span class="label label-danger" style="top: -10px; position: relative; left: 20px;">99+</span>
+                        <p style="margin-top: -10px;"><span>Thông báo</span></p>
+                    </a>
+                </li>
+                <li>
+                    <div class="">
+                        <a href="account.html" class="nav_mobile-link">
+                            <i class="fa fa-user"></i>
+                            <p style="margin-top: -10px;"><span>Tài khoản</span></p>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <script type="text/javascript" src="~/js/sweetalert-dev.js"></script>
+    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.12.1.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-4.4.1.min.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <!-- <script type="text/javascript" src="js/json.js"></script> -->
+    <script type="text/javascript" src="~/mobile/js/tables.js"></script>
+    <script type="text/javascript" src="js/custom.script.js"></script>
+    <script type="text/javascript" src="js/page.cart.js"></script>
+
+</body>
+</html>

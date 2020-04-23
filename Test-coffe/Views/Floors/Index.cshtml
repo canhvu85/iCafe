@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model IEnumerable<Test_coffe.Models.Floors>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section css{
+    <link rel="stylesheet" href="~/css/custom-style.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/css/sweetalert.css">
+}
+
+<input type="hidden" id="hdnUserSession" data-value="@HttpContextAccessor.HttpContext.Session.GetString("user")" />
+
+<section class="content-header">
+    <div class="input-group mb-3">
+        <div class="card">
+            <div class="card-header">
+                <h5>Tạo Tầng Mới</h5>
+            </div>
+            <form id="formCreate" class="card-body">
+                <input type="text" id="item" name="item" class="form-control col-sm-9 mr-3" placeholder="Tên Tầng Mới" aria-label="New Product" aria-describedby="button-addon2" ng-model="item">
+                <button class="btn btn-primary col-sm-2 border-0 mb-2" type="submit" id="button-addon2"><i class="fa fa-plus create-btn"></i>Tạo</button>
+            </form>
+
+        </div>
+    </div>
+
+    <h5>Danh Sách Tầng</h5>
+</section>
+
+<section class="content">
+    <table id="dtFloors" class="table table-striped border-top-0" cellspacing="0" width="100%">
+        <thead>
+            <tr class="border-top-0">
+                <th scope="col">#</th>
+                <th scope="col">Tên Tầng</th>
+                <th scope="col"></th>
+                <th scope="col"><span id="countItem" class="text-danger"></span></th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+</section>
+
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/lib.js"></script>
+    <script src="~/js/script.js"></script>
+    <script src="~/js/sweetalert2@9.js"></script>
+    <script src="~/js/permalink.js"></script>
+    <script src="~/js/floor.js"></script>
+}
+
+
+
+

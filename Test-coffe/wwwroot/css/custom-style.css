@@ -1,0 +1,139 @@
+* {
+    box-sizing: border-box
+}
+
+.table th, .table td {
+    vertical-align: middle !important;
+    border-top: 0px solid #dee2e6 !important;
+    border-bottom: 0px solid #dee2e6 !important;
+    padding: .5rem 0px 0.5rem 0.75rem !important;
+}
+
+    .table th:nth-child(4) {
+        text-align: right;
+    }
+
+    .table td:nth-child(3), .table td:nth-child(4) {
+        text-align: center;
+    }
+
+#main {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 20px;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    width: 100%;
+    border: none;
+}
+
+.card-header {
+    border: none;
+}
+
+.col-sm-2, .col-sm-9 {
+    float: left;
+}
+
+.custom-select {
+    width: 30%;
+}
+
+#dtTables {
+    text-align: center;
+}
+
+#dtTables th:nth-child(4) {
+        width: 10%;
+    }
+
+#dtTables th:nth-child(5) {
+        width: 10%;
+    }
+
+#dtFloors {
+    text-align: center;
+}
+
+#dtFloors th:nth-child(3) {
+    width: 10%;
+}
+
+#dtFloors th:nth-child(4) {
+    width: 10%;
+}
+
+#item {
+    width: 30%;
+}
+
+#button-addon2 {
+    float: right;
+}
+
+#FilterFloor {
+    width: 40%;
+}
+
+.create-btn {
+    margin-left: -12px;
+    margin-right: 12px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.edit-btn {
+    margin-left: 12px;
+    margin-right: 7px;
+    font-size: 16px;
+    color: #0062cc;
+}
+
+.delete-btn {
+    margin-left: 12px;
+    margin-right: 7px;
+    font-size: 16px;
+    color: #0062cc;
+}
+
+.save-btn {
+    margin-left: -12px;
+    margin-right: 12px;
+    font-size: 18px;
+    color: #fff;
+}
+
+#closeBtn {
+    font-size: 20px;
+}
+
+#ecloseBtn {
+    font-size: 20px;
+}
+
+.table thead th {
+    text-align: center;
+}
+
+.table tbody tr td {
+    text-align: center;
+}
+
+#editItem-error{
+    clear:both;
+    float:left;
+}
+
+#floorSelect{
+    width:30%;
+}
+
+#divInput {
+    display: block;
+    float: left;
+    width: 30%;
+}

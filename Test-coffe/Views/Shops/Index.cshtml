@@ -1,0 +1,338 @@
+﻿
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section css{
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/sweetalert2v8.11.8.css">
+}
+
+<section class="content-header">
+    <div class="alert alert-success"></div>
+
+    <h1>Danh Sách Shop</h1>
+
+    <a href="javascript:;" class="btn btn-primary btn-flat" onclick="shop.openAddShop()">
+        Tạo Mới Shop
+    </a>
+
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Tên Shop
+                                    </th>
+                                    <th>
+                                        Hình ảnh
+                                    </th>
+                                    <th>
+                                        Thông tin
+                                    </th>
+                                    <th>
+                                        Thời gian bắt đầu
+                                    </th>
+                                    <th>
+                                        Thời gian kết thúc
+                                    </th>
+                                    <th>
+                                        Thành phố
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbList">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.row -->
+    <!-- Modal -->
+    <div id="addShop" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form id="frmAddShop" enctype="multipart/form-data" method="post">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Tạo Shop Mới</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row form-group">
+                            <div class="col-4">
+                                <label>Tên Shop</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" id="name" name="name"
+                                       class="form-control">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-4">
+                                <label>Thông tin quán</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" id="info" name="info"
+                                       class="form-control">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-4">
+                                <label>Ngày hoạt động</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="date" id="time_open" name="time_open"
+                                       class="form-control">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-4">
+                                <label>Ngày hết hạn</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="date" id="time_close" name="time_close"
+                                       class="form-control">
+                            </div>
+                        </div>
+
+                        @*<div class="row form-group form-check">
+                                <div class="col-4">
+                                    <label>Trạng thái</label>
+                                </div>
+                                <label class="col-1 form-check-label">
+                                    <input type="checkbox" id="status" name="status" class="form-check-input" />
+                                </label>
+                            </div>*@
+
+                        @*<div class="row form-group">
+                                <div class="col-4">
+                                    <label>Permalink</label>
+                                </div>
+                                <div class="col-8">
+                                    <input type="text" id="permalink" name="permalink"
+                                           class="form-control"
+                                           data-rule-required="true"
+                                           data-msg-required="Không được để trống Vinh nghe">
+                                </div>
+                            </div>*@
+                        <div class="row form-group">
+                            <div class="col-4">
+                                <label>Thành phố</label>
+                            </div>
+                            <div class="col-8">
+                                <select name="CitiesId" id="CityId" class="form-control" asp-items="ViewBag.CitiesId"></select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-4">
+                                <label>Ảnh đại diện</label>
+                            </div>
+                            <div class="col-4">
+                                <input class="form-control" data-input="false" id="avatar" name="avatar" type="file" size="1" style="width: 200px; height: 200px; opacity: 0; position:absolute; z-index:1000;" />
+                                <div id="noimg" style="
+                            display: flex;
+                            width: 200px;
+                            height: 200px;
+                            border: 3px dashed #e3e3e3;
+                        ">
+                                    <i class="fa fa-plus" style="
+                            margin: auto;
+                            font-size: 55px;
+                            color: #c1c1c1;
+                        "></i>
+                                </div>
+                                <img id="blah">
+                            </div>
+                        </div>
+                        @*<div class="row form-group">
+                                <div class="col-4">
+
+                                </div>
+                                <div class="col-8">
+                                    <img id="blah" src="#" alt="your image" width="200px" height="200px" />
+
+                                </div>
+                            </div>*@
+
+                        @*<div class="row form-group">
+                                <div class="col-4">
+
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-warning" onclick="document.getElementById('avatar').click()">Chọn ảnh</button>
+                                    <input class="form-control" data-input="false" id="avatar" name="avatar" type="file" size="1" style="display:none"/>
+                                </div>
+                            </div>*@
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" id="closeBtn" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        @*<a href="javascript:;" class="btn btn-danger"
+                            onclick="user.save1()">Tạo</a>*@
+                        <button type="submit" class="btn btn-primary" style="width:100px; font-size:20px;"><i class="fa fa-plus create-btn"></i> Tạo </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="showEdit" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form id="frmEditShop" enctype="multipart/form-data" method="put">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Cập Nhật Thông Tin Shop</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row form-group">
+                            <div class="col-4">
+                                <label>Tên Shop</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" id="ename" name="ename"
+                                       class="form-control">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-4">
+                                <label>Thông tin quán</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" id="einfo" name="einfo"
+                                       class="form-control">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-4">
+                                <label>Ngày hoạt động</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="date" id="etime_open" name="etime_open"
+                                       class="form-control">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-4">
+                                <label>Ngày hết hạn</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="date" id="etime_close" name="etime_close"
+                                       class="form-control">
+                            </div>
+                        </div>
+
+                        @*<div class="row form-group form-check">
+                                <div class="col-4">
+                                    <label>Trạng thái</label>
+                                </div>
+                                <label class="col-1 form-check-label">
+                                    <input type="checkbox" id="estatus" name="estatus" class="form-check-input" />
+                                </label>
+                            </div>*@
+
+                        @*<div class="row form-group">
+                                <div class="col-4">
+                                    <label>Permalink</label>
+                                </div>
+                                <div class="col-8">
+                                    <input type="text" id="epermalink" name="epermalink"
+                                           class="form-control"
+                                           data-rule-required="true"
+                                           data-msg-required="Không được để trống Vinh nghe">
+                                </div>
+                            </div>*@
+                        <div class="row form-group">
+                            <div class="col-4">
+                                <label>Thành phố</label>
+                            </div>
+                            <div class="col-8">
+                                <select name="CitiesId" id="eCityId" class="form-control" asp-items="ViewBag.CitiesId"></select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-4">
+                                <label>Ảnh đại diện</label>
+                            </div>
+                            <div class="col-4">
+                                <input class="form-control" data-input="false" id="eavatar" name="eavatar" type="file" size="1" style="width: 200px; height: 200px; opacity: 0; position:absolute; z-index:1000;" />
+                                <div id="enoimg" style="
+                                display: flex;
+                                width: 200px;
+                                height: 200px;
+                                border: 3px dashed #e3e3e3;
+                            ">
+                                    <i class="fa fa-plus" style="
+                                margin: auto;
+                                font-size: 55px;
+                                color: #c1c1c1;
+                            "></i>
+                                </div>
+                                <img id="eblah">
+                            </div>
+                        </div>
+                        @*<div class="row form-group">
+                                <div class="col-4">
+
+                                </div>
+                                <div class="col-8">
+                                    <img id="eblah" src="#" alt="your image" width="200px" height="200px" />
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-4">
+
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-warning" onclick="document.getElementById('eavatar').click()">Chọn ảnh</button>
+                                    <input class="form-control" data-input="false" id="eavatar" name="eavatar" type="file" size="1" style="display:none"/>
+                                </div>
+                            </div>*@
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="ecloseBtn" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        @*<a href="javascript:;" class="btn btn-danger" onclick="user.edit()">Lưu</a>*@
+                        <button type="submit" class="btn btn-primary" style="width:100px; font-size:20px;"><i class="fa fa-save save-btn"></i>Lưu </button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script type="text/javascript" src="~/js/bootstrap-filestyle.min.js"></script>
+        <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.12.1.js"></script>*@
+    @*<script src="plugins/jquery-ui/jquery-ui.min.js"></script>*@
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script type="text/javascript" src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/lib.js"></script>
+    @*<script type="text/javascript" src="js/bootstrap-4.4.1.min.js"></script>*@
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/script.js"></script>
+    <script src="~/js/sweetalert2@9.js"></script>
+    <script src="~/js/permalink.js"></script>
+    <script type="text/javascript" src="~/mobile/js/showalert.js"></script>
+    <script src="~/js/shop.js"></script>
+}

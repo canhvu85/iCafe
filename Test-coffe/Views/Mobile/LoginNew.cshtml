@@ -1,0 +1,176 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" type="text/css" href="../css/bootstrap-4.4.1.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="../css/custom-dropdown.css">
+    <link rel="stylesheet" type="text/css" href="~/css/blue.css">
+    <link rel="stylesheet" type="text/css" href="~/mobile/css/login.css">
+</head>
+<body>
+
+    <div class="hero">
+        <div class="form-box">
+            <div class="button-box">
+                <div id="btn"></div>
+                <button type="button" class="toggle-btn login-btn">Đăng nhập</button>
+                <button type="button" class="toggle-btn register-btn">Đăng ký</button>
+            </div>
+            <div class="social-icons">
+                <img src="/mobile/images/fb.png">
+                <img src="/mobile/images/tw.png">
+                <img src="/mobile/images/gp.png">
+            </div>
+            <form id="login" class="input-group">
+                <div class="city">
+                    <div class="custom-select-wrapper" style="width: 100%">
+                        <div class="custom-select">
+                            <div class="custom-select__trigger">
+                                <span>Chọn thành phố</span>
+                                <div class="arrow"></div>
+                            </div>
+                            <div class="custom-options">
+                                @*<span class="custom-option selected" data-value="0" style="display: none;"></span>
+                                    <span class="custom-option" data-value="1">Hà Nội</span>
+                                    <span class="custom-option" data-value="2">Vinh</span>
+                                    <span class="custom-option" data-value="3">Hải Phòng</span>
+                                    <span class="custom-option" data-value="4">Quảng Bình</span>
+                                    <span class="custom-option" data-value="5">Đông Hà</span>
+                                    <span class="custom-option" data-value="6">Huế</span>
+                                    <span class="custom-option" data-value="7">Đà Nẵng</span>
+                                    <span class="custom-option" data-value="8">Nhà Trang</span>
+                                    <span class="custom-option" data-value="9">Vũng Tàu</span>
+                                    <span class="custom-option" data-value="10">Hồ Chí Minh</span>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shop">
+                    <div class="custom-select-wrapper" style="width: 100%">
+                        <div class="custom-select">
+                            <div class="custom-select__trigger">
+                                <span>Chọn tên quán</span>
+                                <div class="arrow"></div>
+                            </div>
+                            <div class="custom-options">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="text" id="username" name="username" class="input-field" placeholder="Tài khoản">
+                <input type="password" id="password" name="password" class="input-field" placeholder="Mật khẩu">
+                <div class="checkbox icheck">
+                    <label>
+                        <input type="checkbox" class="" value="remember"><span>Ghi nhớ đăng nhập</span>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn">Đăng nhập</button>
+            </form>
+            <form id="register" class="input-group">
+                <div class="city">
+                    <div class="custom-select-wrapper" style="width: 100%">
+                        <div class="custom-select">
+                            <div class="custom-select__trigger">
+                                <span>Chọn thành phố</span>
+                                <div class="arrow"></div>
+                            </div>
+                            <div class="custom-options">
+                                @*<span class="custom-option selected" data-value="0" style="display: none;"></span>
+                                    <span class="custom-option" data-value="1">Hà Nội</span>
+                                    <span class="custom-option" data-value="2">Vinh</span>
+                                    <span class="custom-option" data-value="3">Hải Phòng</span>
+                                    <span class="custom-option" data-value="4">Quảng Bình</span>
+                                    <span class="custom-option" data-value="5">Đông Hà</span>
+                                    <span class="custom-option" data-value="6">Huế</span>
+                                    <span class="custom-option" data-value="7">Đà Nẵng</span>
+                                    <span class="custom-option" data-value="8">Nhà Trang</span>
+                                    <span class="custom-option" data-value="9">Vũng Tàu</span>
+                                    <span class="custom-option" data-value="10">Hồ Chí Minh</span>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shop">
+                    <div class="custom-select-wrapper" style="width: 100%">
+                        <div class="custom-select">
+                            <div class="custom-select__trigger">
+                                <span>Chọn tên quán</span>
+                                <div class="arrow"></div>
+                            </div>
+                            <div class="custom-options">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="text" id="usernameRegister" name="usernameRegister" class="input-field" placeholder="Tài khoản">
+                <input type="password" id="passwordRegister" name="passwordRegister" class="input-field" placeholder="Mật khẩu">
+                <div class="checkbox icheck">
+                    <label>
+                        <input type="checkbox" class="" value="remember"><span>Tôi đồng ý với các Điều khoản & Điều kiện</span>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn">Đăng ký</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.12.1.js"></script>
+    <script type="text/javascript" src="js/bootstrap-4.4.1.min.js"></script>
+    <script type="text/javascript" src="../js/sweetalert-dev.js"></script>
+    <script type="text/javascript" src="../js/custom.dropdown2.js"></script>
+    <script type="text/javascript" src="../js/icheck.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        $(".login-btn").css("color", "#fff");
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%'
+            });
+        });
+
+        var x = document.getElementById("login");
+        var y = document.getElementById("register");
+        var z = document.getElementById("btn");
+
+        $(".login-btn").click(function () {
+            x.style.left = "50px";
+            y.style.left = "450px";
+            z.style.left = "0";
+            setTimeout(function () {
+                $(".login-btn").css("color", "#fff");
+                $(".register-btn").css("color", "#000");
+            }, 100);
+        });
+
+        $(".register-btn").click(function () {
+            x.style.left = "-400px";
+            y.style.left = "50px";
+            z.style.left = "132px";
+            setTimeout(function () {
+                $(".login-btn").css("color", "#000");
+                $(".register-btn").css("color", "#fff");
+            }, 100);
+        });
+
+    </script>
+    <script type="text/javascript" src="~/mobile/js/showalert.js"></script>
+    <script type="text/javascript" src="~/mobile/js/login.js"></script>
+    <script type="text/javascript" src="~/mobile/js/register.js"></script>
+
+</body>
+</html>
+

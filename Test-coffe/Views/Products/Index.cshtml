@@ -1,0 +1,255 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model IEnumerable<Test_coffe.Models.Products>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+@section css{
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/sweetalert2v8.11.8.css">
+
+}
+
+<input type="hidden" id="hdnUserSession" data-value="@HttpContextAccessor.HttpContext.Session.GetString("user")" />
+
+<section class="content-header">
+    <div class="alert alert-success"></div>
+
+    <h1>Danh Sách Sản Phẩm</h1>
+
+    <a href="javascript:;" class="btn btn-primary btn-flat" onclick="product.openAddProduct()">
+        Tạo Mới Sản Phẩm
+    </a>
+
+    <p>
+        <label>Tìm theo Danh Mục Sản Phẩm</label>
+    </p>
+    <p>
+        <select class="browser-default custom-select" name="FilterCataloge" id="FilterCataloge">
+            <option value="" selected>Tất Cả</option>
+        </select>
+    </p>
+
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <table id="tbl2" class="display table table-bordered table-striped" width="100%">
+                            @*<thead>
+                                    <tr>
+                                        <th>country</th>
+                                        <th>zip</th>
+                                        <th>city</th>
+                                        <th>district code</th>
+                                        <th>district description</th>
+                                        <th>actions</th>
+                                        <th>edit</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>*@
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- Modal -->
+<div id="addProduct" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <form id="frmAddProduct" enctype="multipart/form-data" method="post">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Tạo Sản Phẩm Mới</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row form-group">
+                        <div class="col-4">
+                            <label>Tên Sản Phẩm</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" id="name" name="name"
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-4">
+                            <label>Giá Bán</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="number" id="price" name="price"
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-4">
+                            <label>Danh mục sản phẩm</label>
+                        </div>
+                        <div class="col-8">
+                            <select class="form-control browser-default custom-select" name="CatalogeId" id="CatalogeId" style="width:40%;"></select>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-4">
+                            <label>Ảnh đại diện</label>
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control" data-input="false" id="avatar" name="avatar" type="file" size="1" style="width: 200px; height: 200px; opacity: 0; position:absolute; z-index:1000;" />
+                            <div id="noimg" style="
+                            display: flex;
+                            width: 200px;
+                            height: 200px;
+                            border: 3px dashed #e3e3e3;
+                        ">
+                                <i class="fa fa-plus" style="
+                            margin: auto;
+                            font-size: 55px;
+                            color: #c1c1c1;
+                        "></i>
+                            </div>
+                            <img id="blah">
+                        </div>
+                    </div>
+                    @*<div class="row form-group">
+                            <div class="col-4">
+
+                            </div>
+                            <div class="col-4">
+                                <button type="button" class="btn btn-warning"  onclick="document.getElementById('avatar').click()">Chọn ảnh</button>
+                                <input class="form-control" data-input="false" id="avatar" name="avatar" type="file" size="1" style="display:none"/>
+                            </div>
+                        </div>*@
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeBtn" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    @*<a href="javascript:;" class="btn btn-danger"
+                        onclick="user.save1()">Lưu</a>*@
+                    <button type="submit" class="btn btn-primary" style="width:100px; font-size:20px;">
+                        <i class="fa fa-plus  create-btn"></i> Tạo
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="showEdit" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <form id="frmEditProduct" enctype="multipart/form-data" method="put">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cập Nhật Thông Tin Sản Phẩm</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row form-group">
+                        <div class="col-4">
+                            <label>Tên Sản Phẩm</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" id="ename" name="ename"
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-4">
+                            <label>Giá Bán</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="number" id="eprice" name="eprice"
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-4">
+                            <label>Danh mục sản phẩm</label>
+                        </div>
+                        <div class="col-8">
+                            <select class="browser-default custom-select" name="CatalogeId" id="eCatalogeId" class="form-control" style="width:40%;"></select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-4">
+                            <label>Ảnh đại diện</label>
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control" data-input="false" id="eavatar" name="eavatar" type="file" size="1" style="width: 200px; height: 200px; opacity: 0; position:absolute; z-index:1000;" />
+                            <div id="enoimg" style="
+                                display: flex;
+                                width: 200px;
+                                height: 200px;
+                                border: 3px dashed #e3e3e3;
+                            ">
+                                <i class="fa fa-plus" style="
+                                margin: auto;
+                                font-size: 55px;
+                                color: #c1c1c1;
+                            "></i>
+                            </div>
+                            <img id="eblah">
+                        </div>
+                    </div>
+                </div>
+                @*<div class="row form-group">
+                        <div class="col-4">
+
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-warning" onclick="document.getElementById('eavatar').click()">Chọn ảnh</button>
+                            <input class="form-control" data-input="false" id="eavatar" name="eavatar" type="file" size="1" style="display:none" />
+                        </div>
+                    </div>*@
+                <div class="modal-footer">
+                    <button type="button" id="ecloseBtn" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    @*<a href="javascript:;" class="btn btn-danger"
+                        onclick="user.edit()">Lưu</a>*@
+                    <button type="submit" class="btn btn-primary" style="width:100px; font-size:20px;">
+                        <i class="fa fa-save save-btn"></i> Lưu
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<script type="text/javascript" src="~/js/bootstrap-filestyle.min.js"></script>
+
+<script type="text/javascript" src="~/js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="~/js/jquery-ui-1.12.1.js"></script>
+<script src="../AdminLTE-3.0.2/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../AdminLTE-3.0.2/plugins/datatables/jquery.dataTables.js"></script>
+<script src="../AdminLTE-3.0.2/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script type="text/javascript" src="~/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-4.4.1.min.js"></script>
+<script src="~/js/script.js"></script>
+<script src="~/js/sweetalert2@9.js"></script>
+<script src="~/js/permalink.js"></script>
+<script src="~/js/product.js"></script>
+@*<script src="~/js/product1.js"></script>*@
+
+
+

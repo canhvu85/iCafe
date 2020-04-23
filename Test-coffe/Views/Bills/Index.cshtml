@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Test_coffe.Models.Bills>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.time_enter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.time_out)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.sub_total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fee_service)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.total_money)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tables)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.time_enter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.time_out)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sub_total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fee_service)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.total_money)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tables.id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
