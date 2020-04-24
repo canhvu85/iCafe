@@ -220,6 +220,7 @@
 
 
 
+var hdnUserSession = $("#hdnUserSession").data("value");
 
 
 $(document).ready(function () {
@@ -237,8 +238,12 @@ $("#formCreate").submit(function (event) {
 
 function displayItems() {
     axios({
-        method: 'GET',
-        url: GetCity
+        url: GetCity + "/withtoken",
+        method: "GET",
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': hdnUserSession.remember_token
+        }
     }).then(function (response) {
         $("#tbList").html("");
         let text = '';
@@ -251,6 +256,8 @@ function displayItems() {
             </tr>`;
         }
         $("#tbList").html(text);
+    }).catch(function () {
+        unAuthorized();
     });
 }
 
@@ -263,14 +270,18 @@ function addItem(item) {
         axios({
             method: 'POST',
             url: GetCity,
-            headers: { 'content-type': 'application/json' },
-            data: JSON.stringify(newData)
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': hdnUserSession.remember_token
+            },
+            data: newData
         }).then(function () {
             $("#formCreate")[0].reset();
             showSuccessbyAlert('Tạo thành phố mới thành công.')
             displayItems();
         }).catch(function () {
             showErrorbyAlert('Đã xảy ra lỗi!')
+            unAuthorized();
         });
     }
     else {
@@ -313,8 +324,11 @@ function editItem(tdid, val) {
         axios({
             method: 'PUT',
             url: GetCity + "/" + tdid,
-            headers: { 'content-type': 'application/json' },
-            data: JSON.stringify(newData)
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': hdnUserSession.remember_token
+            },
+            data: newData
         }).then(function () {
             showEditSuccessbyAlert('Sửa thông tin thành công.')
             $(btnChange).remove();
@@ -328,6 +342,7 @@ function editItem(tdid, val) {
         }).catch(function () {
             $("#showEdit").modal("hide");
             showErrorbyAlert('Đã xảy ra lỗi!')
+            unAuthorized();
         })
     });
     form.appendChild(btnChange);
@@ -357,11 +372,16 @@ function deleteItem(id) {
         if (result.value) {
             axios({
                 method: 'DELETE',
-                url: GetCity + "/" + parseInt(id)
+                url: GetCity + "/" + parseInt(id),
+                headers: {
+                    'content-type': 'application/json',
+                    'Authorization': hdnUserSession.remember_token
+                }
             }).then(function () {
                 displayItems();
             }).catch(function (data) {
-                showErrorbyAlert('Cảnh báo', data.responseText)
+                showErrorbyAlert(data.responseText)
+                unAuthorized();
             });
         }
     })
@@ -411,8 +431,3 @@ function abc() {
     });
 
 }
-
-
-
-
-

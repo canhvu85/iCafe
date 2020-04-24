@@ -41,7 +41,7 @@ function addItem(item) {
     if (item.trim().length > 0) {
         //arr.push(item.trim());
         let newData = {
-            "name": item.trim(),
+            "name": item.trim().replace(/([^0-9a-z-\s])/g, ''),
             "permalink": toSlug(item.trim()),
             "floorsId": $('#cFilterFloor').val()*1
         };      
@@ -172,7 +172,7 @@ function editItem(tdid, val, flid) {
         //arr[tdid] = input.value;
         var newData = {
             'id': tdid,
-            'name': input.value.trim(),
+            'name': input.value.trim().replace(/([^0-9a-z-\s])/g, ''),
             'permalink': toSlug(input.value.trim()),
             'floorsId': floor.value*1
         }

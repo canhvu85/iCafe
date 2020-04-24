@@ -14,7 +14,11 @@ totalMoney();
 function getBillDetails(billsId) {
 	axios({
 		url: GetBillDetail + "/bills/" + billsId,
-		method: "GET"
+		method: "GET",
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': hdnUserSession.remember_token
+		}
 	}).then(function (response) {
 		$("#billsDTList").html("");
 		if (response.data.length > 0) {
@@ -29,7 +33,9 @@ function getBillDetails(billsId) {
 			}
 			$("#billsDTList").html(text);
 		}
-	})
+	}).catch(function () {
+		unAuthorized();
+	});
 }
 
 let startDate,
@@ -65,6 +71,10 @@ function findByDate(startDate, endDate) {
 		"info": true,
 		"ajax": {
 			"url": `api/BillsAPI/shop/${hdnUserSession.ShopsId}/date/${startDate}/${endDate}`,
+			"headers": {
+				'content-type': 'application/json',
+				'Authorization': hdnUserSession.remember_token
+			},
 			"dataSrc": ""
 		},
 		columns: [
@@ -169,7 +179,7 @@ function lastDay(y, m) {
 }
 
 function totalMoney() {
-	if ($("#example1 tbody tr").length > 0) {
+	if ($("#example1 tbody tr:first td").length > 1) {
 		totalMn = 0;
 		$("#example1 tbody tr").each(function () {
 			totalMn += parseInt($(this).find("td:eq(6)").html().replace(".", "").replace("vnđ", ""));

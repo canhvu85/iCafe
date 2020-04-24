@@ -33,6 +33,8 @@ function getBill(tablesId, tablesName) {
 			$("#main-order-1 .checkout").removeClass("active");
 			$("#main-order-1 .btn-temp-order").removeClass("active");
 		}
+	}).catch(function () {
+		unAuthorized();
 	})
 }
 
@@ -40,8 +42,11 @@ function createBill(bills) {
 	return axios({
 		url: GetBill,
 		method: "POST",
-		headers: { 'content-type': 'application/json' },
-		data: JSON.stringify(bills)
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': hdnUserSession.remember_token
+		},
+		data: bills
 	});
 }
 
@@ -49,14 +54,22 @@ function updateBill(billsId, bills) {
 	return axios({
 		url: GetBill + "/" + billsId,
 		method: "PUT",
-		headers: { 'content-type': 'application/json' },
-		data: JSON.stringify(bills)
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': hdnUserSession.remember_token
+		},
+		data: bills
 	});
 }
 
 function checkBill(tablesId) {
 	return axios({
 		url: GetBill + "/?TableId=" + tablesId,
-		method: "GET"
-	});
+		method: "GET",
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': hdnUserSession.remember_token
+		}
+	})
 }
+

@@ -26,22 +26,31 @@
 			$("#main-order-1 .checkout").removeClass("active");
 			$("#main-order-1 .btn-temp-order").removeClass("active");
 		}
-	})
+	}).catch(function () {
+		unAuthorized();
+	});
 }
 
 function getListBillDetails(tablesId) {
 	return axios({
 		url: GetBillDetail + "/?TableId=" + tablesId,
-		method: "GET"
-	});
+		method: "GET",
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': hdnUserSession.remember_token
+		}
+	})
 }
 
 function createBillDetails(billDetails) {
 	return axios({
 		url: GetBillDetail,
 		method: "POST",
-		headers: { 'content-type': 'application/json' },
-		data: JSON.stringify(billDetails)
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': hdnUserSession.remember_token
+		},
+		data: billDetails
 	});
 }
 
@@ -49,8 +58,11 @@ function updateBillDetail(billDetailsId, billDetails) {
 	return axios({
 		url: GetBillDetail + "/" + billDetailsId,
 		method: "PUT",
-		headers: { 'content-type': 'application/json' },
-		data: JSON.stringify(billDetails)
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': hdnUserSession.remember_token
+		},
+		data: billDetails
 	});
 }
 
@@ -67,14 +79,22 @@ function billDetailsObj(id, quantity, total, status, username) {
 function getGroupOrderPrinted(tableId) {
 	return axios({
 		url: GetBillDetail + "/TableId/" + tableId,
-		method: "GET"
+		method: "GET",
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': hdnUserSession.remember_token
+		}
 	});
 }
 
 function getOrderPrinted(tableId) {
 	return axios({
 		url: GetBillDetail + "/printed/" + tableId,
-		method: "GET"
+		method: "GET",
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': hdnUserSession.remember_token
+		}
 	});
 }
 
@@ -93,6 +113,8 @@ function drawOrderPrinted(items, str, items2, tablesId) {
 				});
 				drawOrderNew(items2, str);
 			}
+		}).catch(function () {
+			unAuthorized();
 		});
 	} else
 		return drawOrderNew(items2, str);
@@ -138,11 +160,17 @@ function drawHtml(value, class_css) {
 function getOrderNewWaiter(tablesId) {
 	axios({
 		url: GetBillDetail + "/new/" + tablesId,
-		method: "GET"
+		method: "GET",
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': hdnUserSession.remember_token
+		}
 	}).then(function (response) {
 		if (response.data.length > 0) {
 			drawOrderNewWaiter(response.data);
 		}
+	}).catch(function () {
+		unAuthorized();
 	});
 }
 
