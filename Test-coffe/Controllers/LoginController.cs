@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MvcHaack.Ajax;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -210,6 +211,7 @@ namespace Test_coffe.Controllers
             }
         }
 
+
         //[HttpPost]
         //public async Task<IActionResult> RegisterForm([FromBody] Users users)
         //{
@@ -244,6 +246,20 @@ namespace Test_coffe.Controllers
                 //return BadRequest();
                 return Content("Vui lòng kiểm tra lại thông tin");
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LogOut([FromBody] Users users)
+        {
+            var userOld = _context.Users.Find(users.id);
+            userOld.updated_at = DateTime.Now;
+            userOld.updated_by = users.updated_by;
+            userOld.remember_token = null;
+
+            HttpContext.Session.Clear();
+            _context.Update(userOld);
+            _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }

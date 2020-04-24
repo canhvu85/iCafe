@@ -269,7 +269,11 @@ $("#formCreate").submit(function (event) {
 function displayItems(shopsId) {
     axios({
         url: GetCataloge + "/shop/" + shopsId,
-        method: "GET"
+        method: "GET",
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': hdnUserSession.remember_token
+        }
     }).then(function (response) {
         $("#tbList").html("");
         let text = '';
@@ -282,6 +286,8 @@ function displayItems(shopsId) {
             </tr>`;
         }
         $("#tbList").html(text);
+    }).catch(function () {
+        unAuthorized();
     });
 }
 
@@ -294,14 +300,17 @@ function addItem(item) {
         axios({
             url: GetCataloge,
             method: "POST",
-            headers: { 'content-type': 'application/json' },
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': hdnUserSession.remember_token
+            },
             data: newData
         }).then(function () {
             $("#formCreate")[0].reset();
             showSuccessbyAlert('Tạo danh mục mới thành công.')
             displayItems(hdnUserSession.ShopsId);
         }).catch(function () {
-            showErrorbyAlert('Đã xảy ra lỗi!')
+            unAuthorized();
         });
     }
     else {
@@ -343,7 +352,10 @@ function editItem(tdid, val) {
         axios({
             url: GetCataloge + "/" + tdid,
             method: "PUT",
-            headers: { 'content-type': 'application/json' },
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': hdnUserSession.remember_token
+            },
             data: newData
         }).then(function () {
             showEditSuccessbyAlert('Sửa thông tin thành công.')
@@ -357,7 +369,7 @@ function editItem(tdid, val) {
             displayItems(hdnUserSession.ShopsId);
         }).catch(function () {
             $("#showEdit").modal("hide");
-            showErrorbyAlert('Đã xảy ra lỗi!')
+            unAuthorized();
         })
 
         // };
@@ -388,11 +400,24 @@ function deleteItem(id) {
         if (result.value) {
             axios({
                 url: GetCataloge + "/" + parseInt(id),
+<<<<<<< HEAD
                 method: "DELETE"
             }).then(function () {
                 displayItems(hdnUserSession.ShopsId);
             }).catch(function (data) {
                 showErrorbyAlert('Cảnh báo', data.responseText)
+=======
+                method: "DELETE",
+                headers: {
+                    'content-type': 'application/json',
+                    'Authorization': hdnUserSession.remember_token
+                }
+            }).then(function () {
+                displayItems(hdnUserSession.ShopsId);
+            }).catch(function (data) {
+                showErrorbyAlert(data.responseText)
+                unAuthorized();
+>>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
             });
         }
     })

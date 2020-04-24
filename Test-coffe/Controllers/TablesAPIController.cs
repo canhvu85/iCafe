@@ -14,6 +14,11 @@ namespace Test_coffe.Controllers
     public class TablesAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+<<<<<<< HEAD
+=======
+        private readonly ITokenBuilder _tokenBuilder;
+        private bool isExpired;
+>>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
 
         public TablesAPIController(ApplicationDbContext context)
         {
@@ -24,6 +29,7 @@ namespace Test_coffe.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tables>>> GetTable2(int? shop_id)
         {
+<<<<<<< HEAD
             //var user = HttpContext.Session.GetObjectFromJson<Users>("user");
             //string token = HttpContext.Request.Headers["Authorization"];
 
@@ -40,25 +46,39 @@ namespace Test_coffe.Controllers
             //}
 
             return await _context.Tables.Where(t => t.Floors.ShopsId == shop_id).ToListAsync();
+=======
+            isExpired = _tokenBuilder.isExpiredToken();
+            if (isExpired == false)
+                return await _context.Tables.Where(t => t.Floors.ShopsId == shop_id).ToListAsync();
+            else
+                return Unauthorized();
+>>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
         }
 
         // GET: api/TablesAPI/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Tables>> GetTable(int id)
         {
-            var tables = await _context.Tables.FindAsync(id);
-
-            if (tables == null)
+            isExpired = _tokenBuilder.isExpiredToken();
+            if (isExpired == false)
             {
-                return NotFound();
-            }
+                var tables = await _context.Tables.FindAsync(id);
 
-            return tables;
+                if (tables == null)
+                {
+                    return NotFound();
+                }
+
+                return tables;
+            }
+            else
+                return Unauthorized();
         }
 
         [HttpGet("status/{id}")]
         public IActionResult GetTableStatus(int id)
         {
+<<<<<<< HEAD
             var result = (from t in _context.Tables
                          where t.isDeleted == false && t.id == id
                          select new
@@ -67,11 +87,27 @@ namespace Test_coffe.Controllers
                          }).FirstOrDefault();
 
             if (result == null)
+=======
+            isExpired = _tokenBuilder.isExpiredToken();
+            if (isExpired == false)
+>>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
             {
-                return NotFound();
+                var result = (from t in _context.Tables
+                              where t.isDeleted == false && t.id == id
+                              select new
+                              {
+                                  status = t.status
+                              }).FirstOrDefault();
 
+                if (result == null)
+                {
+                    return NotFound();
+
+                }
+                return Ok(result);
             }
-            return Ok(result);
+            else
+                return Unauthorized();
         }
 
         // PUT: api/TablesAPI/5
@@ -80,34 +116,40 @@ namespace Test_coffe.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTable(int id, Tables tables)
         {
-            if (id != tables.id)
+            isExpired = _tokenBuilder.isExpiredToken();
+            if (isExpired == false)
             {
-                return BadRequest();
-            }
-            var tableOld = _context.Tables.Find(id);
-            tableOld.status = tables.status;
-            tableOld.updated_at = DateTime.Now;
-            tableOld.updated_by = tables.updated_by;
-
-            _context.Entry(tableOld).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TableExists(id))
+                if (id != tables.id)
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
-                else
-                {
-                    throw;
-                }
-            }
+                var tableOld = _context.Tables.Find(id);
+                tableOld.status = tables.status;
+                tableOld.updated_at = DateTime.Now;
+                tableOld.updated_by = tables.updated_by;
 
-            return NoContent();
+                _context.Entry(tableOld).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TableExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return NoContent();
+            }
+            else
+                return Unauthorized();
         }
 
         // POST: api/TablesAPI
@@ -116,10 +158,16 @@ namespace Test_coffe.Controllers
         [HttpPost]
         public async Task<ActionResult<Tables>> PostTable(Tables tables)
         {
-            _context.Tables.Add(tables);
-            await _context.SaveChangesAsync();
+            isExpired = _tokenBuilder.isExpiredToken();
+            if (isExpired == false)
+            {
+                _context.Tables.Add(tables);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTable", new { id = tables.id }, tables);
+                return CreatedAtAction("GetTable", new { id = tables.id }, tables);
+            }
+            else
+                return Unauthorized();
         }
 
         // DELETE: api/TablesAPI/5
