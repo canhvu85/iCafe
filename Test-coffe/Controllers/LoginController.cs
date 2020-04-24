@@ -157,7 +157,6 @@ namespace Test_coffe.Controllers
         [HttpPost]
         public IActionResult LoginForm([FromBody] Users users)
         {
-            Console.WriteLine(users.username);
             if (ModelState.IsValid)
             {
                 if (!_context.Users.Any(u => u.username == users.username && u.password == users.password && u.ShopsId == users.ShopsId))
@@ -179,26 +178,28 @@ namespace Test_coffe.Controllers
                                      u.id,
                                      u.name,
                                      u.username,
-                                     positionsId = u.PositionsId,
-                                     shopsId = u.ShopsId
+                                     u.PositionsId,
+                                     u.ShopsId
                                  };
 
                     if (result.Count() > 0)
                     {
-                        var token = _tokenBuilder.BuildToken(users.username);
-
                         var userData = _context.Users.Find(result.First().id);
-                        userData.token = token;
+                        var remember_token = _tokenBuilder.BuildToken(userData);
+
+                        userData.remember_token = remember_token;
                         _context.Update(userData);
                         _context.SaveChangesAsync();
 
                         var us = new Users();
-                        us.username = users.username;
-                        us.ShopsId = users.ShopsId;
+                        us.id = userData.id;
+                        us.username = userData.username;
+                        us.ShopsId = userData.ShopsId;
                         us.PositionsId = userData.PositionsId;
-                        us.token = token;
+                        us.remember_token = remember_token;
                         HttpContext.Session.SetObjectAsJson("user", us);
                         //return Ok(token);
+
                         return CreatedAtAction("GetUser", result);
                     }
                     else

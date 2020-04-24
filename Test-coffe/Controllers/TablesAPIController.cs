@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
 namespace Test_coffe.Controllers
@@ -15,20 +17,27 @@ namespace Test_coffe.Controllers
     {
         private readonly ApplicationDbContext _context;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         private readonly ITokenBuilder _tokenBuilder;
         private bool isExpired;
 >>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
+=======
+        private readonly ITokenBuilder _tokenBuilder;
+        private bool isExpired;
+>>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
 
-        public TablesAPIController(ApplicationDbContext context)
+        public TablesAPIController(ApplicationDbContext context, ITokenBuilder tokenBuilder)
         {
             _context = context;
+            _tokenBuilder = tokenBuilder;
         }
 
         // GET: api/TablesAPI
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tables>>> GetTable2(int? shop_id)
         {
+<<<<<<< HEAD
 <<<<<<< HEAD
             //var user = HttpContext.Session.GetObjectFromJson<Users>("user");
             //string token = HttpContext.Request.Headers["Authorization"];
@@ -47,12 +56,17 @@ namespace Test_coffe.Controllers
 
             return await _context.Tables.Where(t => t.Floors.ShopsId == shop_id).ToListAsync();
 =======
+=======
+>>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
             isExpired = _tokenBuilder.isExpiredToken();
             if (isExpired == false)
                 return await _context.Tables.Where(t => t.Floors.ShopsId == shop_id).ToListAsync();
             else
                 return Unauthorized();
+<<<<<<< HEAD
 >>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
+=======
+>>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
         }
 
         // GET: api/TablesAPI/5
@@ -79,6 +93,7 @@ namespace Test_coffe.Controllers
         public IActionResult GetTableStatus(int id)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             var result = (from t in _context.Tables
                          where t.isDeleted == false && t.id == id
                          select new
@@ -91,6 +106,10 @@ namespace Test_coffe.Controllers
             isExpired = _tokenBuilder.isExpiredToken();
             if (isExpired == false)
 >>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
+=======
+            isExpired = _tokenBuilder.isExpiredToken();
+            if (isExpired == false)
+>>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
             {
                 var result = (from t in _context.Tables
                               where t.isDeleted == false && t.id == id

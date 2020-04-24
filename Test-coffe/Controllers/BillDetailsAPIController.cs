@@ -88,6 +88,7 @@ namespace Test_coffe.Controllers
         public IActionResult GetGroupOrderPrinted(int? TableId)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             var result = from b in _context.BillDetails
                          join p in _context.Products on b.ProductsId equals p.id
                          where b.isDeleted == false &&
@@ -107,6 +108,9 @@ namespace Test_coffe.Controllers
 
             return Ok(result);
 =======
+=======
+
+>>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
             isExpired = _tokenBuilder.isExpiredToken();
             if (isExpired == false)
             {
@@ -129,7 +133,11 @@ namespace Test_coffe.Controllers
             }
             else
                 return Unauthorized();
+<<<<<<< HEAD
 >>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
+=======
+
+>>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
         }
 
         [HttpGet("new/{TableId}")]

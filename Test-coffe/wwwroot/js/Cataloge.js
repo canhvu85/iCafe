@@ -401,12 +401,15 @@ function deleteItem(id) {
             axios({
                 url: GetCataloge + "/" + parseInt(id),
 <<<<<<< HEAD
+<<<<<<< HEAD
                 method: "DELETE"
             }).then(function () {
                 displayItems(hdnUserSession.ShopsId);
             }).catch(function (data) {
                 showErrorbyAlert('Cảnh báo', data.responseText)
 =======
+=======
+>>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
                 method: "DELETE",
                 headers: {
                     'content-type': 'application/json',
@@ -417,7 +420,10 @@ function deleteItem(id) {
             }).catch(function (data) {
                 showErrorbyAlert(data.responseText)
                 unAuthorized();
+<<<<<<< HEAD
 >>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
+=======
+>>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
             });
         }
     })
@@ -465,12 +471,4 @@ function abc() {
     });
 
 }
-
-
-
-
-
-
-
-
 

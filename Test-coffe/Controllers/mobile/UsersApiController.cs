@@ -75,10 +75,10 @@ namespace Test_coffe.Controllers.mobile
             }
             else
             {
-                var token = _tokenBuilder.BuildToken(user.username);
+                var token = _tokenBuilder.BuildToken(user);
 
                 var userData = _context.Users.Find(result.id);
-                userData.token = token;
+                userData.remember_token = token;
                 _context.Update(userData);
                 _context.SaveChangesAsync();
 
@@ -86,7 +86,7 @@ namespace Test_coffe.Controllers.mobile
                 us.username = user.username;
                 us.ShopsId = user.ShopsId;
                 us.PositionsId = userData.PositionsId;
-                us.token = token;
+                us.remember_token = token;
                 HttpContext.Session.SetObjectAsJson("user", us);
                 //return Ok(token);
                 return Ok(result);

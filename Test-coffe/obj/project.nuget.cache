@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uiyz5i8H5HuD2cuumm2CvaHTkWGJxmPkVRzjB5Z+FV8o4XPPMb5A+PBwowg6iyz0d9sGhNF0WakrWezKcMrJjQ==",
+  "dgSpecHash": "wNF9MPt92ehkI+kBNKV2LJxQk/n5KAqL1bn2cM2ezWko3PStQs7aQ7swChSW/giA8v6iB35yzK7vrhsPyivtlA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Phan Anh Vu\\Desktop\\usb-dan\\Test-coffe\\Test-coffe.csproj",
+  "projectFilePath": "C:\\Users\\Phan Anh Vu\\Desktop\\github vu\\iCafe\\Test-coffe\\Test-coffe.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\lazziya.imageresize\\2.0.0\\lazziya.imageresize.2.0.0.nupkg.sha512",
     "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\microsoft.aspnet.mvc\\5.2.7\\microsoft.aspnet.mvc.5.2.7.nupkg.sha512",

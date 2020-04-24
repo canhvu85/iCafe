@@ -1,35 +1,47 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Test_coffe.Models;
 
 namespace Test_coffe.Controllers.Services
 {
     public class TokenBuilder : ITokenBuilder
     {
-        public string BuildToken(string username)
+        private readonly ApplicationDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public TokenBuilder(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+        {
+            _context = context;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public string BuildToken(Users users)
         {
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("placeholder-key-that-is-long-enough-for-sha256"));
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
-            //var claims = new Claim[]
-            //{
-            //    new Claim(JwtRegisteredClaimNames.Sub, username)
-            //};
             var claims = new Claim[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
-                new Claim("USERID", "1")
+                new Claim("id", users.id.ToString()),
+                new Claim("username", users.username),
+                new Claim("ShopsId", users.ShopsId.ToString()),
+                new Claim("PositionsId", users.PositionsId.ToString()),
             };
+<<<<<<< HEAD
 <<<<<<< HEAD
             var jwt = new JwtSecurityToken(expires: DateTime.Now.AddMinutes(5), signingCredentials: signingCredentials);
 =======
             var jwt = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddMinutes(5), signingCredentials: signingCredentials);
 >>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
+=======
+            var jwt = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddMinutes(5), signingCredentials: signingCredentials);
+>>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             return encodedJwt;
 
@@ -50,7 +62,10 @@ namespace Test_coffe.Controllers.Services
             //return encodedJwt;
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
 
         //public bool isExpiredToken(string remember_token)
         //{
@@ -90,6 +105,9 @@ namespace Test_coffe.Controllers.Services
             }
             return true;
         }
+<<<<<<< HEAD
 >>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
+=======
+>>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
     }
 }

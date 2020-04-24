@@ -89,6 +89,7 @@ namespace Test_coffe.Controllers
         public IActionResult GetBillByDate(int? shopsId, string? startDate, string? endDate)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             startDate = String.Format("{0:yyyy/M/d}", DateTime.Parse(startDate));
             endDate = String.Format("{0:yyyy/M/d}", DateTime.Parse(endDate));
             var result = _context.Bills
@@ -110,6 +111,9 @@ namespace Test_coffe.Controllers
 
             return Ok(result);
 =======
+=======
+
+>>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
             isExpired = _tokenBuilder.isExpiredToken();
             if (isExpired == false)
             {
@@ -134,7 +138,11 @@ namespace Test_coffe.Controllers
             }
             else
                 return Unauthorized();
+<<<<<<< HEAD
 >>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
+=======
+
+>>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
         }
 
         // GET: api/BillsAPI/5
