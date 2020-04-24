@@ -57,8 +57,10 @@ function table_click() {
 
 function getTables() {
 	//$.ajax({
+	//	crossDomain: true,
 	//	beforeSend: function (xhr) {
-	//		xhr.setRequestHeader('Authorization', hdnUserSession.token);
+	//		xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+	//		xhr.setRequestHeader('Authorization', hdnUserSession.remember_token);
 	//	},
 	//	url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
 	//	method: "GET",
@@ -68,6 +70,19 @@ function getTables() {
 	//	console.log(data)
 	//});
 
+	//$.ajax({
+	//	beforeSend: function (xhr) {
+	//		xhr.setRequestHeader('Authorization', hdnUserSession.remember_token);
+	//	},
+	//	url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
+	//	method: "GET",
+	//	dataType: "json",
+	//	contentType: "application/json"
+	//}).done(function (data) {
+	//	console.log(data)
+	//});
+
+
 	axios({
 		url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
 		method: "GET",
@@ -76,7 +91,6 @@ function getTables() {
 			'Authorization': hdnUserSession.remember_token
 		}
 	}).then(function (response) {
-		console.log(response);
 		let str = '';
 		let active = ' active';
 		$.each(response.data, function (index, value) {
@@ -94,6 +108,26 @@ function getTables() {
 	}).catch(function () {
 		unAuthorized();
 	});
+
+	//axios({
+	//	url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
+	//	method: "GET"
+	//}).then(function (response) {
+	//	let str = '';
+	//	let active = ' active';
+	//	$.each(response.data, function (index, value) {
+	//		str += `<div class="num-table col-md-2 ${active}">
+	//			<a href="#main-order-${value.id}">
+	//			<h2 id="${value.id}">${value.name}</h2>
+	//			</a>
+	//			</div>`;
+	//		active = '';
+	//	});
+	//	$(".list-table").html(str);
+	//	table_click();
+	//	getBill(response.data[0].id, response.data[0].name);
+	//	tablesId = response.data[0].id;
+	//});
 }
 
 function changeCategory() {
@@ -109,7 +143,11 @@ function changeCategory() {
 function getCataloges() {
 	axios({
 		url: GetCataloge + "/shop/" + hdnUserSession.ShopsId,
-		method: "GET"
+		method: "GET",
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': hdnUserSession.remember_token
+		}
 	}).then(function (response) {
 		groupItemCount = response.data.length;
 		let str = '';
@@ -124,13 +162,19 @@ function getCataloges() {
 		$(".group-items").html(str);
 
 		changeCategory();
+	}).catch(function () {
+		unAuthorized();
 	});
 }
 
 function getProducts() {
 	axios({
 		url: "api/ProductsAPI/shop/" + hdnUserSession.ShopsId,
-		method: "GET"
+		method: "GET",
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': hdnUserSession.remember_token
+		}
 	}).then(function (response) {
 		let items;
 		let active = ' active';
@@ -169,6 +213,8 @@ function getProducts() {
 			}
 		};
 		addItemProduct();
+	}).catch(function () {
+		unAuthorized();
 	});
 }
 
@@ -192,10 +238,14 @@ function addItemProduct() {
 					itemsPrinted = 0;
 				})
 
-				updateTable(tablesId, 2);
+				updateTable(tablesId, 2).catch(function () {
+					unAuthorized();
+				});
 			} else if (rs.data.length == 1) {
 				if (rs.data.status != 2) {
-					updateTable(tablesId, 2);
+					updateTable(tablesId, 2).catch(function () {
+						unAuthorized();
+					});
 				}
 
 				for (i = itemsPrinted; i < tables.length; i++) {
@@ -212,7 +262,9 @@ function addItemProduct() {
 				if (!k) {
 					createDrawNewOrder(price, hdnUserSession.username, itemId, rs.data[0].id, tablesId, name);
 				} else {
-					updateBillDetail(billDetailsId, billDetails);
+					updateBillDetail(billDetailsId, billDetails).catch(function () {
+						unAuthorized();
+					});
 
 					let str = '';
 					if (itemsPrinted > 0) {
@@ -226,6 +278,8 @@ function addItemProduct() {
 								}
 								$("#table-bill-1").html(str);
 							}
+						}).catch(function () {
+							unAuthorized();
 						});
 					} else {
 						for (var i = itemsPrinted; i < tables.length; i++) {
@@ -237,7 +291,9 @@ function addItemProduct() {
 				}
 			} else
 				console.log("Nhiều Bills")
-		})
+		}).catch(function () {
+			unAuthorized();
+		});
 
 		$("#main-order-1 .btn-temp-order").addClass("active");
 		$("#main-order-1 .checkout").removeClass("active");
@@ -248,12 +304,15 @@ function updateTable(tablesId, status) {
 	return axios({
 		url: GetTable + "/" + tablesId,
 		method: "PUT",
-		headers: { 'content-type': 'application/json' },
-		data: JSON.stringify({
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': hdnUserSession.remember_token
+		},
+		data: {
 			id: tablesId,
 			status: status,
 			updated_by: hdnUserSession.username
-		})
+		}
 	});
 }
 
@@ -272,7 +331,9 @@ function createDrawNewOrder(price, username, itemId, billsId, tablesId, name) {
 		let tb = new Tables(billDetailsId, billsId, tablesId, itemId,
 			name, price, 1, price, 0);
 		tables.push(tb);
-	})
+	}).catch(function () {
+		unAuthorized();
+	});
 	let str = `<div class="bill-items temp-order">
 		<div class="col-md-5">
 		<p>${name}</p>
@@ -294,7 +355,9 @@ function createDrawNewOrder(price, username, itemId, billsId, tablesId, name) {
 function printOrder() {
 	$("#main-order-1 .btn-temp-order .btn-primary").on("click", function (data) {
 		alert("da in bep");
-		updateTable(tablesId, 1);
+		updateTable(tablesId, 1).catch(function () {
+			unAuthorized();
+		});
 
 		getListBillDetails(tablesId).then(function (rs) {
 			var items = rs.data.filter(function (rs) {
@@ -326,7 +389,9 @@ function printOrder() {
 
 			function editBillDetails(x) {
 				billDetails = billDetailsObj(x.id, x.quantity, x.total, 1, hdnUserSession.username);
-				updateBillDetail(x.id, billDetails)
+				updateBillDetail(x.id, billDetails).catch(function () {
+					unAuthorized();
+				});
 				sub_total += x.total;
 			}
 
@@ -339,9 +404,15 @@ function printOrder() {
 				updateBill(billsId, bills).then(function () {
 					tables = [];
 					getBill(tablesId, tablesName);
-				})
-			})
-		})
+				}).catch(function () {
+					unAuthorized();
+				});
+			}).catch(function () {
+				unAuthorized();
+			});
+		}).catch(function () {
+			unAuthorized();
+		});
 	});
 }
 
@@ -361,6 +432,7 @@ function cancelOrder() {
 				//});
 			}
 		}).catch(function () {
+			unAuthorized();
 			console.log("lỗi");
 		})
 	});
@@ -391,14 +463,21 @@ function checkout() {
 
 							$("#main-order-1 .checkout").removeClass("active");
 							$("#main-order-1 .btn-temp-order").removeClass("active");
-						})
-					})
+						}).catch(function () {
+							unAuthorized();
+						});
+					}).catch(function () {
+						unAuthorized();
+					});
+				}).catch(function () {
+					unAuthorized();
 				});
 			});
+		}).catch(function () {
+			unAuthorized();
 		});
 	});
 }
-
 
 $("#logOut").on("click", function () {
 	axios({
@@ -416,3 +495,4 @@ $("#logOut").on("click", function () {
 		alert("loi");
 	})
 });
+
