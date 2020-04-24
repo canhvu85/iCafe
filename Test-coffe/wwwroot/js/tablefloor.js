@@ -13,7 +13,7 @@ function getFloors() {
     }).then(function (response) {
         floorList = response.data;
         drawFloors();
-       // console.log("aaa");
+        // console.log("aaa");
     });
 }
 
@@ -42,9 +42,9 @@ function addItem(item) {
         //arr.push(item.trim());
         let newData = {
             "name": item.trim().replace(/([^0-9a-z-\s])/g, ''),
-            "permalink": toSlug(item.trim()),
-            "floorsId": $('#cFilterFloor').val()*1
-        };      
+            "permalink": toSlug(item.trim() + " " + $('#cFilterFloor').val()),
+            "floorsId": $('#cFilterFloor').val() * 1
+        };
         axios({
             url: "/api/mobile/TablesApi",
             method: "post",
@@ -73,7 +73,7 @@ function addItem(item) {
                 text: 'Đã xảy ra lỗi!',
             });
         });
-       // displayItems($("#FilterFloor").val());
+        // displayItems($("#FilterFloor").val());
     }
     else {
         $("#item").select();
@@ -110,12 +110,12 @@ function displayItems(floor_id) {
             text += `<td id="tdEdit${data[i].id}"><button id="btnEdit${data[i].id}" onclick="editItem(${data[i].id},'${data[i].name}','${data[i].floorsId}');" class="btn btnEdit"><i class="fa fa-edit edit-btn"></i>Sửa</button></td>`;
             text += `<td><button id="btnDel${data[i].id}" onclick="deleteItem(${data[i].id})" class="btn btnDel"><i class="fa fa-trash-alt delete-btn"></i>Xóa</button></td>`;
             text += `</tr>`;
-        }   
+        }
         //document.getElementById('countItem').innerHTML = data.length + " bàn";
         //if (data.length > 1) {
         //    document.getElementById('countItem').innerHTML += "s";
         //}
-            document.getElementById("tbody").innerHTML = text;
+        document.getElementById("tbody").innerHTML = text;
     });
 }
 
@@ -157,7 +157,7 @@ function editItem(tdid, val, flid) {
         document.getElementById("floorSelect").appendChild(z);
     }
     floor.value = flid;
-    
+
     var tdEdit = document.getElementById("tdEdit" + tdid);
     var btnChange = document.createElement("button")
     btnChange.classList = "btn btn-primary bg-info border-0 mr-3";
@@ -168,13 +168,13 @@ function editItem(tdid, val, flid) {
     $("#formEdit").submit(function (event) {
         event.preventDefault();
         if (!$("#formEdit").valid()) return false;
-    //btnChange.onclick = function () {
+        //btnChange.onclick = function () {
         //arr[tdid] = input.value;
         var newData = {
             'id': tdid,
             'name': input.value.trim().replace(/([^0-9a-z-\s])/g, ''),
-            'permalink': toSlug(input.value.trim()),
-            'floorsId': floor.value*1
+            'permalink': toSlug(input.value.trim() + " " + floor.value),
+            'floorsId': floor.value * 1
         }
         axios({
             url: "/api/mobile/TablesApi/" + tdid,
@@ -214,8 +214,8 @@ function editItem(tdid, val, flid) {
                 displayItems($("#FilterFloor").val());
             }
         });
-       
-    //};
+
+        //};
     });
     form.appendChild(btnChange);
 
@@ -261,8 +261,8 @@ function deleteItem(id) {
                 url: '/api/mobile/TablesApi/del/' + parseInt(id) + "/?name=vu",
                 method: 'put',
                 headers: { 'Content-Type': 'application/json' }
-            }).then( function () {
-                    displayItems($("#FilterFloor").val());               
+            }).then(function () {
+                displayItems($("#FilterFloor").val());
             }).catch(function (error) {
                 Swal.fire({
                     icon: 'error',
@@ -281,7 +281,7 @@ $("#FilterFloor").change(function () {
 
 $("#formCreate").submit(function (event) {
     event.preventDefault();
-   // jQuery.noConflict();
+    // jQuery.noConflict();
     if (!$(this).valid()) return false;
     addItem(item.value);
     //item.value = null;
