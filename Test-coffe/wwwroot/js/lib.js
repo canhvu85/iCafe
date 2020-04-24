@@ -71,7 +71,7 @@ function showEditSuccessbyAlert(t) {
 }
 
 function showErrorbyAlert(t) {
-    Swal.fire({
+    return Swal.fire({
         icon: 'error',
         text: t
     })
@@ -130,5 +130,16 @@ function sendMessage(message) {
     $(".alert, .alert-success").html(message);
     $(".alert, .alert-success").fadeTo(2000, 500).slideUp(500, function () {
         $(".alert, .alert-success").slideUp(2000);
+    });
+}
+
+function unAuthorized() {
+    console.log("Unauthorized");
+    showErrorbyAlert("Bạn không có quyền thực hiện hành động này").then((result) => {
+        if (result.value) {
+            setTimeout(function () {
+                window.location.replace("/");
+            }, 1000);
+        }
     });
 }

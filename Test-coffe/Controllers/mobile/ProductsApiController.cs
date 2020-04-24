@@ -105,49 +105,6 @@ namespace Test_coffe.Controllers
         }
 
 
-        //for CP
-        // GET: api/ProductsApi
-        [HttpGet("shop/cp")]
-        public ActionResult<IEnumerable<Products>> GetProductListByShopIdCp(int? shop_id)
-        {
-
-            if (shop_id == null)
-            {
-
-                return NotFound();
-            }
-            else
-            {
-                //return  _context.Products.Where(p => p.Cataloges.ShopsId == shop_id && p.isDeleted == false).ToList();
-                var result = from s in _context.Products
-                             join c in _context.Cataloges on s.CatalogesId equals c.id
-                             where s.isDeleted == false && shop_id == s.Cataloges.ShopsId
-                             orderby s.updated_at descending
-                             select new
-                             {
-                                 id = s.id,
-                                 name = s.name,
-                                 price = s.price,
-                                 images = s.images,
-                                 permalink = s.permalink,
-                                 isDeleted = s.isDeleted,
-                                 deleted_at = s.deleted_at,
-                                 deleted_by = s.deleted_by,
-                                 created_at = s.created_at,
-                                 created_by = s.created_by,
-                                 updated_at = s.updated_at,
-                                 updated_by = s.updated_by,
-                                 catalogeId = c.id,
-                                 catalogeName = c.name
-                             };
-                return Ok(result);
-
-            }
-
-        }
-
-
-
         // GET: api/ProductsApi/5
         [HttpGet("{id}")]
         public ActionResult<Products> GetProduct(int id)

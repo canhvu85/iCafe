@@ -24,7 +24,7 @@ namespace Test_coffe.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tables>>> GetTable(int? shop_id)
         {
-            return await _context.Tables.Include(t => t.Floors).Where(t => t.Floors.ShopsId == shop_id && t.isDeleted == false).ToListAsync();
+            return await _context.Tables.Where(t => t.Floors.ShopsId == shop_id && t.isDeleted == false).ToListAsync();
         }
 
         [HttpGet("floor")]
@@ -76,17 +76,18 @@ namespace Test_coffe.Controllers
                 tableOld.status = table.status;
                 if (table.name != null)
                 {
-                    var tableOld1 = _context.Tables.Where(t => t.permalink == table.permalink 
+                    var tableOld1 = _context.Tables.Where(t => t.permalink == table.permalink
                                                             && t.id != table.id
                                                             && t.FloorsId == table.FloorsId
                                                             && t.isDeleted == false).ToList().FirstOrDefault();
                     if (tableOld1 != null)
                     {
                         tableOld.permalink = table.permalink + "_1";
-                    }else
+                    }
+                    else
                         tableOld.permalink = table.permalink;
 
-                    tableOld.name = table.name;                  
+                    tableOld.name = table.name;
                     tableOld.FloorsId = table.FloorsId;
                 }
                 // tableOld.updated_at = DateTime.Now;          
@@ -148,7 +149,7 @@ namespace Test_coffe.Controllers
             }
             else
             {
-                var tableOld1 = _context.Tables.Where(t => t.permalink == table.permalink 
+                var tableOld1 = _context.Tables.Where(t => t.permalink == table.permalink
                                                         && t.id != table.id
                                                         && t.FloorsId == table.FloorsId
                                                         && t.isDeleted == false).ToList().FirstOrDefault();
@@ -158,6 +159,7 @@ namespace Test_coffe.Controllers
                 }
                 _context.Tables.Add(table);
                 await _context.SaveChangesAsync();
+
 
                 return CreatedAtAction("GetTable", new { id = table.id }, table);
             }

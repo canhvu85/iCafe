@@ -353,17 +353,15 @@ function editItem(tdid, val) {
 }
 
 function deleteItem(id) {
-    showWarningbyAlert('Bạn chắc chắn muốn xóa thành phố này?').then((result) => {
-        if (result.value) {
-            axios({
-                method: 'DELETE',
-                url: GetCity + "/" + parseInt(id)
-            }).then(function () {
-                displayItems();
-            }).catch(function (data) {
-                showErrorbyAlert('Cảnh báo', data.responseText)
-            });
-        }
+    showWarningbyAlert('Bạn chắc chắn muốn xóa thành phố này?').then(() => {
+        axios({
+            method: 'DELETE',
+            url: GetCity + "/" + parseInt(id)
+        }).then(function () {
+            displayItems();
+        }).catch(function (data) {
+            showErrorbyAlert('Cảnh báo', data.responseText)
+        });
     })
 }
 

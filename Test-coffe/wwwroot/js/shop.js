@@ -95,17 +95,16 @@ shop.openAddShop = function (number) {
 //    createCustomer(newData);
 //}
 
-function createShop(value) {
-    axios({
+function createCustomer1(value) {
+    $.ajax({
         url: "/api/mobile/ShopsApi/",
-        method: "post",
-        //contentType: false,
-       // processData: false,
-       // async:false,      
-        data: value,
-        headers: {'Content-Type':'multipart/form-data'}
-    }).then(function (response) {
-        let result = response.data;
+        method: "POST",
+        contentType: false,
+        processData: false,
+        async:false,
+        data: value
+    }).done(function (result) {
+
         //signalR
         connection.invoke("SendMessage").catch(function (err) {
             return console.error(err.toString());
@@ -139,9 +138,9 @@ function createShop(value) {
             </tr>`
         );
 
-    }).catch(function (error) {
+    }).fail(function (data) {
         $('#addShop').modal('hide');
-        if (error.response.status == 418) {
+        if (data.status == 418) {
             Swal.fire({
                 icon: 'error',
                 title: 'Cảnh báo',
@@ -161,7 +160,7 @@ $('#avatar').change(function () {
     $('#noimg').css('display', 'none');
 })
 
-shop.save1 = async function () {
+shop.save1 = function () {
     var name = $("#name").val().trim();
     var info = $("#info").val().trim();
     var time_open_temp = $("#time_open").val();
@@ -203,8 +202,8 @@ shop.save1 = async function () {
         formData.append('avatarFile', files[0], toSlug(files[0].name.split(".")[0]) + "." + files[0].name.split(".")[1]);
     } else
         formData.append('avatarFile', null);
-
-    await createShop(formData);
+   
+    createCustomer1(formData);
 }
 
 function clearModalCreate() {
@@ -219,12 +218,13 @@ function clearModalCreate() {
 }
 
 function showList() {
-    axios({
+    $.ajax({
         url: "/api/mobile/ShopsApi/",
         method: "GET",
-        headers: { 'Content-Type': 'application/json' }
-    }).then(function (response) {
-        let data = response.data;
+        dataType: "json",
+        contentType: "application/json"
+    }).done(function (data) {
+
         $("#tbList").html("");
         $.each(data, function (index, value) {
             let avatar = value.images != null ? JSON.parse(value.images).thumb : "#";
@@ -375,39 +375,37 @@ $('#eavatar').change(function () {
 })
 
 function editBtn(idEdit, value) {
-    axios({
+    $.ajax({
         url: "/api/mobile/ShopsApi/" + idEdit,
-        method: "put",
-        data: value,
-        headers: { 'Content-Type': 'multipart/form-data' }
-    }).then((response) => {
-        if (response.status == 200) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Cảnh báo',
-                text: response.data
-            });
-        }else
-        if (response.status == 201) {
-            let result = response.data;
-            console.log(result);
-            $("#showEdit").modal("hide");
-            // sendMessage("Đã cập nhật thành công thông tin Shop !");
-            Swal.fire(
-                'Thông báo',
-                'Thêm thông tin thành công.',
-                'success'
-            );
+        method: "PUT",
+        contentType: false,
+        processData: false,
+        data: value
+    }).fail(function () {
+        $("#showEdit").modal("hide");
+        Swal.fire({
+            icon: 'error',
+            title: 'Cảnh báo',
+            text: 'Đã xảy ra lỗi!',
+        });
+    }).done(function (result) {
+        $("#showEdit").modal("hide");
+        // sendMessage("Đã cập nhật thành công thông tin Shop !");
+        Swal.fire(
+            'Thông báo',
+            'Thêm thông tin thành công.',
+            'success'
+        );
 
-            let avatar = result != null ? result.thumb : "#";
-            //len truoc
-            idEdit += "";
-            var dateOpen = new Date(value.get('time_open'));
-            dateOpen = `${dateOpen.getDate()}/${(dateOpen.getMonth() + 1)}/${dateOpen.getFullYear()}`;
-            var dateClose = new Date(value.get('time_close'));
-            dateClose = `${dateClose.getDate()}/${(dateClose.getMonth() + 1)}/${dateClose.getFullYear()}`;
-            $("#c" + idEdit).html(
-                `<td>${value.get('name')}</td>
+        let avatar = result != null ? JSON.parse(result).thumb : "#";
+        //len truoc
+        idEdit += "";
+        var dateOpen = new Date(value.get('time_open'));
+        dateOpen = `${dateOpen.getDate()}/${(dateOpen.getMonth() + 1)}/${dateOpen.getFullYear()}`;
+        var dateClose = new Date(value.get('time_close'));
+        dateClose = `${dateClose.getDate()}/${(dateClose.getMonth() + 1)}/${dateClose.getFullYear()}`;
+        $("#c" + idEdit).html(
+            `<td>${value.get('name')}</td>
             <td><img style='max-height:120px; max-width:120px;' src='uploads/shops/${idEdit}/${avatar}' onerror='loadImageError(this)' /></td>
             <td>${value.get('info')}</td>
             <td>${dateOpen}</td>
@@ -415,16 +413,8 @@ function editBtn(idEdit, value) {
             <td>${value.get('cityName')}</td>
             <td><a href = "javascript:;" onclick = "shop.openEdit(${value.get('id')},'${value.get('name')}','${value.get('info')}','${avatar}','${value.get('time_open')}','${value.get('time_close')}','${value.get('permalink')}',${value.get('CityId')})">
             <i class='fa fa-edit edit-btn'></i>Sửa</a ></td >
-            <td><a href = 'javascript:;' onclick='deleteItem(${value.get('id')})'><i class='fa fa-trash-alt delete-btn'></i>Xóa</a></td>`
-            );
-        }
-    }, (error) => {
-        $("#showEdit").modal("hide");
-        Swal.fire({
-            icon: 'error',
-            title: 'Cảnh báo',
-            text: 'Đã xảy ra lỗi!'
-        });
+            <td><a href = 'javascript:;' onclick='deleteItem('${value.get('id')})'><i class='fa fa-trash-alt delete-btn'></i>Xóa</a></td>`           
+        );
     });
 }
 
@@ -454,15 +444,17 @@ function deleteBtn(shop_id) {
         cancelButtonText: 'Hủy',
     }).then((result) => {
         if (result.value) {
-            axios({
-                url: '/api/mobile/ShopsApi/del/' + parseInt(shop_id) + "/?name=vu",
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' }
-                // data: JSON.stringify(data),
-            }).then(function () {
+            $.ajax({
+                url: '/api/mobile/ShopsApi/del/' + parseInt(shop_id)+"/?name=vu",
+                type: 'PUT',
+                dataType: "json",
+                contentType: "application/json",
+               // data: JSON.stringify(data),
+                success: function () {
                     // Do something with the result
                     //showList();
-                    $("#c" + shop_id).html("");              
+                    $("#c" + shop_id).html("");
+                }
             });
         }
     })
