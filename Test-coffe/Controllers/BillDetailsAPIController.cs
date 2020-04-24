@@ -86,6 +86,8 @@ namespace Test_coffe.Controllers
                              total = grp.Sum(x => x.total),
                              billsid = grp.Key.BillsId
                          };
+
+
             return Ok(result);
         }
 

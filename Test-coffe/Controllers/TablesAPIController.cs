@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
 namespace Test_coffe.Controllers
@@ -16,24 +14,32 @@ namespace Test_coffe.Controllers
     public class TablesAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly ITokenBuilder _tokenBuilder;
 
-        public TablesAPIController(ApplicationDbContext context, ITokenBuilder tokenBuilder)
+        public TablesAPIController(ApplicationDbContext context)
         {
             _context = context;
-            _tokenBuilder = tokenBuilder;
         }
 
         // GET: api/TablesAPI
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tables>>> GetTable2(int? shop_id)
         {
-            var isExpired = _tokenBuilder.isExpiredToken();
-            Console.WriteLine("isExpired " + isExpired);
-            if (isExpired == false)
-                return await _context.Tables.Where(t => t.Floors.ShopsId == shop_id).ToListAsync();
-            else
-                return Unauthorized();
+            //var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            //string token = HttpContext.Request.Headers["Authorization"];
+
+            //if (_context.Users.Any(u => u.username == user.username && u.token == token))
+            //{
+            //    Console.WriteLine(token);
+            //    return await _context.Tables.Where(t => t.Floors.ShopsId == shop_id).ToListAsync();
+            //}
+            //else
+            //{
+            //    Console.WriteLine(token);
+            //    //return StatusCode(401);
+            //    return Unauthorized();
+            //}
+
+            return await _context.Tables.Where(t => t.Floors.ShopsId == shop_id).ToListAsync();
         }
 
         // GET: api/TablesAPI/5
@@ -54,11 +60,11 @@ namespace Test_coffe.Controllers
         public IActionResult GetTableStatus(int id)
         {
             var result = (from t in _context.Tables
-                          where t.isDeleted == false && t.id == id
-                          select new
-                          {
-                              status = t.status
-                          }).FirstOrDefault();
+                         where t.isDeleted == false && t.id == id
+                         select new
+                         {
+                             status = t.status
+                         }).FirstOrDefault();
 
             if (result == null)
             {

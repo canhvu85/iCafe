@@ -21,9 +21,17 @@ namespace Test_coffe.Controllers
         // GET: Shops
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Shops.Include(s => s.Cities);
-            ViewData["CitiesId"] = new SelectList(_context.Cities, "id", "name");
-            return View(await applicationDbContext.ToListAsync());
+            //var applicationDbContext = _context.Shops.Include(s => s.Cities);
+            //ViewData["CitiesId"] = new SelectList(_context.Cities, "id", "name");
+            //return View(await applicationDbContext.ToListAsync());
+
+            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            if (user != null)
+            {
+                return View();
+            }
+            else
+                return RedirectToAction("Index", "Login");
         }
 
         // GET: Shops/Details/5

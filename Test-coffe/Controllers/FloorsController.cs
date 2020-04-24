@@ -21,7 +21,15 @@ namespace Test_coffe.Controllers
         // GET: Floors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Floors.ToListAsync());
+            //return View(await _context.Floors.ToListAsync());
+
+            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            if (user != null)
+            {
+                return View();
+            }
+            else
+                return RedirectToAction("Index", "Login");
         }
 
         // GET: Floors/Details/5

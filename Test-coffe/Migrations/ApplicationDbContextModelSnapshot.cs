@@ -825,7 +825,7 @@ namespace Test_coffe.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<string>("remember_token")
+                    b.Property<string>("token")
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 

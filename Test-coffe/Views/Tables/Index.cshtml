@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Test_coffe.Models.Tables>
+﻿
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model IEnumerable<Test_coffe.Models.Tables>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,6 +13,8 @@
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" type="text/css" href="~/css/sweetalert.css">
 }
+
+<input type="hidden" id="hdnUserSession" data-value="@HttpContextAccessor.HttpContext.Session.GetString("user")" />
 
 <section class="content-header">
     <div class="input-group mb-3">

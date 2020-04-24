@@ -20,7 +20,7 @@ namespace Test_coffe.Models
         [MaxLength(255)]
         public string password { get; set; }
         [MaxLength(255)]
-        public string remember_token { get; set; }
+        public string token { get; set; }
         [MaxLength(255)]
         public string permalink { get; set; }
 

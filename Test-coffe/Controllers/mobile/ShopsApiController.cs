@@ -134,84 +134,96 @@ namespace Test_coffe.Controllers
             {
                 return BadRequest();
             }
+            var name = HttpContext.Request.Form["name"].ToString();
+            var cityId = int.Parse(HttpContext.Request.Form["CityId"]);
 
-            var shop = _context.Shops.Find(id);
-
-            shop.id = id;
-            shop.name = HttpContext.Request.Form["name"];
-            shop.info = HttpContext.Request.Form["info"];
-           // shop.status = int.Parse(HttpContext.Request.Form["status"]);
-            shop.permalink = HttpContext.Request.Form["permalink"];
-            shop.time_open = DateTime.Parse(HttpContext.Request.Form["time_open"]);
-            shop.time_close = DateTime.Parse(HttpContext.Request.Form["time_close"]);
-            shop.updated_at = DateTime.Now;
-            shop.updated_by = "vu";
-            shop.CitiesId = int.Parse(HttpContext.Request.Form["CityId"]);
-            //shop.avatar = "abc";
-            var httpPostedFile = HttpContext.Request.Form.Files["avatarFile"];
-            if (httpPostedFile != null)
+            var shop = _context.Shops.Where(s => s.name == name && s.CitiesId == cityId && s.isDeleted == false).ToList().FirstOrDefault();
+            if (shop != null && shop.id != id)
             {
-                string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops/" + shop.id);
-                string uniqueFileName = null;
-                string uniqueFileName1 = null;
-
-                string uploadsFolder = directory;
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                httpPostedFile.CopyTo(new FileStream(filePath, FileMode.Create));
-                // shop.avatar = uniqueFileName;
-
-                //string uploadsFolder1 = directory + "/thumb";
-                //string filePath1 = Path.Combine(uploadsFolder1, uniqueFileName);
-                //var input_Image_Path = filePath;
-                // var output_Image_Path = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/thumb");
-                uniqueFileName1 = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-                using (var stream = httpPostedFile.OpenReadStream())
-                {
-                    var uploadedImage = Image.FromStream(stream);
-                    var x = uploadedImage.Width;
-                    var y = uploadedImage.Height;
-                    if (x > y)
-                    {
-                        x = 175;
-                        y = y / x * 175;
-                    }
-                    else
-                    {
-                        y = 150;
-                        x = x / y * 150;
-                    }
-                    //returns Image file
-                    var img = ImageResize.Scale(uploadedImage, x, y);
-
-                    img.SaveAs(uploadsFolder + "/" + uniqueFileName1);
-                }
-
-                shop.images = "{" + '"' + "avatar" + '"' + ":" +'"'+ uniqueFileName +'"'+ "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName1 + '"' + "}";
-                //shop.thumb = uniqueFileName;
+                return Content("Shop này đã có, hãy nhập tên khác");
             }
-
-            using (var db = _context)
+            else
             {
-                db.Shops.Attach(shop);
-                db.Entry(shop).Property(n => n.name).IsModified = true;
-                db.Entry(shop).Property(i => i.info).IsModified = true;
-                db.Entry(shop).Property(c => c.CitiesId).IsModified = true;
-                db.Entry(shop).Property(o => o.time_open).IsModified = true;
-                db.Entry(shop).Property(t => t.time_close).IsModified = true;
-                db.Entry(shop).Property(u => u.permalink).IsModified = true;
-                db.Entry(shop).Property(x => x.status).IsModified = true;
-                db.Entry(shop).Property(a => a.updated_at).IsModified = true;
-                db.Entry(shop).Property(b => b.updated_by).IsModified = true;
+
+                shop = _context.Shops.Find(id);
+
+                shop.id = id;
+                shop.name = HttpContext.Request.Form["name"];
+                shop.info = HttpContext.Request.Form["info"];
+                // shop.status = int.Parse(HttpContext.Request.Form["status"]);
+                shop.permalink = HttpContext.Request.Form["permalink"];
+                shop.time_open = DateTime.Parse(HttpContext.Request.Form["time_open"]);
+                shop.time_close = DateTime.Parse(HttpContext.Request.Form["time_close"]);
+                shop.updated_at = DateTime.Now;
+                shop.updated_by = "vu";
+                shop.CitiesId = int.Parse(HttpContext.Request.Form["CityId"]);
+                //shop.avatar = "abc";
+                var httpPostedFile = HttpContext.Request.Form.Files["avatarFile"];
                 if (httpPostedFile != null)
                 {
-                    db.Entry(shop).Property(x => x.images).IsModified = true;
-                    //db.Entry(shop).Property(y => y.thumb).IsModified = true;
-                }
-                db.SaveChanges();
-            }
+                    string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops/" + shop.id);
+                    string uniqueFileName = null;
+                    string uniqueFileName1 = null;
 
-            return shop.images;
+                    string uploadsFolder = directory;
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    httpPostedFile.CopyTo(new FileStream(filePath, FileMode.Create));
+                    // shop.avatar = uniqueFileName;
+
+                    //string uploadsFolder1 = directory + "/thumb";
+                    //string filePath1 = Path.Combine(uploadsFolder1, uniqueFileName);
+                    //var input_Image_Path = filePath;
+                    // var output_Image_Path = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/thumb");
+                    uniqueFileName1 = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
+                    using (var stream = httpPostedFile.OpenReadStream())
+                    {
+                        var uploadedImage = Image.FromStream(stream);
+                        var x = uploadedImage.Width;
+                        var y = uploadedImage.Height;
+                        if (x > y)
+                        {
+                            x = 175;
+                            y = y / x * 175;
+                        }
+                        else
+                        {
+                            y = 150;
+                            x = x / y * 150;
+                        }
+                        //returns Image file
+                        var img = ImageResize.Scale(uploadedImage, x, y);
+
+                        img.SaveAs(uploadsFolder + "/" + uniqueFileName1);
+                    }
+
+                    shop.images = "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName1 + '"' + "}";
+                    //shop.thumb = uniqueFileName;
+                }
+
+                using (var db = _context)
+                {
+                    db.Shops.Attach(shop);
+                    db.Entry(shop).Property(n => n.name).IsModified = true;
+                    db.Entry(shop).Property(i => i.info).IsModified = true;
+                    db.Entry(shop).Property(c => c.CitiesId).IsModified = true;
+                    db.Entry(shop).Property(o => o.time_open).IsModified = true;
+                    db.Entry(shop).Property(t => t.time_close).IsModified = true;
+                    db.Entry(shop).Property(u => u.permalink).IsModified = true;
+                    db.Entry(shop).Property(x => x.status).IsModified = true;
+                    db.Entry(shop).Property(a => a.updated_at).IsModified = true;
+                    db.Entry(shop).Property(b => b.updated_by).IsModified = true;
+                    if (httpPostedFile != null)
+                    {
+                        db.Entry(shop).Property(x => x.images).IsModified = true;
+                        //db.Entry(shop).Property(y => y.thumb).IsModified = true;
+                    }
+                    db.SaveChanges();
+                }
+
+                // return StatusCode(200,shop.images);
+                return StatusCode(201,shop.images);
+            }
 
         }
 
@@ -261,8 +273,8 @@ namespace Test_coffe.Controllers
         {
             var shop = new Shops();
             shop.name = HttpContext.Request.Form["name"];
-
-            var shopExist = _context.Shops.Where(s => s.name.ToLower() == shop.name.ToLower()).FirstOrDefault();
+            shop.CitiesId = int.Parse(HttpContext.Request.Form["CityId"]);
+            var shopExist = _context.Shops.Where(s => s.name.ToLower() == shop.name.ToLower() && s.CitiesId == shop.CitiesId && s.isDeleted == false).FirstOrDefault();
             if(shopExist != null)
             {
                 return StatusCode(418);
@@ -273,7 +285,7 @@ namespace Test_coffe.Controllers
             shop.permalink = HttpContext.Request.Form["permalink"];
             shop.time_open = DateTime.Parse(HttpContext.Request.Form["time_open"]);
             shop.time_close = DateTime.Parse(HttpContext.Request.Form["time_close"]);
-            shop.CitiesId = int.Parse(HttpContext.Request.Form["CityId"]);
+            
             _context.Shops.Add(shop);
             await _context.SaveChangesAsync();
             //shop.avatar = "abc";

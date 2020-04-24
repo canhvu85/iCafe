@@ -156,6 +156,7 @@ namespace Test_coffe.Controllers
         [HttpPost]
         public IActionResult LoginForm([FromBody] Users users)
         {
+            Console.WriteLine(users.username);
             if (ModelState.IsValid)
             {
                 if (!_context.Users.Any(u => u.username == users.username && u.password == users.password && u.ShopsId == users.ShopsId))
@@ -177,28 +178,26 @@ namespace Test_coffe.Controllers
                                      u.id,
                                      u.name,
                                      u.username,
-                                     u.PositionsId,
-                                     u.ShopsId
+                                     positionsId = u.PositionsId,
+                                     shopsId = u.ShopsId
                                  };
 
                     if (result.Count() > 0)
                     {
-                        var userData = _context.Users.Find(result.First().id);
-                        var remember_token = _tokenBuilder.BuildToken(userData);
+                        var token = _tokenBuilder.BuildToken(users.username);
 
-                        userData.remember_token = remember_token;
+                        var userData = _context.Users.Find(result.First().id);
+                        userData.token = token;
                         _context.Update(userData);
                         _context.SaveChangesAsync();
 
                         var us = new Users();
-                        us.id = userData.id;
-                        us.username = userData.username;
-                        us.ShopsId = userData.ShopsId;
+                        us.username = users.username;
+                        us.ShopsId = users.ShopsId;
                         us.PositionsId = userData.PositionsId;
-                        us.remember_token = remember_token;
+                        us.token = token;
                         HttpContext.Session.SetObjectAsJson("user", us);
                         //return Ok(token);
-
                         return CreatedAtAction("GetUser", result);
                     }
                     else

@@ -384,15 +384,17 @@ function editItem(tdid, val) {
 }
 
 function deleteItem(id) {
-    showWarningbyAlert('Bạn chắc chắn muốn xóa danh mục này?').then(() => {
-        axios({
-            url: GetCataloge + "/" + parseInt(id),
-            method: "DELETE"
-        }).then(function () {
-            displayItems(hdnUserSession.ShopsId);
-        }).catch(function (data) {
-            showErrorbyAlert('Cảnh báo', data.responseText)
-        });
+    showWarningbyAlert('Bạn chắc chắn muốn xóa danh mục này?').then((result) => {
+        if (result.value) {
+            axios({
+                url: GetCataloge + "/" + parseInt(id),
+                method: "DELETE"
+            }).then(function () {
+                displayItems(hdnUserSession.ShopsId);
+            }).catch(function (data) {
+                showErrorbyAlert('Cảnh báo', data.responseText)
+            });
+        }
     })
 }
 

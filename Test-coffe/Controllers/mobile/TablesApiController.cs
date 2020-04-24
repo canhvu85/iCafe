@@ -24,7 +24,7 @@ namespace Test_coffe.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tables>>> GetTable(int? shop_id)
         {
-            return await _context.Tables.Where(t => t.Floors.ShopsId == shop_id && t.isDeleted == false).ToListAsync();
+            return await _context.Tables.Include(t => t.Floors).Where(t => t.Floors.ShopsId == shop_id && t.isDeleted == false).ToListAsync();
         }
 
         [HttpGet("floor")]
@@ -63,7 +63,7 @@ namespace Test_coffe.Controllers
                 return BadRequest();
             }
 
-            var tableOld = _context.Tables.Where(t => t.permalink == table.permalink && t.FloorsId == table.FloorsId && t.isDeleted == false).ToList().FirstOrDefault();
+            var tableOld = _context.Tables.Where(t => t.name == table.name && t.FloorsId == table.FloorsId && t.isDeleted == false).ToList().FirstOrDefault();
             if (tableOld != null && tableOld.id != table.id)
             {
                 return Content("Bàn này đã có, hãy nhập tên khác");
@@ -76,18 +76,8 @@ namespace Test_coffe.Controllers
                 tableOld.status = table.status;
                 if (table.name != null)
                 {
-                    var tableOld1 = _context.Tables.Where(t => t.permalink == table.permalink
-                                                            && t.id != table.id
-                                                            && t.FloorsId == table.FloorsId
-                                                            && t.isDeleted == false).ToList().FirstOrDefault();
-                    if (tableOld1 != null)
-                    {
-                        tableOld.permalink = table.permalink + "_1";
-                    }
-                    else
-                        tableOld.permalink = table.permalink;
-
                     tableOld.name = table.name;
+                    tableOld.permalink = table.permalink;
                     tableOld.FloorsId = table.FloorsId;
                 }
                 // tableOld.updated_at = DateTime.Now;          
@@ -142,24 +132,15 @@ namespace Test_coffe.Controllers
         [HttpPost]
         public async Task<ActionResult<Tables>> PostTable(Tables table)
         {
-            var tableOld = _context.Tables.Where(t => t.permalink == table.permalink && t.FloorsId == table.FloorsId && t.isDeleted == false).ToList().FirstOrDefault();
+            var tableOld = _context.Tables.Where(t => t.name == table.name && t.FloorsId == table.FloorsId && t.isDeleted == false).ToList().FirstOrDefault();
             if (tableOld != null)
             {
                 return Content("Bàn này đã có, hãy nhập tên khác");
             }
             else
             {
-                var tableOld1 = _context.Tables.Where(t => t.permalink == table.permalink
-                                                        && t.id != table.id
-                                                        && t.FloorsId == table.FloorsId
-                                                        && t.isDeleted == false).ToList().FirstOrDefault();
-                if (tableOld1 != null)
-                {
-                    table.permalink += "_1";
-                }
                 _context.Tables.Add(table);
                 await _context.SaveChangesAsync();
-
 
                 return CreatedAtAction("GetTable", new { id = table.id }, table);
             }

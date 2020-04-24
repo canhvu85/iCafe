@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Test_coffe.Models.Products>
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model IEnumerable<Test_coffe.Models.Products>
 
 @{
     ViewData["Title"] = "Index";
@@ -11,6 +13,7 @@
 
 }
 
+<input type="hidden" id="hdnUserSession" data-value="@HttpContextAccessor.HttpContext.Session.GetString("user")" />
 
 <section class="content-header">
     <div class="alert alert-success"></div>
@@ -99,7 +102,7 @@
                             <label>Danh mục sản phẩm</label>
                         </div>
                         <div class="col-8">
-                            <select class="form-control browser-default custom-select" name="CatalogeId" id="CatalogeId"  style="width:40%;"></select>
+                            <select class="form-control browser-default custom-select" name="CatalogeId" id="CatalogeId" style="width:40%;"></select>
                         </div>
                     </div>
 
@@ -124,23 +127,23 @@
                             <img id="blah">
                         </div>
                     </div>
-                   @*<div class="row form-group">
-                        <div class="col-4">
+                    @*<div class="row form-group">
+                            <div class="col-4">
 
-                        </div>
-                        <div class="col-4">
-                            <button type="button" class="btn btn-warning"  onclick="document.getElementById('avatar').click()">Chọn ảnh</button>
-                            <input class="form-control" data-input="false" id="avatar" name="avatar" type="file" size="1" style="display:none"/>
-                        </div>
-                    </div>*@
+                            </div>
+                            <div class="col-4">
+                                <button type="button" class="btn btn-warning"  onclick="document.getElementById('avatar').click()">Chọn ảnh</button>
+                                <input class="form-control" data-input="false" id="avatar" name="avatar" type="file" size="1" style="display:none"/>
+                            </div>
+                        </div>*@
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="closeBtn" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                     @*<a href="javascript:;" class="btn btn-danger"
                         onclick="user.save1()">Lưu</a>*@
-                <button type="submit" class="btn btn-primary" style="width:100px; font-size:20px;">
-                    <i class="fa fa-plus  create-btn"></i> Tạo
-                </button>
+                    <button type="submit" class="btn btn-primary" style="width:100px; font-size:20px;">
+                        <i class="fa fa-plus  create-btn"></i> Tạo
+                    </button>
                 </div>
             </div>
         </form>
@@ -206,25 +209,25 @@
                         </div>
                     </div>
                 </div>
-                    @*<div class="row form-group">
-            <div class="col-4">
+                @*<div class="row form-group">
+                        <div class="col-4">
 
-            </div>
-            <div class="col-4">
-                <button type="button" class="btn btn-warning" onclick="document.getElementById('eavatar').click()">Chọn ảnh</button>
-                <input class="form-control" data-input="false" id="eavatar" name="eavatar" type="file" size="1" style="display:none" />
-            </div>
-        </div>*@
-                    <div class="modal-footer">
-                        <button type="button" id="ecloseBtn" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        @*<a href="javascript:;" class="btn btn-danger"
-            onclick="user.edit()">Lưu</a>*@
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-warning" onclick="document.getElementById('eavatar').click()">Chọn ảnh</button>
+                            <input class="form-control" data-input="false" id="eavatar" name="eavatar" type="file" size="1" style="display:none" />
+                        </div>
+                    </div>*@
+                <div class="modal-footer">
+                    <button type="button" id="ecloseBtn" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    @*<a href="javascript:;" class="btn btn-danger"
+                        onclick="user.edit()">Lưu</a>*@
                     <button type="submit" class="btn btn-primary" style="width:100px; font-size:20px;">
                         <i class="fa fa-save save-btn"></i> Lưu
                     </button>
-                    </div>
+                </div>
             </div>
-           
+
         </form>
     </div>
 </div>

@@ -21,9 +21,16 @@ namespace Test_coffe.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.Cataloges);
-            ViewData["CatalogeId"] = new SelectList(_context.Cataloges, "id", "name");
-            return View(await applicationDbContext.ToListAsync());
+            //var applicationDbContext = _context.Products.Include(p => p.Cataloges);
+            //ViewData["CatalogeId"] = new SelectList(_context.Cataloges, "id", "name");
+            //return View(await applicationDbContext.ToListAsync());
+            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            if (user != null)
+            {
+                return View();
+            }
+            else
+                return RedirectToAction("Index", "Login");
         }
 
         // GET: Products/Details/5

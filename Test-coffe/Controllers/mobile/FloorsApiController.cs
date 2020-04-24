@@ -52,32 +52,40 @@ namespace Test_coffe.Controllers
                 return BadRequest();
             }
 
-            var floorOld = _context.Floors.Find(id);
-            if (floors.name != null)
+            var floorOld = _context.Floors.Where(f => f.name == floors.name && f.ShopsId == floors.ShopsId && f.isDeleted==false).ToList().FirstOrDefault();
+            if (floorOld != null && floorOld.id != floors.id)
             {
-                floorOld.name = floors.name;
-                floorOld.permalink = floors.permalink;
-                
+                return Content("Tầng này đã có, hãy nhập tên khác");
             }
-            _context.Entry(floorOld).State = EntityState.Modified;
-
-            try
+            else
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FloorsExists(id))
+                floorOld = _context.Floors.Find(id);
+                if (floors.name != null)
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                    floorOld.name = floors.name;
+                    floorOld.permalink = floors.permalink;
 
-            return NoContent();
+                }
+                _context.Entry(floorOld).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!FloorsExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return NoContent();
+            }
         }
 
         // POST: api/FloorsApi
@@ -86,10 +94,18 @@ namespace Test_coffe.Controllers
         [HttpPost]
         public async Task<ActionResult<Floors>> PostFloors(Floors floors)
         {
-            _context.Floors.Add(floors);
-            await _context.SaveChangesAsync();
+            var floorOld = _context.Floors.Where(f => f.name == floors.name && f.isDeleted == false).ToList().FirstOrDefault();
+            if (floorOld != null)
+            {
+                return Content("Tầng này đã có, hãy nhập tên khác");
+            }
+            else
+            {
+                _context.Floors.Add(floors);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetFloors", new { id = floors.id }, floors);
+                return CreatedAtAction("GetFloors", new { id = floors.id }, floors);
+            }
         }
 
         [HttpPut("del/{id}")]

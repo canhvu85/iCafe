@@ -7,6 +7,7 @@ console.log("shopsId  " + hdnUserSession.ShopsId);
 
 getBillsId();
 getBillDetails(parseInt($("#billsList tr:first td:first").text()));
+$("#billsList tr:first").addClass("activeClk");
 dataTableChange();
 totalMoney();
 
