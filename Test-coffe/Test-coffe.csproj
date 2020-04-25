@@ -8,12 +8,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repository\**" />
+    <Compile Remove="ViewModels\**" />
     <Compile Remove="wwwroot\uploads\avatar\**" />
     <Compile Remove="wwwroot\uploads\thumb\**" />
+    <Content Remove="Repository\**" />
+    <Content Remove="ViewModels\**" />
     <Content Remove="wwwroot\uploads\avatar\**" />
     <Content Remove="wwwroot\uploads\thumb\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <EmbeddedResource Remove="ViewModels\**" />
     <EmbeddedResource Remove="wwwroot\uploads\avatar\**" />
     <EmbeddedResource Remove="wwwroot\uploads\thumb\**" />
+    <None Remove="Repository\**" />
+    <None Remove="ViewModels\**" />
     <None Remove="wwwroot\uploads\avatar\**" />
     <None Remove="wwwroot\uploads\thumb\**" />
   </ItemGroup>
@@ -126,6 +134,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="LazZiya.ImageResize" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.3" />
@@ -144,11 +153,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
     <PackageReference Include="MvcHaack.Ajax" Version="1.1.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-    <Folder Include="Repository\" />
   </ItemGroup>
 
 

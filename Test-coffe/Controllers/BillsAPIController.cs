@@ -24,15 +24,6 @@ namespace Test_coffe.Controllers
             _tokenBuilder = tokenBuilder;
         }
 
-        // GET: api/BillsAPI
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Bills>>> GetBill(int? TableId)
-        //{
-        //    //return await _context.Bills.ToListAsync();
-        //    return await _context.Bills.Include(b => b.Tables).Where(t => t.TablesId == TableId && t.Tables.status != 0).ToListAsync();
-
-        //}
-
         [HttpGet]
         public IActionResult GetBillByTable(int? TableId)
         {
@@ -88,32 +79,6 @@ namespace Test_coffe.Controllers
         [HttpGet("shop/{shopsId}/date/{startDate}/{endDate}")]
         public IActionResult GetBillByDate(int? shopsId, string? startDate, string? endDate)
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            startDate = String.Format("{0:yyyy/M/d}", DateTime.Parse(startDate));
-            endDate = String.Format("{0:yyyy/M/d}", DateTime.Parse(endDate));
-            var result = _context.Bills
-                .FromSqlRaw("SELECT b.* FROM Bills b JOIN Tables t on b.TablesId = t.id JOIN Floors f on f.id = t.FloorsId " +
-                            "WHERE b.isDeleted = 0 AND f.ShopsId = "+ shopsId  + " AND " +
-                            "CAST(b.time_out as date) >= '" + startDate + "' AND CAST(b.time_out as date) <= '"+ endDate + "'")
-                .Select(b => new
-                {
-                    b.id,
-                    b.time_out,
-                    b.Tables.name,
-                    b.status,
-                    b.created_by,
-                    b.sub_total,
-                    b.fee_service,
-                    b.total_money
-                }).ToList();
-
-
-            return Ok(result);
-=======
-=======
-
->>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
             isExpired = _tokenBuilder.isExpiredToken();
             if (isExpired == false)
             {
@@ -138,11 +103,6 @@ namespace Test_coffe.Controllers
             }
             else
                 return Unauthorized();
-<<<<<<< HEAD
->>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
-=======
-
->>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
         }
 
         // GET: api/BillsAPI/5

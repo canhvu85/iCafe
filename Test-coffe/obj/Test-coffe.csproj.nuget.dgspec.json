@@ -1,25 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Phan Anh Vu\\Desktop\\github vu\\iCafe\\Test-coffe\\Test-coffe.csproj": {}
+    "F:\\Gitlab\\github\\iCafe\\Test-coffe\\Test-coffe.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Phan Anh Vu\\Desktop\\github vu\\iCafe\\Test-coffe\\Test-coffe.csproj": {
+    "F:\\Gitlab\\github\\iCafe\\Test-coffe\\Test-coffe.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Phan Anh Vu\\Desktop\\github vu\\iCafe\\Test-coffe\\Test-coffe.csproj",
+        "projectUniqueName": "F:\\Gitlab\\github\\iCafe\\Test-coffe\\Test-coffe.csproj",
         "projectName": "Test-coffe",
-        "projectPath": "C:\\Users\\Phan Anh Vu\\Desktop\\github vu\\iCafe\\Test-coffe\\Test-coffe.csproj",
-        "packagesPath": "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Phan Anh Vu\\Desktop\\github vu\\iCafe\\Test-coffe\\obj\\",
+        "projectPath": "F:\\Gitlab\\github\\iCafe\\Test-coffe\\Test-coffe.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "F:\\Gitlab\\github\\iCafe\\Test-coffe\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Phan Anh Vu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -42,6 +38,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.35, )"
+            },
             "LazZiya.ImageResize": {
               "target": "Package",
               "version": "[2.0.0, )"
@@ -113,7 +113,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

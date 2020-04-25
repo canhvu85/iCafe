@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
 using Test_coffe.Controllers.Hubs;
+using Test_coffe.Controllers.Repository;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
@@ -28,6 +29,10 @@ namespace Test_coffe
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ICities, CitiesRepository>();
+            SQLUtils._connStr = Configuration.GetConnectionString("DefaultConnection");
+
+
             services.AddControllersWithViews();
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddDbContext<ApplicationDbContext>(
@@ -56,7 +61,6 @@ namespace Test_coffe
                     };
                 });
             services.AddScoped<ITokenBuilder, TokenBuilder>();
-
 
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             //{
