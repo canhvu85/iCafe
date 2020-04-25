@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using LazZiya.ImageResize;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
 namespace Test_coffe.Controllers
@@ -24,73 +26,86 @@ namespace Test_coffe.Controllers
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IHubContext<SignalServer> _contextSignal;
         string connectionString = "";
+        private readonly ITokenBuilder _tokenBuilder;
+        private bool isExpired;
 
-        public ShopsApiController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment, IConfiguration configuration, IHubContext<SignalServer> contextSignal)
+        public ShopsApiController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment,
+                                    IConfiguration configuration, IHubContext<SignalServer> contextSignal,
+                                    ITokenBuilder tokenBuilder)
         {
             _context = context;
+            _tokenBuilder = tokenBuilder;
             this._hostingEnvironment = hostingEnvironment;
             _contextSignal = contextSignal;
             connectionString = ConfigurationExtensions.GetConnectionString(configuration, "DefaultConnection");
         }
 
         // GET: api/ShopsApi
+       
         [HttpGet]
         public ActionResult<IEnumerable<Shops>> GetShop(int? city_id)
         {
-            if (city_id != null)
-            {
-                var result = from s in _context.Shops
-                             join c in _context.Cities on s.CitiesId equals c.id
-                             where (s.isDeleted == false && s.CitiesId == city_id)
-                             select new
-                             {
-                                 id = s.id,
-                                 name = s.name,
-                                 info = s.info,
-                                 images = s.images,
-                                 permalink = s.permalink,
-                                 status = s.status,
-                                 time_open = s.time_open,
-                                 time_close = s.time_close,
-                                 isDeleted = s.isDeleted,
-                                 deleted_at = s.deleted_at,
-                                 deleted_by = s.deleted_by,
-                                 created_at = s.created_at,
-                                 created_by = s.created_by,
-                                 updated_at = s.updated_at,
-                                 updated_by = s.updated_by,
-                                 cityId = c.id,
-                                 cityName = c.name
-                             };
-                return Ok(result);
-            }
-            else
-            {
-                var result = from s in _context.Shops
-                             join c in _context.Cities on s.CitiesId equals c.id
-                             where s.isDeleted == false
-                             select new
-                             {
-                                 id = s.id,
-                                 name = s.name,
-                                 info = s.info,
-                                 images = s.images,
-                                 permalink = s.permalink,
-                                 status = s.status,
-                                 time_open = s.time_open,
-                                 time_close = s.time_close,
-                                 isDeleted = s.isDeleted,
-                                 deleted_at = s.deleted_at,
-                                 deleted_by = s.deleted_by,
-                                 created_at = s.created_at,
-                                 created_by = s.created_by,
-                                 updated_at = s.updated_at,
-                                 updated_by = s.updated_by,
-                                 cityId = c.id,
-                                 cityName = c.name
-                             };
-                return Ok(result);
-            }
+
+            //isExpired = _tokenBuilder.isExpiredToken();
+            //if (isExpired == false)
+            //{
+                if (city_id != null)
+                {
+                    var result = from s in _context.Shops
+                                 join c in _context.Cities on s.CitiesId equals c.id
+                                 where (s.isDeleted == false && s.CitiesId == city_id)
+                                 select new
+                                 {
+                                     id = s.id,
+                                     name = s.name,
+                                     info = s.info,
+                                     images = s.images,
+                                     permalink = s.permalink,
+                                     status = s.status,
+                                     time_open = s.time_open,
+                                     time_close = s.time_close,
+                                     isDeleted = s.isDeleted,
+                                     deleted_at = s.deleted_at,
+                                     deleted_by = s.deleted_by,
+                                     created_at = s.created_at,
+                                     created_by = s.created_by,
+                                     updated_at = s.updated_at,
+                                     updated_by = s.updated_by,
+                                     cityId = c.id,
+                                     cityName = c.name
+                                 };
+                    return Ok(result);
+                }
+                else
+                {
+                    var result = from s in _context.Shops
+                                 join c in _context.Cities on s.CitiesId equals c.id
+                                 where s.isDeleted == false
+                                 select new
+                                 {
+                                     id = s.id,
+                                     name = s.name,
+                                     info = s.info,
+                                     images = s.images,
+                                     permalink = s.permalink,
+                                     status = s.status,
+                                     time_open = s.time_open,
+                                     time_close = s.time_close,
+                                     isDeleted = s.isDeleted,
+                                     deleted_at = s.deleted_at,
+                                     deleted_by = s.deleted_by,
+                                     created_at = s.created_at,
+                                     created_by = s.created_by,
+                                     updated_at = s.updated_at,
+                                     updated_by = s.updated_by,
+                                     cityId = c.id,
+                                     cityName = c.name
+                                 };
+                    return Ok(result);
+                }
+            //}
+            //else
+            //    return Unauthorized();
         }
 
         // GET: api/ShopsApi/5

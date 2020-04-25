@@ -124,9 +124,11 @@ function TableList() {
 		localStorage.setItem('table_name_to_cart', table_name_to_cart);
 		localStorage.setItem('table_id_to_cart', table_id_to_cart);
 		console.log(table_cur);
-		//	localStorage.setItem('table01', JSON.stringify(table01));			
-		BillDetailList(firstTable);
-		BillOfTable(firstTable)
+		//	localStorage.setItem('table01', JSON.stringify(table01));		
+		
+		//BillDetailList(firstTable);
+		//BillOfTable(firstTable)
+
 		$(".list-table-mobile").html(str);
 		//changeTable();
 		//});	

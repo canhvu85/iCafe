@@ -28,6 +28,17 @@ namespace Test_coffe
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Policy1",
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("https://localhost:5001",
+                                                          "http://127.0.0.1:5500")
+                                                        .AllowAnyHeader()
+                                                        .AllowAnyMethod();
+                                  });
+            });
             services.AddControllersWithViews();
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddDbContext<ApplicationDbContext>(
@@ -57,7 +68,7 @@ namespace Test_coffe
                 });
             services.AddScoped<ITokenBuilder, TokenBuilder>();
 
-
+          
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             //{
             //    options.TokenValidationParameters = new TokenValidationParameters
@@ -113,7 +124,7 @@ namespace Test_coffe
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseCors("Policy1");
             app.UseAuthorization();
             app.UseSession();
             app.UseMvc();
@@ -137,7 +148,6 @@ namespace Test_coffe
                     name: "default",
                     pattern: "{controller=Login}/{action=Index}/{id?}");
             });
-
         }
     }
 }

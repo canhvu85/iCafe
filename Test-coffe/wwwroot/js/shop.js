@@ -1,4 +1,5 @@
 ﻿var shop = shop || {};
+var hdnUserSession = $("#hdnUserSession").data("value");
 
 let connection = new signalR.HubConnectionBuilder().withUrl("/signalServer").build()
 
@@ -222,7 +223,10 @@ function showList() {
     axios({
         url: "/api/mobile/ShopsApi/",
         method: "GET",
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': hdnUserSession.remember_token
+        }
     }).then(function (response) {
         let data = response.data;
         $("#tbList").html("");
@@ -508,7 +512,7 @@ $(document).ready(function () {
 var form = $("#frmAddShop");
 form.submit(function (event) {
     event.preventDefault();
-    jQuery.noConflict();
+    //jQuery.noConflict();
     if (!$(this).valid()) return false;
     shop.save1();
     $('#closeBtn').click();   
@@ -548,7 +552,7 @@ form.validate({
 var formEdit = $("#frmEditShop");
 formEdit.submit(function (event) {
     event.preventDefault();
-    jQuery.noConflict();
+   // jQuery.noConflict();
     if (!$(this).valid()) return false;
     shop.edit();
     $('#ecloseBtn').click();

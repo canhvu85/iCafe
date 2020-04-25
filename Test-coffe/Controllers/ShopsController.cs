@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
 namespace Test_coffe.Controllers
@@ -12,26 +13,38 @@ namespace Test_coffe.Controllers
     public class ShopsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ITokenBuilder _tokenBuilder;
+        private bool isExpired;
 
-        public ShopsController(ApplicationDbContext context)
+        public ShopsController(ApplicationDbContext context, ITokenBuilder tokenBuilder)
         {
             _context = context;
+            _tokenBuilder = tokenBuilder;
         }
 
         // GET: Shops
         public async Task<IActionResult> Index()
         {
-            //var applicationDbContext = _context.Shops.Include(s => s.Cities);
-            //ViewData["CitiesId"] = new SelectList(_context.Cities, "id", "name");
-            //return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = _context.Shops.Include(s => s.Cities);
+            ViewData["CitiesId"] = new SelectList(_context.Cities, "id", "name");
+            return View(await applicationDbContext.ToListAsync());
 
-            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
-            if (user != null)
-            {
-                return View();
-            }
-            else
-                return RedirectToAction("Index", "Login");
+            //var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            //if (user != null)
+            //{
+            //    return View();
+            //}
+            //else
+            //    return RedirectToAction("Index", "Login");
+
+            //isExpired = _tokenBuilder.isExpiredToken();
+            //if (isExpired == false)
+            //{
+            //    return View();
+            //}else
+            //    return Unauthorized();
+
+
         }
 
         // GET: Shops/Details/5
