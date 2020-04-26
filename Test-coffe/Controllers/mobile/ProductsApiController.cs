@@ -43,6 +43,7 @@ namespace Test_coffe.Controllers
                                  name = s.name,
                                  price = s.price,
                                  images = s.images,
+                                 unit = s.unit,
                                  permalink = s.permalink,
                                  isDeleted = s.isDeleted,
                                  deleted_at = s.deleted_at,
@@ -68,6 +69,7 @@ namespace Test_coffe.Controllers
                                  name = s.name,
                                  price = s.price,
                                  images = s.images,
+                                 unit = s.unit,
                                  permalink = s.permalink,
                                  isDeleted = s.isDeleted,
                                  deleted_at = s.deleted_at,
@@ -129,6 +131,7 @@ namespace Test_coffe.Controllers
                                  name = s.name,
                                  price = s.price,
                                  images = s.images,
+                                 unit = s.unit,
                                  permalink = s.permalink,
                                  isDeleted = s.isDeleted,
                                  deleted_at = s.deleted_at,
@@ -161,6 +164,7 @@ namespace Test_coffe.Controllers
                               name = s.name,
                               price = s.price,
                               images = s.images,
+                              unit = s.unit,
                               permalink = s.permalink,
                               isDeleted = s.isDeleted,
                               deleted_at = s.deleted_at,
@@ -193,7 +197,7 @@ namespace Test_coffe.Controllers
             product.price =decimal.Parse(HttpContext.Request.Form["price"]);
   
             product.permalink = HttpContext.Request.Form["permalink"];
-
+            product.unit = HttpContext.Request.Form["unit"];
             product.updated_at = DateTime.Now;
             product.updated_by = "vu";
             product.CatalogesId = int.Parse(HttpContext.Request.Form["CatalogeId"]);
@@ -247,6 +251,7 @@ namespace Test_coffe.Controllers
                 db.Products.Attach(product);
                 db.Entry(product).Property(n => n.name).IsModified = true;
                 db.Entry(product).Property(i => i.price).IsModified = true;
+                db.Entry(product).Property(x => x.unit).IsModified = true;
                 db.Entry(product).Property(c => c.CatalogesId).IsModified = true;               
                 db.Entry(product).Property(u => u.permalink).IsModified = true;             
                 db.Entry(product).Property(a => a.updated_at).IsModified = true;
@@ -308,6 +313,7 @@ namespace Test_coffe.Controllers
             product.name = HttpContext.Request.Form["name"];
             product.price =decimal.Parse(HttpContext.Request.Form["price"]);
             product.permalink = HttpContext.Request.Form["permalink"];
+            product.unit = HttpContext.Request.Form["unit"];
             product.CatalogesId = int.Parse(HttpContext.Request.Form["CatalogeId"]);
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
