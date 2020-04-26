@@ -4023,3 +4023,4 @@ C:\Users\Phan Anh Vu\Desktop\github\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\sta
 C:\Users\Phan Anh Vu\Desktop\github\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Test-coffe.dll
 C:\Users\Phan Anh Vu\Desktop\github\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Test-coffe.pdb
 C:\Users\Phan Anh Vu\Desktop\github\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Test-coffe.genruntimeconfig.cache
+C:\Users\Phan Anh Vu\Desktop\github vu\iCafe\Test-coffe\bin\Debug\netcoreapp3.1\Dapper.dll

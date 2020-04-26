@@ -9482,11 +9482,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Phan Anh Vu\\Desktop\\github\\iCafe\\Test-coffe\\Test-coffe.csproj",
+      "projectUniqueName": "C:\\Users\\Phan Anh Vu\\Desktop\\github vu\\iCafe\\Test-coffe\\Test-coffe.csproj",
       "projectName": "Test-coffe",
-      "projectPath": "C:\\Users\\Phan Anh Vu\\Desktop\\github\\iCafe\\Test-coffe\\Test-coffe.csproj",
+      "projectPath": "C:\\Users\\Phan Anh Vu\\Desktop\\github vu\\iCafe\\Test-coffe\\Test-coffe.csproj",
       "packagesPath": "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Phan Anh Vu\\Desktop\\github\\iCafe\\Test-coffe\\obj\\",
+      "outputPath": "C:\\Users\\Phan Anh Vu\\Desktop\\github vu\\iCafe\\Test-coffe\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
