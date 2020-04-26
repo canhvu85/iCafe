@@ -33,15 +33,7 @@ namespace Test_coffe.Controllers.Services
                 new Claim("ShopsId", users.ShopsId.ToString()),
                 new Claim("PositionsId", users.PositionsId.ToString()),
             };
-<<<<<<< HEAD
-<<<<<<< HEAD
-            var jwt = new JwtSecurityToken(expires: DateTime.Now.AddMinutes(5), signingCredentials: signingCredentials);
-=======
             var jwt = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddMinutes(5), signingCredentials: signingCredentials);
->>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
-=======
-            var jwt = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddMinutes(5), signingCredentials: signingCredentials);
->>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             return encodedJwt;
 
@@ -61,11 +53,6 @@ namespace Test_coffe.Controllers.Services
             //var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             //return encodedJwt;
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
 
         //public bool isExpiredToken(string remember_token)
         //{
@@ -105,9 +92,5 @@ namespace Test_coffe.Controllers.Services
             }
             return true;
         }
-<<<<<<< HEAD
->>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
-=======
->>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
     }
 }

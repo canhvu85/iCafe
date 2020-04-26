@@ -372,16 +372,6 @@ function deleteItem(id) {
         if (result.value) {
             axios({
                 method: 'DELETE',
-<<<<<<< HEAD
-<<<<<<< HEAD
-                url: GetCity + "/" + parseInt(id)
-            }).then(function () {
-                displayItems();
-            }).catch(function (data) {
-                showErrorbyAlert('Cảnh báo', data.responseText)
-=======
-=======
->>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
                 url: GetCity + "/" + parseInt(id),
                 headers: {
                     'content-type': 'application/json',
@@ -392,10 +382,6 @@ function deleteItem(id) {
             }).catch(function (data) {
                 showErrorbyAlert(data.responseText)
                 unAuthorized();
-<<<<<<< HEAD
->>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
-=======
->>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
             });
         }
     })

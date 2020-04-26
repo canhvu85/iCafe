@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "wNF9MPt92ehkI+kBNKV2LJxQk/n5KAqL1bn2cM2ezWko3PStQs7aQ7swChSW/giA8v6iB35yzK7vrhsPyivtlA==",
+  "dgSpecHash": "KeZwSUq6pBBeBKFlr8VnYdFlpVeYLcPE6eL2ocAihJSw636K9RApqOIuKBK09BUZov1BeETwI/lWiVPniwOZ+g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Phan Anh Vu\\Desktop\\github vu\\iCafe\\Test-coffe\\Test-coffe.csproj",
+  "projectFilePath": "C:\\Users\\Phan Anh Vu\\Desktop\\github\\iCafe\\Test-coffe\\Test-coffe.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\dapper\\2.0.35\\dapper.2.0.35.nupkg.sha512",
     "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\lazziya.imageresize\\2.0.0\\lazziya.imageresize.2.0.0.nupkg.sha512",
     "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\microsoft.aspnet.mvc\\5.2.7\\microsoft.aspnet.mvc.5.2.7.nupkg.sha512",
     "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\microsoft.aspnet.razor\\3.2.7\\microsoft.aspnet.razor.3.2.7.nupkg.sha512",
@@ -149,7 +150,7 @@
     "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\system.reflection\\4.3.0\\system.reflection.4.3.0.nupkg.sha512",
     "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\system.reflection.emit\\4.3.0\\system.reflection.emit.4.3.0.nupkg.sha512",
     "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\system.reflection.emit.ilgeneration\\4.3.0\\system.reflection.emit.ilgeneration.4.3.0.nupkg.sha512",
-    "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\system.reflection.emit.lightweight\\4.3.0\\system.reflection.emit.lightweight.4.3.0.nupkg.sha512",
+    "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\system.reflection.emit.lightweight\\4.7.0\\system.reflection.emit.lightweight.4.7.0.nupkg.sha512",
     "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\system.reflection.extensions\\4.3.0\\system.reflection.extensions.4.3.0.nupkg.sha512",
     "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\system.reflection.metadata\\1.6.0\\system.reflection.metadata.1.6.0.nupkg.sha512",
     "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\system.reflection.primitives\\4.3.0\\system.reflection.primitives.4.3.0.nupkg.sha512",

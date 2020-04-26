@@ -24,13 +24,6 @@ namespace Test_coffe.Controllers
             _tokenBuilder = tokenBuilder;
         }
 
-        // GET: api/BillDetailsAPI
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<BillDetails>>> GetBillDetail(int? TableId)
-        //{
-        //    return await _context.BillDetails.Include(b => b.Bills).Include(b => b.Products).Where(b => b.Bills.status == 0 && b.Bills.TablesId == TableId).ToListAsync();
-        //}
-
         [HttpGet]
         public IActionResult GetBillDetail2(int? TableId)
         {
@@ -87,30 +80,6 @@ namespace Test_coffe.Controllers
         [HttpGet("TableId/{TableId}")]
         public IActionResult GetGroupOrderPrinted(int? TableId)
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            var result = from b in _context.BillDetails
-                         join p in _context.Products on b.ProductsId equals p.id
-                         where b.isDeleted == false &&
-                         b.Bills.status == 0 &&
-                         b.Bills.TablesId == TableId &&
-                         b.status == 1
-                         group b by new { p.name, b.price, b.BillsId } into grp
-                         select new
-                         {
-                             productsName = grp.Key.name,
-                             price = grp.Key.price,
-                             quantity = grp.Sum(x => x.quantity),
-                             total = grp.Sum(x => x.total),
-                             billsid = grp.Key.BillsId
-                         };
-
-
-            return Ok(result);
-=======
-=======
-
->>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
             isExpired = _tokenBuilder.isExpiredToken();
             if (isExpired == false)
             {
@@ -133,11 +102,6 @@ namespace Test_coffe.Controllers
             }
             else
                 return Unauthorized();
-<<<<<<< HEAD
->>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
-=======
-
->>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
         }
 
         [HttpGet("new/{TableId}")]
