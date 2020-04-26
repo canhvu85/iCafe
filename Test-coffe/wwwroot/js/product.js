@@ -106,6 +106,7 @@ function createProduct(value) {
             value.get('name'),
             avatar,
             value.get('catalogeName'),
+            value.get('unit'),
             value.get('price'),
             value.get('CatalogeId')
 
@@ -122,10 +123,11 @@ $('#avatar').change(function () {
 
 product.save = function () {  
     var name = $("#name").val().trim();
-    var price = $("#price").val();
+    var price = toSlug($("#price").val());
     if (price == "") {
         price = 0;
     };
+    var unit = $("#unit").val().trim();
     var catalogeName = $("#CatalogeId option:selected").html();
     var permalink = toSlug(name);
     var CatalogeId = parseInt($("#CatalogeId").val());
@@ -135,6 +137,7 @@ product.save = function () {
     formData.append('name', name);
     formData.append('price', price);
     formData.append('permalink', permalink);
+    formData.append('unit', unit);
     formData.append('CatalogeId', CatalogeId);
     formData.append('catalogeName', catalogeName);
     // get data
@@ -208,6 +211,7 @@ function showList(cataId) {
             m.push(value.name);
             m.push(avatar);
             m.push(value.catalogeName);
+            m.push(value.unit);
             m.push(value.price);
             m.push(value.catalogeId);
             //  m.push("");
@@ -228,12 +232,12 @@ function showList(cataId) {
                 //},
                
                 {
-                    "targets": [1, 2,3,5,6], // your case first column
+                    "targets": [1, 2,3,4,6], // your case first column
                     "className": "text-center"
 
                 },
                 {
-                    "targets": 4,
+                    "targets": 5,
                     "className": "text-right",
                 }],
             columns: [
@@ -251,9 +255,10 @@ function showList(cataId) {
                     }
                 },
                 { title: "Danh mục sản phẩm", data: 3 },
+                { title: "Đơn vị tính", data: 4 },
                 {
                     title: "Giá",
-                    data: 4,
+                    data: 5,
                     render: function (data, type, row, meta) {
                         return addCommas(data) + " đ";
                     }
@@ -278,8 +283,9 @@ function showList(cataId) {
                 $(row).attr('id', "c" + data[0]);
                 $(row).attr('data-name', data[1]);
                 $(row).attr('data-avatar', data[2]);
-                $(row).attr('data-price', data[4]);
-                $(row).attr('data-catalogeid', data[5]);
+                $(row).attr('data-unit', data[4]);
+                $(row).attr('data-price', data[5]);
+                $(row).attr('data-catalogeid', data[6]);
                 $(row).attr('data-sort', data[0]);
                 //$('td', row).eq(2).css('font-weight', 'bold');  //add style to cell in third column
             }
@@ -342,6 +348,7 @@ product.openEdit = function (id) {
     idEdit = parseInt(id);
     var itemName = $("#c" + id).data("name");
     var itemPrice = $("#c" + id).data("price");
+    var itemUnit = $("#c" + id).data("unit");
    // itemPrice = Number(itemPrice.replace(/[^0-9.-]+/g, ""));
     var itemAvatar = $("#c" + id).data("avatar");
     if (itemAvatar != 'no-image.png') {
@@ -354,7 +361,8 @@ product.openEdit = function (id) {
     //getEditInfo(id);
     $("#showEdit").modal("show");
     $("#ename").val(itemName);
-    $("#eprice").val(itemPrice);
+    $("#eprice").val(addCommas(itemPrice));
+    $("#eunit").val(itemUnit);
     $("#eblah").attr('src', `uploads/products/${id}/${itemAvatar}`);
     $("#eavatar").val(null);
     $("#eavatar").change(function () {
@@ -389,7 +397,7 @@ var n = [];
 product.edit = function () {
     n = [];
     var name = $("#ename").val().trim();
-    var price = parseInt($("#eprice").val());
+    var price = parseInt(toSlug($("#eprice").val()));
     if (price == "") {
         price = 0;
     };
@@ -397,13 +405,14 @@ product.edit = function () {
     //var permalink1 = toSlug(name);
     var catalogeName = $("#eCatalogeId option:selected").html();
     var permalink = toSlug(name);
-
+    var unit = $("#eunit").val().trim();
     // init form data:
     var formData = new FormData();
     // append data
     formData.append('id', idEdit);
     formData.append('name', name);
     formData.append('price', price);
+    formData.append('unit', unit);
     formData.append('permalink', permalink);
     formData.append('CatalogeId', CatalogeId);
     formData.append('catalogeName', catalogeName);
@@ -419,6 +428,7 @@ product.edit = function () {
     n.push(name);
     n.push("");
     n.push(catalogeName);
+    n.push(unit);
     n.push(price);
     n.push(CatalogeId);
 
@@ -499,15 +509,16 @@ function editBtn(idEdit, value) {
         table.row("#c" + idEdit).data(d);
       
 
-        $('#tbl2').dataTable().fnUpdate([n[0],n[1], img, n[3], n[4], st1, st2], "#c" + idEdit, undefined, false);
+        $('#tbl2').dataTable().fnUpdate([n[0],n[1], img, n[3], n[4], n[5], st1, st2], "#c" + idEdit, undefined, false);
 
         var row = "#c" + idEdit;
         console.log(n);
         // $(row).attr('id', "c" + data[0]);
         $(row).data('name', n[1]);
         $(row).data('avatar', n[2]);
-        $(row).data('price', n[4]);
-        $(row).data('catalogeid', n[5]);
+        $(row).data('unit', n[4]);
+        $(row).data('price', n[5]);
+        $(row).data('catalogeid', n[6]);
         console.log(n);
         n = [];
 
@@ -597,6 +608,14 @@ function readURL(input, id) {
 $("#avatar").change(function () {
     readURL(this, "#blah");
 });
+
+$('#price').keyup(function () {
+    $('#price').val(addCommas(toSlug($('#price').val())));
+})
+
+$('#eprice').keyup(function () {
+    $('#eprice').val(addCommas(toSlug($('#eprice').val())));
+})
 
 $("#FilterCataloge").change(function () {
     //console.log(this.value);

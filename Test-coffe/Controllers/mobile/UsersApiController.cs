@@ -48,7 +48,7 @@ namespace Test_coffe.Controllers.mobile
         public async Task<ActionResult<Users>> PostUser1(Users user)
         {
             var dateCurrent = DateTime.Now;
-             Console.WriteLine(user.username);
+            Console.WriteLine(user.username);
             Console.WriteLine(user.password);
             var result = (from u in _context.Users
                          // join s in _context.Shops on u.id equals s.id

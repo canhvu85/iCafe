@@ -32,6 +32,17 @@ namespace Test_coffe
             services.AddTransient<ICities, CitiesRepository>();
             SQLUtils._connStr = Configuration.GetConnectionString("DefaultConnection");
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Policy1",
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("https://localhost:5001",
+                                                          "http://127.0.0.1:5500")
+                                                        .AllowAnyHeader()
+                                                        .AllowAnyMethod();
+                                  });
+            });
 
             services.AddControllersWithViews();
             services.AddMvc(option => option.EnableEndpointRouting = false);
@@ -117,7 +128,7 @@ namespace Test_coffe
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseCors("Policy1");
             app.UseAuthorization();
             app.UseSession();
             app.UseMvc();
@@ -141,7 +152,6 @@ namespace Test_coffe
                     name: "default",
                     pattern: "{controller=Login}/{action=Index}/{id?}");
             });
-
         }
     }
 }

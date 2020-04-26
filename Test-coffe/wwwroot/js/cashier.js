@@ -60,15 +60,13 @@ function getTables() {
 	//	crossDomain: true,
 	//	beforeSend: function (xhr) {
 	//		xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	//		xhr.setRequestHeader('Authorization', hdnUserSession.token);
-=======
+
 	//		xhr.setRequestHeader('Authorization', hdnUserSession.remember_token);
->>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
-=======
+
 	//		xhr.setRequestHeader('Authorization', hdnUserSession.remember_token);
->>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
+
 	//	},
 	//	url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
 	//	method: "GET",
@@ -80,15 +78,13 @@ function getTables() {
 
 	//$.ajax({
 	//	beforeSend: function (xhr) {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	//		xhr.setRequestHeader('Authorization', hdnUserSession.token);
-=======
+
 	//		xhr.setRequestHeader('Authorization', hdnUserSession.remember_token);
->>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
-=======
+
 	//		xhr.setRequestHeader('Authorization', hdnUserSession.remember_token);
->>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
+
 	//	},
 	//	url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
 	//	method: "GET",
@@ -98,8 +94,7 @@ function getTables() {
 	//	console.log(data)
 	//});
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	//axios({
 	//	url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
 	//	method: "GET",
@@ -126,10 +121,7 @@ function getTables() {
 	//}).catch(function () {
 	//	console.log("Loiiiiiiiii");
 	//});
-=======
->>>>>>> 1e5fa3f4d55602f90e120414cf434886acc18128
-=======
->>>>>>> 4facee5cff2b4d58663460bd86bf4f9b07627dba
+
 
 	axios({
 		url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,

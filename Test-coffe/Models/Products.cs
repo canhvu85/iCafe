@@ -19,6 +19,8 @@ namespace Test_coffe.Models
         public decimal price { get; set; }
         [MaxLength(255)]
         public string permalink { get; set; }
+        [MaxLength(255)]
+        public string unit { get; set; }
 
         public int? CatalogesId { get; set; }
         public Cataloges Cataloges { get; set; }
