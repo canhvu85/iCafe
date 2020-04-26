@@ -13,8 +13,8 @@
     // Xóa ký tự đặc biệt
     str = str.replace(/([^0-9a-z-\s])/g, '');
 
-    // Xóa khoảng trắng thay bằng ký tự -
-    str = str.replace(/(\s+)/g, '-');
+    // Xóa khoảng trắng thay bằng ký tự _
+    str = str.replace(/(\s+)/g, '_');
 
     // Xóa ký tự - liên tiếp
     str = str.replace(/-+/g, '-');
