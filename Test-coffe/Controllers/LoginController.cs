@@ -19,11 +19,13 @@ namespace Test_coffe.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ITokenBuilder _tokenBuilder;
+        private readonly ILogin _loginRepository;
 
-        public LoginController(ApplicationDbContext context, ITokenBuilder tokenBuilder)
+        public LoginController(ApplicationDbContext context, ITokenBuilder tokenBuilder, ILogin loginRepository)
         {
             _context = context;
             _tokenBuilder = tokenBuilder;
+            _loginRepository = loginRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -165,6 +167,20 @@ namespace Test_coffe.Controllers
                 }
                 else
                 {
+
+                    //var result = _loginRepository.GetUser(users);
+                    //if(result != null)
+                    //{
+                    //    Console.WriteLine(result.id);
+                    //    result.id = 33;
+                    //    Console.WriteLine(result.id);
+                    //    //return Ok(token);
+
+                    //    return CreatedAtAction("GetUser", result);
+                    //}
+                    //return StatusCode(202, "Tài khoản hết hạn !");
+
+
                     var dateNow = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
                     var result = from u in _context.Users
                                  where u.username == users.username &&

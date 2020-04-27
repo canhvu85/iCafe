@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
@@ -17,7 +16,7 @@ namespace Test_coffe.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ITokenBuilder _tokenBuilder;
         private bool isExpired;
-        private ICities _citiesRepository;
+        private readonly ICities _citiesRepository;
 
         public CitiesAPIController(ApplicationDbContext context, ITokenBuilder tokenBuilder, ICities citiesRepository)
         {
@@ -27,10 +26,13 @@ namespace Test_coffe.Controllers
         }
 
         // GET: api/CitiesAPI
+        //[EnableCors("Policy1")]
         [HttpGet]
         public IActionResult GetCity2()
         {
             var result = _citiesRepository.GetAllCities();
+            //Console.WriteLine(result.id);
+
             return Ok(result);
         }
 
@@ -81,7 +83,6 @@ namespace Test_coffe.Controllers
             {
                 var user = HttpContext.Session.GetObjectFromJson<Users>("user");
                 cities.created_by = user.username;
-                cities.permalink = "hello";
                 _citiesRepository.CreateCities(cities);
                 return NoContent();
             }

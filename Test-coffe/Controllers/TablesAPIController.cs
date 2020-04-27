@@ -18,11 +18,13 @@ namespace Test_coffe.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ITokenBuilder _tokenBuilder;
         private bool isExpired;
+        private readonly ITables _tablesRepository;
 
-        public TablesAPIController(ApplicationDbContext context, ITokenBuilder tokenBuilder)
+        public TablesAPIController(ApplicationDbContext context, ITokenBuilder tokenBuilder, ITables tablesRepository)
         {
             _context = context;
             _tokenBuilder = tokenBuilder;
+            _tablesRepository = tablesRepository;
         }
 
         // GET: api/TablesAPI
@@ -31,49 +33,8 @@ namespace Test_coffe.Controllers
         {
             isExpired = _tokenBuilder.isExpiredToken();
             if (isExpired == false)
-                return await _context.Tables.Where(t => t.isDeleted == false && t.Floors.ShopsId == shop_id).ToListAsync();
-            else
-                return Unauthorized();
-        }
-
-        // GET: api/TablesAPI/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Tables>> GetTable(int id)
-        {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
             {
-                var tables = await _context.Tables.FindAsync(id);
-
-                if (tables == null)
-                {
-                    return NotFound();
-                }
-
-                return tables;
-            }
-            else
-                return Unauthorized();
-        }
-
-        [HttpGet("status/{id}")]
-        public IActionResult GetTableStatus(int id)
-        {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
-            {
-                var result = (from t in _context.Tables
-                              where t.isDeleted == false && t.id == id
-                              select new
-                              {
-                                  status = t.status
-                              }).FirstOrDefault();
-
-                if (result == null)
-                {
-                    return NotFound();
-
-                }
+                var result = _tablesRepository.GetAllTables(shop_id);
                 return Ok(result);
             }
             else
@@ -93,72 +54,13 @@ namespace Test_coffe.Controllers
                 {
                     return BadRequest();
                 }
-                var tableOld = _context.Tables.Find(id);
-                tableOld.status = tables.status;
-                tableOld.updated_at = DateTime.Now;
-                tableOld.updated_by = tables.updated_by;
-
-                _context.Entry(tableOld).State = EntityState.Modified;
-
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TableExists(id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
+                var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+                tables.updated_by = user.username;
+                _tablesRepository.UpdateTables(id, tables);
                 return NoContent();
             }
             else
                 return Unauthorized();
-        }
-
-        // POST: api/TablesAPI
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
-        public async Task<ActionResult<Tables>> PostTable(Tables tables)
-        {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
-            {
-                _context.Tables.Add(tables);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("GetTable", new { id = tables.id }, tables);
-            }
-            else
-                return Unauthorized();
-        }
-
-        // DELETE: api/TablesAPI/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Tables>> DeleteTable(int id)
-        {
-            var tables = await _context.Tables.FindAsync(id);
-            if (tables == null)
-            {
-                return NotFound();
-            }
-
-            _context.Tables.Remove(tables);
-            await _context.SaveChangesAsync();
-
-            return tables;
-        }
-
-        private bool TableExists(int id)
-        {
-            return _context.Tables.Any(e => e.id == id);
         }
     }
 }

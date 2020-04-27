@@ -265,7 +265,8 @@ function displayItems() {
 function addItem(item) {
     if (item.trim().length > 0) {
         let newData = {
-            "name": item.trim()
+            "name": item.trim().replace(/([^0-9a-z-\s])/g, ''),
+            "permalink": toSlug(item.trim())
         };
         axios({
             method: 'POST',
@@ -319,7 +320,8 @@ function editItem(tdid, val) {
         // btnChange.onclick = function () {
         var newData = {
             'id': tdid,
-            'name': input.value.trim()
+            'name': input.value.trim().replace(/([^0-9a-z-\s])/g, ''),
+            "permalink": toSlug(input.value.trim())
         }
         axios({
             method: 'PUT',
@@ -431,3 +433,8 @@ function abc() {
     });
 
 }
+
+
+
+
+

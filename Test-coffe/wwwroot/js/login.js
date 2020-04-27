@@ -61,6 +61,7 @@ function login() {
         data: JSON.stringify(users)
     }).then(function (response) {
         console.log(response);
+        console.log(response.data);
         if (response.status == 200 || response.status == 202) {
             showErrorbyAlert(response.data);
         } else if (response.status == 201) {

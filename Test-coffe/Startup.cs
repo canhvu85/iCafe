@@ -30,6 +30,9 @@ namespace Test_coffe
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ICities, CitiesRepository>();
+            services.AddTransient<ICataloges, CatalogesRepository>();
+            services.AddTransient<ITables, TablesRepository>();
+            services.AddTransient<ILogin, LoginRepository>();
             SQLUtils._connStr = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddCors(options =>

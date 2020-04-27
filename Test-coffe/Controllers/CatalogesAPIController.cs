@@ -17,11 +17,13 @@ namespace Test_coffe.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ITokenBuilder _tokenBuilder;
         private bool isExpired;
+        private readonly ICataloges _catalogesRepository;
 
-        public CatalogesAPIController(ApplicationDbContext context, ITokenBuilder tokenBuilder)
+        public CatalogesAPIController(ApplicationDbContext context, ITokenBuilder tokenBuilder, ICataloges catalogesRepository)
         {
             _context = context;
             _tokenBuilder = tokenBuilder;
+            _catalogesRepository = catalogesRepository;
         }
 
         // GET: api/CatalogesAPI
@@ -31,16 +33,7 @@ namespace Test_coffe.Controllers
             isExpired = _tokenBuilder.isExpiredToken();
             if (isExpired == false)
             {
-                var result = from c in _context.Cataloges
-                             where c.isDeleted == false
-                             orderby c.name
-                             select new
-                             {
-                                 c.id,
-                                 c.name,
-                                 shopsId = c.Shops.id,
-                                 shopsName = c.Shops.name
-                             };
+                var result = _catalogesRepository.GetAllCataloges();
                 return Ok(result);
             }
             else
@@ -53,37 +46,7 @@ namespace Test_coffe.Controllers
             isExpired = _tokenBuilder.isExpiredToken();
             if (isExpired == false)
             {
-                var result = from c in _context.Cataloges
-                             where c.isDeleted == false && c.ShopsId == ShopId
-                             orderby c.name
-                             select new
-                             {
-                                 c.id,
-                                 c.name,
-                                 shopsId = c.Shops.id,
-                                 shopsName = c.Shops.name
-                             };
-                return Ok(result);
-            }
-            else
-                return Unauthorized();
-        }
-
-        // GET: api/CatalogesAPI/5
-        [HttpGet("{id}")]
-        public IActionResult GetCatalogesById(int id)
-        {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
-            {
-                var result = from c in _context.Cataloges
-                             where c.id == id
-                             select new
-                             {
-                                 c.id,
-                                 c.name,
-                                 shopsName = c.Shops.name
-                             };
+                var result = _catalogesRepository.GetAllCatalogesByShop(ShopId);
                 return Ok(result);
             }
             else
@@ -103,31 +66,9 @@ namespace Test_coffe.Controllers
                 {
                     return BadRequest();
                 }
-
-                var catalogesOld = _context.Cataloges.Find(id);
-                catalogesOld.updated_at = DateTime.Now;
                 var user = HttpContext.Session.GetObjectFromJson<Users>("user");
-                catalogesOld.updated_by = user.username;
-                catalogesOld.name = cataloges.name;
-                _context.Entry(catalogesOld).State = EntityState.Modified;
-
-
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CatalogesExists(id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
+                cataloges.updated_by = user.username;
+                _catalogesRepository.UpdateCataloges(id, cataloges);
                 return NoContent();
             }
             else
@@ -145,10 +86,8 @@ namespace Test_coffe.Controllers
             {
                 var user = HttpContext.Session.GetObjectFromJson<Users>("user");
                 cataloges.created_by = user.username;
-                _context.Cataloges.Add(cataloges);
-                await _context.SaveChangesAsync();
-
-                return Ok(cataloges.id);
+                _catalogesRepository.CreateCataloges(cataloges);
+                return NoContent();
             }
             else
                 return Unauthorized();
@@ -167,22 +106,11 @@ namespace Test_coffe.Controllers
                     return NotFound();
                 }
                 var user = HttpContext.Session.GetObjectFromJson<Users>("user");
-                cataloges.deleted_by = user.username;
-                cataloges.deleted_at = DateTime.Now;
-                cataloges.isDeleted = true;
-                _context.Entry(cataloges).State = EntityState.Modified;
-
-                await _context.SaveChangesAsync();
-
-                return cataloges;
+                _catalogesRepository.RemoveCataloges(id, user.username);
+                return NoContent();
             }
             else
                 return Unauthorized();
-        }
-
-        private bool CatalogesExists(int id)
-        {
-            return _context.Cataloges.Any(e => e.id == id);
         }
     }
 }
