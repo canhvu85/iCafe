@@ -16,14 +16,11 @@ namespace Test_coffe.Controllers
     public class TablesAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly ITokenBuilder _tokenBuilder;
-        private bool isExpired;
         private readonly ITables _tablesRepository;
 
-        public TablesAPIController(ApplicationDbContext context, ITokenBuilder tokenBuilder, ITables tablesRepository)
+        public TablesAPIController(ApplicationDbContext context, ITables tablesRepository)
         {
             _context = context;
-            _tokenBuilder = tokenBuilder;
             _tablesRepository = tablesRepository;
         }
 
@@ -31,14 +28,8 @@ namespace Test_coffe.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tables>>> GetTable2(int? shop_id)
         {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
-            {
-                var result = _tablesRepository.GetAllTables(shop_id);
-                return Ok(result);
-            }
-            else
-                return Unauthorized();
+            var result = _tablesRepository.GetAllTables(shop_id);
+            return Ok(result);
         }
 
         // PUT: api/TablesAPI/5
@@ -47,20 +38,14 @@ namespace Test_coffe.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTable(int id, Tables tables)
         {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
+            if (id != tables.id)
             {
-                if (id != tables.id)
-                {
-                    return BadRequest();
-                }
-                var user = HttpContext.Session.GetObjectFromJson<Users>("user");
-                tables.updated_by = user.username;
-                _tablesRepository.UpdateTables(id, tables);
-                return NoContent();
+                return BadRequest();
             }
-            else
-                return Unauthorized();
+            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            tables.updated_by = user.username;
+            _tablesRepository.UpdateTables(id, tables);
+            return NoContent();
         }
     }
 }

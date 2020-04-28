@@ -31,44 +31,12 @@ namespace Test_coffe.Controllers.Services
                 new Claim("id", users.id.ToString()),
                 new Claim("username", users.username),
                 new Claim("ShopsId", users.ShopsId.ToString()),
-                new Claim("PositionsId", users.PositionsId.ToString()),
+                new Claim("PositionsId", users.PositionsId.ToString())
             };
             var jwt = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddMinutes(5), signingCredentials: signingCredentials);
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             return encodedJwt;
-
-            //var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("placeholder-key-that-is-long-enough-for-sha256"));
-            //var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
-
-            //var claims = new Claim[]
-            //{
-            //    new Claim(JwtRegisteredClaimNames.Sub, username)
-            //};
-
-            //var jwt = new JwtSecurityToken("dan dan dan dan",
-            //    "dan dan dan dan",
-            //    claims: claims,
-            //    expires: DateTime.Now.AddMinutes(120),
-            //    signingCredentials: signingCredentials);
-            //var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-            //return encodedJwt;
         }
-
-        //public bool isExpiredToken(string remember_token)
-        //{
-        //    var jwttoken = new JwtSecurityTokenHandler().ReadToken(remember_token);
-        //    var expTime = jwttoken.ValidTo;
-        //    var currentTime = DateTime.UtcNow;
-        //    Console.WriteLine("jwttoken " + jwttoken);
-        //    Console.WriteLine("exp " + expTime);
-        //    Console.WriteLine("current " + currentTime);
-
-        //    if (expTime >= currentTime)
-        //    {
-        //        return false;
-        //    }
-        //    return false;
-        //}
 
         public bool isExpiredToken()
         {
@@ -84,6 +52,10 @@ namespace Test_coffe.Controllers.Services
                 Console.WriteLine("jwttoken " + jwttoken);
                 Console.WriteLine("exp " + expTime);
                 Console.WriteLine("current " + currentTime);
+
+                //var jwttoken2 = new JwtSecurityTokenHandler().ReadJwtToken(remember_token);
+                var jwttoken2 = jwttoken as JwtSecurityToken;
+                Console.WriteLine("ShopsId " + jwttoken2.Claims.First(claim => claim.Type == "ShopsId").Value);
 
                 if (expTime >= currentTime)
                 {

@@ -15,151 +15,118 @@ namespace Test_coffe.Controllers
     public class BillDetailsAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly ITokenBuilder _tokenBuilder;
-        private bool isExpired;
 
-        public BillDetailsAPIController(ApplicationDbContext context, ITokenBuilder tokenBuilder)
+        public BillDetailsAPIController(ApplicationDbContext context)
         {
             _context = context;
-            _tokenBuilder = tokenBuilder;
         }
 
         [HttpGet]
         public IActionResult GetBillDetail2(int? TableId)
         {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
-            {
-                var result = from b in _context.BillDetails
-                             where b.isDeleted == false &&
-                             b.Bills.status == 0 &&
-                             b.Bills.TablesId == TableId &&
-                             (b.status == 0 || b.status == 4 || b.status == 1)
-                             select new
-                             {
-                                 b.id,
-                                 billsId = b.BillsId,
-                                 tablesId = b.Bills.TablesId,
-                                 productsId = b.ProductsId,
-                                 productsName = b.Products.name,
-                                 b.price,
-                                 b.quantity,
-                                 b.total,
-                                 b.status
-                             };
+            var result = from b in _context.BillDetails
+                         where b.isDeleted == false &&
+                         b.Bills.status == 0 &&
+                         b.Bills.TablesId == TableId &&
+                         (b.status == 0 || b.status == 4 || b.status == 1)
+                         select new
+                         {
+                             b.id,
+                             billsId = b.BillsId,
+                             tablesId = b.Bills.TablesId,
+                             productsId = b.ProductsId,
+                             productsName = b.Products.name,
+                             b.price,
+                             b.quantity,
+                             b.total,
+                             b.status
+                         };
 
-                return Ok(result);
-            }
-            else
-                return Unauthorized();
+            return Ok(result);
         }
 
         [HttpGet("bills/{billsId}")]
         public IActionResult GetBillDetailByBills(int? billsId)
         {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
-            {
-                var result = from b in _context.BillDetails
-                             where b.isDeleted == false &&
-                             b.Bills.id == billsId
-                             select new
-                             {
-                                 productsName = b.Products.name,
-                                 b.price,
-                                 b.quantity,
-                                 b.total
-                             };
+            var result = from b in _context.BillDetails
+                         where b.isDeleted == false &&
+                         b.Bills.id == billsId
+                         select new
+                         {
+                             productsName = b.Products.name,
+                             b.price,
+                             b.quantity,
+                             b.total
+                         };
 
-                return Ok(result);
-            }
-            else
-                return Unauthorized();
+            return Ok(result);
         }
 
         [HttpGet("TableId/{TableId}")]
         public IActionResult GetGroupOrderPrinted(int? TableId)
         {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
-            {
-                var result = from b in _context.BillDetails
-                             join p in _context.Products on b.ProductsId equals p.id
-                             where b.isDeleted == false &&
-                             b.Bills.status == 0 &&
-                             b.Bills.TablesId == TableId &&
-                             b.status == 1
-                             group b by new { p.name, b.price, b.BillsId } into grp
-                             select new
-                             {
-                                 productsName = grp.Key.name,
-                                 grp.Key.price,
-                                 quantity = grp.Sum(x => x.quantity),
-                                 total = grp.Sum(x => x.total),
-                                 billsid = grp.Key.BillsId
-                             };
-                return Ok(result);
-            }
-            else
-                return Unauthorized();
+            var result = from b in _context.BillDetails
+                         join p in _context.Products on b.ProductsId equals p.id
+                         where b.isDeleted == false &&
+                         b.Bills.status == 0 &&
+                         b.Bills.TablesId == TableId &&
+                         b.status == 1
+                         group b by new { p.name, b.price, b.BillsId } into grp
+                         select new
+                         {
+                             productsName = grp.Key.name,
+                             grp.Key.price,
+                             quantity = grp.Sum(x => x.quantity),
+                             total = grp.Sum(x => x.total),
+                             billsid = grp.Key.BillsId
+                         };
+            return Ok(result);
         }
 
         [HttpGet("new/{TableId}")]
         public IActionResult GetOrderNewWaiter(int? TableId)
         {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
-            {
-                var result = from b in _context.BillDetails
-                             where b.isDeleted == false &&
-                             b.Bills.status == 0 &&
-                             b.Bills.TablesId == TableId &&
-                             b.status == 0
-                             select new
-                             {
-                                 b.id,
-                                 billsId = b.BillsId,
-                                 tablesId = b.Bills.TablesId,
-                                 productsId = b.ProductsId,
-                                 productsName = b.Products.name,
-                                 b.price,
-                                 b.quantity,
-                                 b.total,
-                                 b.status
-                             };
-                return Ok(result);
-            }
-            else
-                return Unauthorized();
+            var result = from b in _context.BillDetails
+                         where b.isDeleted == false &&
+                         b.Bills.status == 0 &&
+                         b.Bills.TablesId == TableId &&
+                         b.status == 0
+                         select new
+                         {
+                             b.id,
+                             billsId = b.BillsId,
+                             tablesId = b.Bills.TablesId,
+                             productsId = b.ProductsId,
+                             productsName = b.Products.name,
+                             b.price,
+                             b.quantity,
+                             b.total,
+                             b.status
+                         };
+            return Ok(result);
         }
 
         [HttpGet("printed/{TableId}")]
         public IActionResult GetOrderPrinted(int? TableId)
         {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
-            {
-                var result = from b in _context.BillDetails
-                             where b.isDeleted == false &&
-                             b.Bills.status == 0 &&
-                             b.Bills.TablesId == TableId &&
-                             b.status == 1
-                             select new
-                             {
-                                 b.id,
-                                 billsId = b.BillsId,
-                                 tablesId = b.Bills.TablesId,
-                                 productsId = b.ProductsId,
-                                 productsName = b.Products.name,
-                                 b.price,
-                                 b.quantity,
-                                 b.total,
-                                 b.status
-                             };
-                return Ok(result);
-            }
-            else
-                return Unauthorized();
+            var result = from b in _context.BillDetails
+                         where b.isDeleted == false &&
+                         b.Bills.status == 0 &&
+                         b.Bills.TablesId == TableId &&
+                         b.status == 1
+                         select new
+                         {
+                             b.id,
+                             billsId = b.BillsId,
+                             tablesId = b.Bills.TablesId,
+                             productsId = b.ProductsId,
+                             productsName = b.Products.name,
+                             b.price,
+                             b.quantity,
+                             b.total,
+                             b.status
+                         };
+            return Ok(result);
         }
 
 
@@ -217,26 +184,20 @@ namespace Test_coffe.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBillDetail(int id, BillDetails billDetails)
         {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
+            if (id != billDetails.id || !BillDetailExists(id))
             {
-                if (id != billDetails.id || !BillDetailExists(id))
-                {
-                    return new OkObjectResult(new { message = "Không tìm thấy" });
-                }
-                var billDetailsOld = _context.BillDetails.Find(id);
-                billDetailsOld.updated_at = DateTime.Now;
-                billDetailsOld.updated_by = billDetails.updated_by;
-                billDetailsOld.quantity = billDetails.quantity;
-                billDetailsOld.total = billDetails.total;
-                billDetailsOld.status = billDetails.status;
-                _context.Entry(billDetailsOld).State = EntityState.Modified;
-
-                await _context.SaveChangesAsync();
-                return NoContent();
+                return new OkObjectResult(new { message = "Không tìm thấy" });
             }
-            else
-                return Unauthorized();
+            var billDetailsOld = _context.BillDetails.Find(id);
+            billDetailsOld.updated_at = DateTime.Now;
+            billDetailsOld.updated_by = billDetails.updated_by;
+            billDetailsOld.quantity = billDetails.quantity;
+            billDetailsOld.total = billDetails.total;
+            billDetailsOld.status = billDetails.status;
+            _context.Entry(billDetailsOld).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
         // POST: api/BillDetailsAPI
@@ -245,16 +206,10 @@ namespace Test_coffe.Controllers
         [HttpPost]
         public async Task<ActionResult<BillDetails>> PostBillDetail(BillDetails billDetails)
         {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
-            {
-                _context.BillDetails.Add(billDetails);
-                await _context.SaveChangesAsync();
+            _context.BillDetails.Add(billDetails);
+            await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetBillDetail", new { id = billDetails.id }, billDetails);
-            }
-            else
-                return Unauthorized();
+            return CreatedAtAction("GetBillDetail", new { id = billDetails.id }, billDetails);
         }
 
         // DELETE: api/BillDetailsAPI/5

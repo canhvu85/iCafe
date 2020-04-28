@@ -214,9 +214,7 @@ namespace Test_coffe.Controllers
                         us.PositionsId = userData.PositionsId;
                         us.remember_token = remember_token;
                         HttpContext.Session.SetObjectAsJson("user", us);
-                        //return Ok(token);
-
-                        return CreatedAtAction("GetUser", result);
+                        return CreatedAtAction("GetUser", remember_token);
                     }
                     else
                         return StatusCode(202, "Tài khoản hết hạn !");

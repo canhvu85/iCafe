@@ -13,7 +13,7 @@ namespace Test_coffe.Controllers.Repository
         public dynamic GetAllTables(int? shopsId)
         {
             get_Tables = "SELECT t.[id], t.[name] FROM [Tables] t JOIN [Floors] f ON t.FloorsId = f.id " +
-                         "WHERE f.ShopsId = @ShopsId AND t.[isDeleted] = 0 AND f.[isDeleted] = 0 ORDER BY t.[name";
+                         "WHERE f.ShopsId = @ShopsId AND t.[isDeleted] = 0 AND f.[isDeleted] = 0 ORDER BY t.[name]";
 
             var query = SQLUtils.ExecuteCommand(SQLUtils._connStr,
                       conn => conn.Query(get_Tables, new { ShopsId = shopsId })).ToList();

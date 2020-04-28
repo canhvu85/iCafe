@@ -135,11 +135,21 @@ function sendMessage(message) {
 
 function unAuthorized() {
     console.log("Unauthorized");
-    showErrorbyAlert("Bạn không có quyền thực hiện hành động này").then((result) => {
-        if (result.value) {
-            setTimeout(function () {
+    axios({
+        url: LogOut,
+        method: "POST",
+        headers: { 'content-type': 'application/json' },
+        data: JSON.stringify({
+            id: hdnUserSession.id,
+            updated_by: hdnUserSession.username
+        })
+    }).then(function () {
+        showErrorbyAlert("Bạn không có quyền thực hiện hành động này").then((result) => {
+            if (result.value) {
                 window.location.replace("/");
-            }, 1000);
-        }
-    });
+            }
+        });
+    }).catch(function () {
+        alert("loi");
+    })
 }

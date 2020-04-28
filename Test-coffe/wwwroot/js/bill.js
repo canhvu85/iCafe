@@ -1,4 +1,5 @@
 ﻿var hdnUserSession = $("#hdnUserSession").data("value");
+let remember_token = JSON.parse(localStorage.getItem('remember_token'));
 
 function getBill(tablesId, tablesName) {
 	checkBill(tablesId).then(function (response) {
