@@ -33,6 +33,7 @@ namespace Test_coffe
         {
             services.AddTransient<ICities, CitiesRepository>();
             services.AddTransient<IShops, ShopsRepository>();
+            services.AddTransient<IUploadImage, UploadRepository>();
             SQLUtils._connStr = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddCors(options =>

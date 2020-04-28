@@ -30,10 +30,11 @@ namespace Test_coffe.Controllers
         private readonly ITokenBuilder _tokenBuilder;
         private bool isExpired;
         private IShops _shopsRepository;
+        private IUploadImage _uploadImage;
 
         public ShopsApiController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment,
                                     IConfiguration configuration, IHubContext<SignalServer> contextSignal,
-                                    ITokenBuilder tokenBuilder, IShops shopsRepository)
+                                    ITokenBuilder tokenBuilder, IShops shopsRepository, IUploadImage uploadImage)
         {
             _context = context;
             _tokenBuilder = tokenBuilder;
@@ -41,6 +42,7 @@ namespace Test_coffe.Controllers
             _contextSignal = contextSignal;
             connectionString = ConfigurationExtensions.GetConnectionString(configuration, "DefaultConnection");
             _shopsRepository = shopsRepository;
+            _uploadImage = uploadImage;
         }
 
         // GET: api/ShopsApi
@@ -182,47 +184,49 @@ namespace Test_coffe.Controllers
                 shop.CitiesId = int.Parse(HttpContext.Request.Form["CityId"]);
                 //shop.avatar = "abc";
                 var httpPostedFile = HttpContext.Request.Form.Files["avatarFile"];
-                if (httpPostedFile != null)
-                {
-                    string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops/" + shop.id);
-                    string uniqueFileName = null;
-                    string uniqueFileName1 = null;
+           
+                shop.images = _uploadImage.changeImage(_hostingEnvironment, httpPostedFile, "shops", shop.id);
+                //if (httpPostedFile != null)
+                //{
+                //    string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops/" + shop.id);
+                //    string uniqueFileName = null;
+                //    string uniqueFileName1 = null;
 
-                    string uploadsFolder = directory;
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    httpPostedFile.CopyTo(new FileStream(filePath, FileMode.Create));
-                    // shop.avatar = uniqueFileName;
+                //    string uploadsFolder = directory;
+                //    uniqueFileName = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
+                //    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                //    httpPostedFile.CopyTo(new FileStream(filePath, FileMode.Create));
+                //    // shop.avatar = uniqueFileName;
 
-                    //string uploadsFolder1 = directory + "/thumb";
-                    //string filePath1 = Path.Combine(uploadsFolder1, uniqueFileName);
-                    //var input_Image_Path = filePath;
-                    // var output_Image_Path = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/thumb");
-                    uniqueFileName1 = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-                    using (var stream = httpPostedFile.OpenReadStream())
-                    {
-                        var uploadedImage = Image.FromStream(stream);
-                        var x = uploadedImage.Width;
-                        var y = uploadedImage.Height;
-                        if (x > y)
-                        {
-                            x = 175;
-                            y = y / x * 175;
-                        }
-                        else
-                        {
-                            y = 150;
-                            x = x / y * 150;
-                        }
-                        //returns Image file
-                        var img = ImageResize.Scale(uploadedImage, x, y);
+                //    //string uploadsFolder1 = directory + "/thumb";
+                //    //string filePath1 = Path.Combine(uploadsFolder1, uniqueFileName);
+                //    //var input_Image_Path = filePath;
+                //    // var output_Image_Path = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/thumb");
+                //    uniqueFileName1 = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
+                //    using (var stream = httpPostedFile.OpenReadStream())
+                //    {
+                //        var uploadedImage = Image.FromStream(stream);
+                //        var x = uploadedImage.Width;
+                //        var y = uploadedImage.Height;
+                //        if (x > y)
+                //        {
+                //            x = 175;
+                //            y = y / x * 175;
+                //        }
+                //        else
+                //        {
+                //            y = 150;
+                //            x = x / y * 150;
+                //        }
+                //        //returns Image file
+                //        var img = ImageResize.Scale(uploadedImage, x, y);
 
-                        img.SaveAs(uploadsFolder + "/" + uniqueFileName1);
-                    }
+                //        img.SaveAs(uploadsFolder + "/" + uniqueFileName1);
+                //    }
 
-                    shop.images = "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName1 + '"' + "}";
-                    //shop.thumb = uniqueFileName;
-                }
+                //    shop.images = "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName1 + '"' + "}";
+                //    //shop.thumb = uniqueFileName;
+                //}
 
                 using (var db = _context)
                 {
@@ -313,104 +317,107 @@ namespace Test_coffe.Controllers
             await _context.SaveChangesAsync();
             //shop.avatar = "abc";
             var httpPostedFile = HttpContext.Request.Form.Files["avatarFile"];
-            if (httpPostedFile != null)
-            {
-                string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops");
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
+          
+            shop.images = _uploadImage.upload(_hostingEnvironment,httpPostedFile, "shops", shop.id);
 
-                string subDirectory = directory + "/" + shop.id;
-                if (!Directory.Exists(subDirectory))
-                {
-                    Directory.CreateDirectory(subDirectory);
-                }
+            //if (httpPostedFile != null)
+            //{
+            //    string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops");
+            //    if (!Directory.Exists(directory))
+            //    {
+            //        Directory.CreateDirectory(directory);
+            //    }
 
-                string uniqueFileName = null;
-                string uniqueFileName1 = null;
-                string uploadsFolder = subDirectory;
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
+            //    string subDirectory = directory + "/" + shop.id;
+            //    if (!Directory.Exists(subDirectory))
+            //    {
+            //        Directory.CreateDirectory(subDirectory);
+            //    }
 
-                // string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/avatar");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                httpPostedFile.CopyTo(new FileStream(filePath, FileMode.Create));
+            //    string uniqueFileName = null;
+            //    string uniqueFileName1 = null;
+            //    string uploadsFolder = subDirectory;
+            //    if (!Directory.Exists(uploadsFolder))
+            //    {
+            //        Directory.CreateDirectory(uploadsFolder);
+            //    }
 
-                // shop.avatar = uniqueFileName;
+            //    // string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/avatar");
+            //    uniqueFileName = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
+            //    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            //    httpPostedFile.CopyTo(new FileStream(filePath, FileMode.Create));
 
-                //string uploadsFolder1 = subDirectory + "/thumb";
-                //if (!Directory.Exists(uploadsFolder1))
-                //{
-                //    Directory.CreateDirectory(uploadsFolder1);
-                //}
-                //string filePath1 = Path.Combine(uploadsFolder1, uniqueFileName);
-                //var input_Image_Path = filePath;
-                // var output_Image_Path = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/thumb");
-                uniqueFileName1 = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-                using (var stream = httpPostedFile.OpenReadStream())
-                {
-                    var uploadedImage = Image.FromStream(stream);
-                    var x = uploadedImage.Width;
-                    var y = uploadedImage.Height;
-                    if (x > y)
-                    {
-                        x = 175;
-                        y = y / x * 175;
-                    }
-                    else
-                    {
-                        y = 150;
-                        x = x / y * 150;
-                    }
-                    //returns Image file
-                    var img = ImageResize.Scale(uploadedImage, x, y);
-                    img.SaveAs(uploadsFolder + "/" + uniqueFileName1);
-                }
+            //    // shop.avatar = uniqueFileName;
 
-                shop.images = "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName1 + '"' + "}";
-                //shop.thumb = uniqueFileName;
-            }
-            else
-            {
-                string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops");
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
+            //    //string uploadsFolder1 = subDirectory + "/thumb";
+            //    //if (!Directory.Exists(uploadsFolder1))
+            //    //{
+            //    //    Directory.CreateDirectory(uploadsFolder1);
+            //    //}
+            //    //string filePath1 = Path.Combine(uploadsFolder1, uniqueFileName);
+            //    //var input_Image_Path = filePath;
+            //    // var output_Image_Path = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/thumb");
+            //    uniqueFileName1 = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
+            //    using (var stream = httpPostedFile.OpenReadStream())
+            //    {
+            //        var uploadedImage = Image.FromStream(stream);
+            //        var x = uploadedImage.Width;
+            //        var y = uploadedImage.Height;
+            //        if (x > y)
+            //        {
+            //            x = 175;
+            //            y = y / x * 175;
+            //        }
+            //        else
+            //        {
+            //            y = 150;
+            //            x = x / y * 150;
+            //        }
+            //        //returns Image file
+            //        var img = ImageResize.Scale(uploadedImage, x, y);
+            //        img.SaveAs(uploadsFolder + "/" + uniqueFileName1);
+            //    }
 
-                string subDirectory = directory + "/" + shop.id;
-                if (!Directory.Exists(subDirectory))
-                {
-                    Directory.CreateDirectory(subDirectory);
-                }
+            //    shop.images = "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName1 + '"' + "}";
+            //    //shop.thumb = uniqueFileName;
+            //}
+            //else
+            //{
+            //    string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops");
+            //    if (!Directory.Exists(directory))
+            //    {
+            //        Directory.CreateDirectory(directory);
+            //    }
 
-                string uploadsFolder = subDirectory;
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
+            //    string subDirectory = directory + "/" + shop.id;
+            //    if (!Directory.Exists(subDirectory))
+            //    {
+            //        Directory.CreateDirectory(subDirectory);
+            //    }
 
-                //string uploadsFolder1 = subDirectory + "/thumb";
-                //if (!Directory.Exists(uploadsFolder1))
-                //{
-                //    Directory.CreateDirectory(uploadsFolder1);
-                //}
+            //    string uploadsFolder = subDirectory;
+            //    if (!Directory.Exists(uploadsFolder))
+            //    {
+            //        Directory.CreateDirectory(uploadsFolder);
+            //    }
 
-                string n = shop.id.ToString();
-                string sourceDir = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-                string backupDir = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops" + n);
-                string uniqueFileName = null;
-                uniqueFileName = "no-image.png";
-                //System.IO.File.Copy(Path.Combine(sourceDir, "default.png"), Path.Combine(uploadsFolder, uniqueFileName), true);
-                //System.IO.File.Copy(Path.Combine(sourceDir, "default.png"), Path.Combine(uploadsFolder1, uniqueFileName), true);
-                //shop.avatar = uniqueFileName;
-                //shop.thumb = uniqueFileName;
-                shop.images = "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName + '"' + "}";
-            }
+            //    //string uploadsFolder1 = subDirectory + "/thumb";
+            //    //if (!Directory.Exists(uploadsFolder1))
+            //    //{
+            //    //    Directory.CreateDirectory(uploadsFolder1);
+            //    //}
+
+            //    string n = shop.id.ToString();
+            //    string sourceDir = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+            //    string backupDir = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops" + n);
+            //    string uniqueFileName = null;
+            //    uniqueFileName = "no-image.png";
+            //    //System.IO.File.Copy(Path.Combine(sourceDir, "default.png"), Path.Combine(uploadsFolder, uniqueFileName), true);
+            //    //System.IO.File.Copy(Path.Combine(sourceDir, "default.png"), Path.Combine(uploadsFolder1, uniqueFileName), true);
+            //    //shop.avatar = uniqueFileName;
+            //    //shop.thumb = uniqueFileName;
+            //    shop.images = "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName + '"' + "}";
+            //}
             await _context.SaveChangesAsync();
           //  var shops = GetAllShops();
             return CreatedAtAction("GetShop", new { id = shop.id }, new { shop.id, shop.images });

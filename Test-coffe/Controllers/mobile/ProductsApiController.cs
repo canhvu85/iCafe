@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Test_coffe.Controllers.mobile.Services;
 using Test_coffe.Models;
 
 namespace Test_coffe.Controllers
@@ -19,11 +20,14 @@ namespace Test_coffe.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private IUploadImage _uploadImage;
 
-        public ProductsApiController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment)
+        public ProductsApiController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment, IUploadImage uploadImage)
         {
             _context = context;
+            _uploadImage = uploadImage;
             this._hostingEnvironment = hostingEnvironment;
+        
         }
 
         // GET: api/ProductsApi
@@ -203,49 +207,9 @@ namespace Test_coffe.Controllers
             product.CatalogesId = int.Parse(HttpContext.Request.Form["CatalogeId"]);
             //shop.avatar = "abc";
             var httpPostedFile = HttpContext.Request.Form.Files["avatarFile"];
-            if (httpPostedFile != null)
-            {
-                string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/products/" + product.id);
-                string uniqueFileName = null;
-                string uniqueFileName1 = null;
-                string uploadsFolder = directory;
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                httpPostedFile.CopyTo(new FileStream(filePath, FileMode.Create));
-               // product.avatar = uniqueFileName;
-
-                uniqueFileName1 = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-                using (var stream = httpPostedFile.OpenReadStream())
-                {
-                    var uploadedImage = Image.FromStream(stream);
-                    var x = uploadedImage.Width;
-                    var y = uploadedImage.Height;
-                    if (x > y)
-                    {
-                        x = 175;
-                        y = y / x * 175;
-                    }
-                    else
-                    {
-                        y = 150;
-                        x = x / y * 150;
-                    }
-                    //returns Image file
-                    var img = ImageResize.Scale(uploadedImage, x, y);
-
-                    img.SaveAs(uploadsFolder + "/" + uniqueFileName1);
-                }
-
-
-                product.images = "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName1 + '"' + "}";
-                //product.thumb = uniqueFileName;
-            };
-            //else
-            //{
-            //    product.avatar = "no-image.png";
-            //    product.thumb = "no-image.png";
-            //}
-
+           
+            product.images = _uploadImage.changeImage(_hostingEnvironment,httpPostedFile,"products",product.id);
+      
             using (var db = _context)
             {
                 db.Products.Attach(product);
@@ -319,105 +283,9 @@ namespace Test_coffe.Controllers
             await _context.SaveChangesAsync();
             
             var httpPostedFile = HttpContext.Request.Form.Files["avatarFile"];
-            if (httpPostedFile != null)
-            {
-                string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/products");
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-
-                string subDirectory = directory + "/" + product.id;
-                if (!Directory.Exists(subDirectory))
-                {
-                    Directory.CreateDirectory(subDirectory);
-                }
-
-                string uniqueFileName = null;
-                string uniqueFileName1 = null;
-                string uploadsFolder = subDirectory;
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                // string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/avatar");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                httpPostedFile.CopyTo(new FileStream(filePath, FileMode.Create));
-
-                // product.avatar = uniqueFileName;
-                uniqueFileName1 = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-                // string uploadsFolder1 = subDirectory + "/thumb";
-                //if (!Directory.Exists(uploadsFolder1))
-                //{
-                //    Directory.CreateDirectory(uploadsFolder1);
-                //}
-
-                //string filePath1 = Path.Combine(uploadsFolder1, uniqueFileName);
-                //var input_Image_Path = filePath;
-                // var output_Image_Path = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/thumb");
-                using (var stream = httpPostedFile.OpenReadStream())
-                {
-                    var uploadedImage = Image.FromStream(stream);
-                    //returns Image file
-                    var x = uploadedImage.Width;
-                    var y = uploadedImage.Height;
-                    if (x > y)
-                    {
-                        x = 175;
-                        y = y / x * 175;
-                    }
-                    else
-                    {
-                        y = 150;
-                        x = x / y * 150;
-                    }
-                    var img = ImageResize.Scale(uploadedImage, x, y);
-                    img.SaveAs(uploadsFolder + "/" + uniqueFileName1);
-                }
-
-                product.images = "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName1 + '"' + "}";
-                //product.thumb = uniqueFileName;
-            }
-            else
-            {
-                string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/products");
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-
-                string subDirectory = directory + "/" + product.id;
-                if (!Directory.Exists(subDirectory))
-                {
-                    Directory.CreateDirectory(subDirectory);
-                }
-
-                string uploadsFolder = subDirectory;
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                //string uploadsFolder1 = subDirectory;
-                //if (!Directory.Exists(uploadsFolder1))
-                //{
-                //    Directory.CreateDirectory(uploadsFolder1);
-                //}
-
-                string n = product.id.ToString();
-                string sourceDir = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-                string backupDir = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/products" + n);
-                string uniqueFileName = null;
-                uniqueFileName = "no-image.png";
-                //  System.IO.File.Copy(Path.Combine(sourceDir, "no-image.png"), Path.Combine(uploadsFolder, uniqueFileName), true);
-                //  System.IO.File.Copy(Path.Combine(sourceDir, "no-image.png"), Path.Combine(uploadsFolder1, uniqueFileName), true);
-                //product.avatar = uniqueFileName;
-                //product.thumb = uniqueFileName;
-                product.images = "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName + '"' + "}";
-            }
-               
+           
+            product.images = _uploadImage.upload(_hostingEnvironment,httpPostedFile,"products",product.id);
+              
             await _context.SaveChangesAsync();
             
             return CreatedAtAction("GetProduct", new { id = product.id }, new { product.id, product.images });

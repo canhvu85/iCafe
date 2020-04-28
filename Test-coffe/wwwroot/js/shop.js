@@ -134,7 +134,7 @@ function createShop(value) {
             <td>${dateOpen}</td>
             <td>${dateClose}</td>
             <td>${value.get('cityName')}</td>
-            <td><a href = "javascript:;" onclick = "shop.openEdit(${value.id},'${value.name}','${value.info}','${avatar}','${value.time_open}','${value.time_close}','${value.permalink}',${value.cityId})">           
+            <td><a href = "javascript:;" onclick = "shop.openEdit(${result.id},'${value.get('name')}','${value.get('info')}','${avatar}','${value.get('time_open')}','${value.get('time_close')}','${value.get('permalink')}',${value.get('CityId')})">           
             <i class='fa fa-edit edit-btn'></i>Sửa</a ></td >
             <td><a href = 'javascript:;' onclick='deleteItem(${result.id})'><i class='fa fa-trash-alt delete-btn'></i>Xóa</a></td>
             </tr>`
