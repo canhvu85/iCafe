@@ -71,7 +71,7 @@ function showEditSuccessbyAlert(t) {
 }
 
 function showErrorbyAlert(t) {
-    Swal.fire({
+    return Swal.fire({
         icon: 'error',
         text: t
     })
@@ -113,7 +113,7 @@ function toSlug(str) {
     str = str.replace(/([^0-9a-z-\s])/g, '');
 
     // Xóa khoảng trắng thay bằng ký tự -
-    str = str.replace(/(\s+)/g, '_');
+    str = str.replace(/(\s+)/g, '-');
 
     // Xóa ký tự - liên tiếp
     str = str.replace(/-+/g, '-');
@@ -131,4 +131,25 @@ function sendMessage(message) {
     $(".alert, .alert-success").fadeTo(2000, 500).slideUp(500, function () {
         $(".alert, .alert-success").slideUp(2000);
     });
+}
+
+function unAuthorized() {
+    console.log("Unauthorized");
+    axios({
+        url: LogOut,
+        method: "POST",
+        headers: { 'content-type': 'application/json' },
+        data: JSON.stringify({
+            id: hdnUserSession.id,
+            updated_by: hdnUserSession.username
+        })
+    }).then(function () {
+        showErrorbyAlert("Bạn không có quyền thực hiện hành động này").then((result) => {
+            if (result.value) {
+                window.location.replace("/");
+            }
+        });
+    }).catch(function () {
+        alert("loi");
+    })
 }

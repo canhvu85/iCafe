@@ -13,10 +13,15 @@ namespace Test_coffe.Controllers.mobile.Services
 
         Object GetShop(int id);
 
-        void CreateShops(Shops shop);
+        Shops CreateShops(Shops shop);
 
-        void UpdateShops(int id, Shops shop);
+        string UpdateShops(int id, Shops shop);
+
+        void setActiveShop(int id, string username);
+
+        void setInActiveShop(int id, string username);
 
         void RemoveShops(int id, string username);
+
     }
 }

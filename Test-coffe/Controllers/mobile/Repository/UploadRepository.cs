@@ -164,10 +164,8 @@ namespace Test_coffe.Controllers.mobile.Repository
 
                 return "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName1 + '"' + "}";
                 //shop.thumb = uniqueFileName;
-            }
-
-            return "";
-
+            }else
+              return "";
         }
     }
 

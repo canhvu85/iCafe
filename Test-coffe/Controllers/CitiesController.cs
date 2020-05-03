@@ -41,6 +41,9 @@ namespace Test_coffe.Controllers
                 return View(await _context.Cities.ToListAsync());
             else
                 return RedirectToAction("Index", "Login");
+
+
+            //return View(await _context.Cities.ToListAsync());
         }
 
         // GET: Cities/Details/5

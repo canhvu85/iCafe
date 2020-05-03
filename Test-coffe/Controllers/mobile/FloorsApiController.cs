@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Test_coffe.Controllers.mobile.Services;
 using Test_coffe.Models;
 
 namespace Test_coffe.Controllers
@@ -14,17 +15,20 @@ namespace Test_coffe.Controllers
     public class FloorsApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private IFloors _floorsRepository;
 
-        public FloorsApiController(ApplicationDbContext context)
+        public FloorsApiController(ApplicationDbContext context, IFloors floorsRepository)
         {
             _context = context;
+            _floorsRepository = floorsRepository;
         }
 
         // GET: api/FloorsApi
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Floors>>> GetFloors(int? shop_id)
         {
-            return await _context.Floors.Where(f=>f.ShopsId==shop_id && f.isDeleted == false).ToListAsync();
+            //return await _context.Floors.Where(f=>f.ShopsId==shop_id && f.isDeleted == false).ToListAsync();
+            return _floorsRepository.GetAllFloors(shop_id);
         }
 
         // GET: api/FloorsApi/5
@@ -66,7 +70,8 @@ namespace Test_coffe.Controllers
                     floorOld.permalink = floors.permalink;
 
                 }
-                _context.Entry(floorOld).State = EntityState.Modified;
+                // _context.Entry(floorOld).State = EntityState.Modified;
+                _floorsRepository.UpdateFloor(id, floorOld);
 
                 try
                 {
@@ -101,10 +106,10 @@ namespace Test_coffe.Controllers
             }
             else
             {
-                _context.Floors.Add(floors);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("GetFloors", new { id = floors.id }, floors);
+                // _context.Floors.Add(floors);
+                // await _context.SaveChangesAsync();
+                _floorsRepository.CreateFloor(floors);
+                return NoContent();
             }
         }
 
@@ -118,20 +123,21 @@ namespace Test_coffe.Controllers
             }
             else
             {
-                var floorOld = _context.Floors.Find(id);
-                floorOld.isDeleted = true;
-                floorOld.deleted_at = DateTime.Now;
-                floorOld.deleted_by = name;
+                //var floorOld = _context.Floors.Find(id);
+                //floorOld.isDeleted = true;
+                //floorOld.deleted_at = DateTime.Now;
+                //floorOld.deleted_by = name;
 
-                using (var db = _context)
-                {
-                    //db.Users.Attach(user);
-                    db.Floors.Attach(floorOld);
-                    db.Entry(floorOld).Property(n => n.isDeleted).IsModified = true;
-                    db.Entry(floorOld).Property(i => i.deleted_at).IsModified = true;
-                    db.Entry(floorOld).Property(c => c.deleted_by).IsModified = true;
-                    db.SaveChanges();
-                }
+                //using (var db = _context)
+                //{
+                //    //db.Users.Attach(user);
+                //    db.Floors.Attach(floorOld);
+                //    db.Entry(floorOld).Property(n => n.isDeleted).IsModified = true;
+                //    db.Entry(floorOld).Property(i => i.deleted_at).IsModified = true;
+                //    db.Entry(floorOld).Property(c => c.deleted_by).IsModified = true;
+                //    db.SaveChanges();
+                //}
+                _floorsRepository.RemoveFloor(id,name);
 
                 return NoContent();
             }

@@ -32,8 +32,17 @@ namespace Test_coffe
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ICities, CitiesRepository>();
+
             services.AddTransient<IShops, ShopsRepository>();
             services.AddTransient<IUploadImage, UploadRepository>();
+            services.AddTransient<IProducts, ProductsRepository>();
+            services.AddTransient<IFloors, FloorsRepository>();
+            services.AddTransient<ITablesMobile, TablesMobileRepository>();
+
+            services.AddTransient<ICataloges, CatalogesRepository>();
+            services.AddTransient<ITables, TablesRepository>();
+            services.AddTransient<ILogin, LoginRepository>();
+
             SQLUtils._connStr = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddCors(options =>
@@ -135,6 +144,7 @@ namespace Test_coffe
             app.UseCors("Policy1");
             app.UseAuthorization();
             app.UseSession();
+            app.UseMiddleware<JwtTokenMiddleware>();
             app.UseMvc();
 
             app.UseSignalR(config =>

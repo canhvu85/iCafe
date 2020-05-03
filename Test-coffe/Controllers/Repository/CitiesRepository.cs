@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using System.Collections.Generic;
 using System.Linq;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
@@ -13,12 +12,12 @@ namespace Test_coffe.Controllers.Repository
         private string update_Cities;
         private string remove_Cities;
 
-        public List<Cities> GetAllCities()
+        public dynamic GetAllCities()
         {
             get_Cities = "SELECT [id],[name] FROM [Cities] WHERE [isDeleted] = 0 ORDER BY [name]";
 
             var query = SQLUtils.ExecuteCommand(SQLUtils._connStr,
-                      conn => conn.Query<Cities>(get_Cities)).ToList();
+                      conn => conn.Query(get_Cities));
             return query;
         }
 
@@ -37,14 +36,14 @@ namespace Test_coffe.Controllers.Repository
 
         public void UpdateCities(int id, Cities cities)
         {
-            update_Cities = "UPDATE [Cities] SET [name] = @name, [updated_at] = GETDATE(), " +
+            update_Cities = "UPDATE [Cities] SET [name] = @name, [permalink] = @permalink, [updated_at] = GETDATE(), " +
                                    "[updated_by] = @updated_by WHERE [id] = @id AND [isDeleted] = 0";
 
             SQLUtils.ExecuteCommand(SQLUtils._connStr, conn =>
-            {
-                var query = conn.Query<Cities>(update_Cities,
-                    new { name = cities.name, updated_by = cities.updated_by, id = id });
-            });
+                {
+                    var query = conn.Query<Cities>(update_Cities,
+                        new { name = cities.name, permalink = cities.permalink, updated_by = cities.updated_by, id = id });
+                });
         }
 
         public void RemoveCities(int id, string username)
@@ -58,7 +57,6 @@ namespace Test_coffe.Controllers.Repository
                     new { isDeleted = 1, deleted_by = username, id = id });
             });
         }
-
     }
 }
 

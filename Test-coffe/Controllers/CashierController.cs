@@ -12,11 +12,13 @@ namespace Test_coffe.Controllers
     {
         public IActionResult Index()
         {
-            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
-            if (user != null)
-                return View();
-            else
-                return RedirectToAction("Index", "Login");
+            //var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            //if (user != null)
+            //    return View();
+            //else
+            //    return RedirectToAction("Index", "Login");
+
+            return View();
         }
     }
 }

@@ -45,13 +45,14 @@ namespace Test_coffe.Controllers.mobile
         }
         //get by username, password, shopId
         [HttpPost("mobile/userlogin")]
-        public async Task<ActionResult<Users>> PostUser1(Users user)
+        public ActionResult<String> PostUser1(Users user)
         {
+
             var dateCurrent = DateTime.Now;
-            Console.WriteLine(user.username);
-            Console.WriteLine(user.password);
+            // Console.WriteLine(user.username);
+            // Console.WriteLine(user.password);
             var result = (from u in _context.Users
-                         // join s in _context.Shops on u.id equals s.id
+                              // join s in _context.Shops on u.id equals s.id
                           where u.isDeleted == false
                               && u.username == user.username
                               && u.password == user.password
@@ -60,12 +61,11 @@ namespace Test_coffe.Controllers.mobile
                               && dateCurrent <= u.Shops.time_close
                           select new
                           {
-                              id = u.id,
-                              name = u.name,
-                              images = u.images,
+                              u.id,
+                              u.name,
                               u.username,
-                              positionsId = u.PositionsId,
-                              shopsId = u.ShopsId
+                              u.PositionsId,
+                              u.ShopsId
                           }).FirstOrDefault();
 
             // Console.WriteLine(result);
@@ -75,9 +75,8 @@ namespace Test_coffe.Controllers.mobile
             }
             else
             {
-                var token = _tokenBuilder.BuildToken(user);
-
                 var userData = _context.Users.Find(result.id);
+                var token = _tokenBuilder.BuildToken(userData);
                 userData.remember_token = token;
                 _context.Update(userData);
                 _context.SaveChangesAsync();
@@ -88,8 +87,9 @@ namespace Test_coffe.Controllers.mobile
                 us.PositionsId = userData.PositionsId;
                 us.remember_token = token;
                 HttpContext.Session.SetObjectAsJson("user", us);
-                //return Ok(token);
-                return Ok(result);
+
+                return token;
+                //return CreatedAtAction("GetUser", "abc");
             }
 
         }

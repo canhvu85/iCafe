@@ -4,8 +4,11 @@
 //    displayItems();
 //});
 
-var hdnUserSession = $("#hdnUserSession").data("value");
-var shopId = hdnUserSession.ShopsId;
+//var hdnUserSession = $("#hdnUserSession").data("value");
+//var shopId = hdnUserSession.ShopsId;
+
+var UserSession = JSON.parse(sessionStorage.getItem('user'));
+var shopId = UserSession.ShopsId*1;
 
 function addItem(item) {
     if (item.trim().length > 0) {
@@ -13,7 +16,8 @@ function addItem(item) {
         let newData = {
             "name": item.trim(),
             "permalink": toSlug(item.trim()),
-            'shopsId': shopId
+            'shopsId': shopId,
+            "created_by": UserSession.username
         };
         axios({
             url: "/api/mobile/FloorsApi",
@@ -125,7 +129,8 @@ function editItem(tdid, val) {
             'id': tdid,
             'name': input.value.trim(),
             'permalink': toSlug(input.value.trim()),   
-            'shopsId': shopId
+            'shopsId': shopId,
+            'updated_by': UserSession.username
         }
         axios({
             url: "/api/mobile/FloorsApi/" + tdid,
@@ -208,7 +213,7 @@ function deleteItem(id) {
     }).then((result) => {
         if (result.value) {
             axios({
-                url: '/api/mobile/FloorsApi/del/' + parseInt(id) + "/?name=vu",
+                url: '/api/mobile/FloorsApi/del/' + parseInt(id) + "/?name=" + UserSession.username,
                 method: 'put',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function (response) {

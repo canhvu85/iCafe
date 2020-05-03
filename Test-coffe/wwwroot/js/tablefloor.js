@@ -1,5 +1,7 @@
-﻿var hdnUserSession = $("#hdnUserSession").data("value");
-var shopId = hdnUserSession.ShopsId;
+﻿//var hdnUserSession = $("#hdnUserSession").data("value");
+//var shopId = hdnUserSession.ShopsId;
+var UserSession = JSON.parse(sessionStorage.getItem('user'));
+var shopId = UserSession.ShopsId * 1;
 
 var floorList = [];
 getFloors();
@@ -258,11 +260,18 @@ function deleteItem(id) {
     }).then((result) => {
         if (result.value) {
             axios({
-                url: '/api/mobile/TablesApi/del/' + parseInt(id) + "/?name=vu",
+                url: '/api/mobile/TablesApi/del/' + parseInt(id) + "/?name=" + UserSession.username,
                 method: 'put',
                 headers: { 'Content-Type': 'application/json' }
-            }).then(function () {
-                displayItems($("#FilterFloor").val());
+            }).then(function (response) {
+                if (response.status == 200) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Cảnh báo',
+                        text: response.data
+                    });
+                }else
+                    displayItems($("#FilterFloor").val());
             }).catch(function (error) {
                 Swal.fire({
                     icon: 'error',

@@ -180,54 +180,16 @@ namespace Test_coffe.Controllers
                 shop.time_open = DateTime.Parse(HttpContext.Request.Form["time_open"]);
                 shop.time_close = DateTime.Parse(HttpContext.Request.Form["time_close"]);
                 shop.updated_at = DateTime.Now;
-                shop.updated_by = "vu";
+                var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+                shop.updated_by = user.username;
                 shop.CitiesId = int.Parse(HttpContext.Request.Form["CityId"]);
                 //shop.avatar = "abc";
                 var httpPostedFile = HttpContext.Request.Form.Files["avatarFile"];
-           
-                shop.images = _uploadImage.changeImage(_hostingEnvironment, httpPostedFile, "shops", shop.id);
-                //if (httpPostedFile != null)
-                //{
-                //    string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops/" + shop.id);
-                //    string uniqueFileName = null;
-                //    string uniqueFileName1 = null;
-
-                //    string uploadsFolder = directory;
-                //    uniqueFileName = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-                //    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                //    httpPostedFile.CopyTo(new FileStream(filePath, FileMode.Create));
-                //    // shop.avatar = uniqueFileName;
-
-                //    //string uploadsFolder1 = directory + "/thumb";
-                //    //string filePath1 = Path.Combine(uploadsFolder1, uniqueFileName);
-                //    //var input_Image_Path = filePath;
-                //    // var output_Image_Path = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/thumb");
-                //    uniqueFileName1 = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-                //    using (var stream = httpPostedFile.OpenReadStream())
-                //    {
-                //        var uploadedImage = Image.FromStream(stream);
-                //        var x = uploadedImage.Width;
-                //        var y = uploadedImage.Height;
-                //        if (x > y)
-                //        {
-                //            x = 175;
-                //            y = y / x * 175;
-                //        }
-                //        else
-                //        {
-                //            y = 150;
-                //            x = x / y * 150;
-                //        }
-                //        //returns Image file
-                //        var img = ImageResize.Scale(uploadedImage, x, y);
-
-                //        img.SaveAs(uploadsFolder + "/" + uniqueFileName1);
-                //    }
-
-                //    shop.images = "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName1 + '"' + "}";
-                //    //shop.thumb = uniqueFileName;
-                //}
-
+                var img = _uploadImage.changeImage(_hostingEnvironment, httpPostedFile, "shops", shop.id);
+                if (img != "") {
+                    shop.images = img;
+                }
+                
                 using (var db = _context)
                 {
                     db.Shops.Attach(shop);
@@ -259,24 +221,57 @@ namespace Test_coffe.Controllers
         [HttpPut("del/{id}")]
         public IActionResult SoftDeleteShop(int id, string name)
         {
-            //if (id != shop.id)
-            //{
-            //    return BadRequest();
-            //}
-            var shopOld = _context.Shops.Find(id);
-            shopOld.isDeleted = true;
-            shopOld.deleted_at = DateTime.Now;
-            shopOld.deleted_by = name;
-            // var shop1 = new Shops() { id = shop.id, isDeleted = shop.isDeleted, deleted_at = DateTime.Now, deleted_by = shop.deleted_by };
-            using (var db = _context)
+            var shop = _context.Shops.FindAsync(id);
+            if (shop == null)
             {
-                //db.Users.Attach(user);
-                db.Shops.Attach(shopOld);
-                db.Entry(shopOld).Property(n => n.isDeleted).IsModified = true;
-                db.Entry(shopOld).Property(i => i.deleted_at).IsModified = true;
-                db.Entry(shopOld).Property(c => c.deleted_by).IsModified = true;
-                db.SaveChanges();
+                return NotFound();
             }
+            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            _shopsRepository.RemoveShops(id, user.username);
+
+            //var shopOld = _context.Shops.Find(id);
+            //shopOld.isDeleted = true;
+            //shopOld.deleted_at = DateTime.Now;
+            //shopOld.deleted_by = name;
+            //// var shop1 = new Shops() { id = shop.id, isDeleted = shop.isDeleted, deleted_at = DateTime.Now, deleted_by = shop.deleted_by };
+            //using (var db = _context)
+            //{
+            //    //db.Users.Attach(user);
+            //    db.Shops.Attach(shopOld);
+            //    db.Entry(shopOld).Property(n => n.isDeleted).IsModified = true;
+            //    db.Entry(shopOld).Property(i => i.deleted_at).IsModified = true;
+            //    db.Entry(shopOld).Property(c => c.deleted_by).IsModified = true;
+            //    db.SaveChanges();
+            //}
+
+            return NoContent();
+        }
+
+        [HttpPut("inactive/{id}")]
+        public IActionResult InActiveShop(int id, string name)
+        {
+            var shop = _context.Shops.FindAsync(id);
+            if (shop == null)
+            {
+                return NotFound();
+            }
+            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            _shopsRepository.setInActiveShop(id, user.username);
+
+            return NoContent();
+        }
+
+
+        [HttpPut("active/{id}")]
+        public IActionResult ActiveShop(int id, string name)
+        {
+            var shop = _context.Shops.FindAsync(id);
+            if (shop == null)
+            {
+                return NotFound();
+            }
+            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            _shopsRepository.setActiveShop(id, user.username);
 
             return NoContent();
         }
@@ -312,112 +307,16 @@ namespace Test_coffe.Controllers
             shop.permalink = HttpContext.Request.Form["permalink"];
             shop.time_open = DateTime.Parse(HttpContext.Request.Form["time_open"]);
             shop.time_close = DateTime.Parse(HttpContext.Request.Form["time_close"]);
-            
+            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            shop.created_by = user.username;
+
             _context.Shops.Add(shop);
             await _context.SaveChangesAsync();
-            //shop.avatar = "abc";
+              
             var httpPostedFile = HttpContext.Request.Form.Files["avatarFile"];
           
             shop.images = _uploadImage.upload(_hostingEnvironment,httpPostedFile, "shops", shop.id);
-
-            //if (httpPostedFile != null)
-            //{
-            //    string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops");
-            //    if (!Directory.Exists(directory))
-            //    {
-            //        Directory.CreateDirectory(directory);
-            //    }
-
-            //    string subDirectory = directory + "/" + shop.id;
-            //    if (!Directory.Exists(subDirectory))
-            //    {
-            //        Directory.CreateDirectory(subDirectory);
-            //    }
-
-            //    string uniqueFileName = null;
-            //    string uniqueFileName1 = null;
-            //    string uploadsFolder = subDirectory;
-            //    if (!Directory.Exists(uploadsFolder))
-            //    {
-            //        Directory.CreateDirectory(uploadsFolder);
-            //    }
-
-            //    // string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/avatar");
-            //    uniqueFileName = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-            //    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-            //    httpPostedFile.CopyTo(new FileStream(filePath, FileMode.Create));
-
-            //    // shop.avatar = uniqueFileName;
-
-            //    //string uploadsFolder1 = subDirectory + "/thumb";
-            //    //if (!Directory.Exists(uploadsFolder1))
-            //    //{
-            //    //    Directory.CreateDirectory(uploadsFolder1);
-            //    //}
-            //    //string filePath1 = Path.Combine(uploadsFolder1, uniqueFileName);
-            //    //var input_Image_Path = filePath;
-            //    // var output_Image_Path = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/thumb");
-            //    uniqueFileName1 = Guid.NewGuid().ToString() + "_" + httpPostedFile.FileName;
-            //    using (var stream = httpPostedFile.OpenReadStream())
-            //    {
-            //        var uploadedImage = Image.FromStream(stream);
-            //        var x = uploadedImage.Width;
-            //        var y = uploadedImage.Height;
-            //        if (x > y)
-            //        {
-            //            x = 175;
-            //            y = y / x * 175;
-            //        }
-            //        else
-            //        {
-            //            y = 150;
-            //            x = x / y * 150;
-            //        }
-            //        //returns Image file
-            //        var img = ImageResize.Scale(uploadedImage, x, y);
-            //        img.SaveAs(uploadsFolder + "/" + uniqueFileName1);
-            //    }
-
-            //    shop.images = "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName1 + '"' + "}";
-            //    //shop.thumb = uniqueFileName;
-            //}
-            //else
-            //{
-            //    string directory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops");
-            //    if (!Directory.Exists(directory))
-            //    {
-            //        Directory.CreateDirectory(directory);
-            //    }
-
-            //    string subDirectory = directory + "/" + shop.id;
-            //    if (!Directory.Exists(subDirectory))
-            //    {
-            //        Directory.CreateDirectory(subDirectory);
-            //    }
-
-            //    string uploadsFolder = subDirectory;
-            //    if (!Directory.Exists(uploadsFolder))
-            //    {
-            //        Directory.CreateDirectory(uploadsFolder);
-            //    }
-
-            //    //string uploadsFolder1 = subDirectory + "/thumb";
-            //    //if (!Directory.Exists(uploadsFolder1))
-            //    //{
-            //    //    Directory.CreateDirectory(uploadsFolder1);
-            //    //}
-
-            //    string n = shop.id.ToString();
-            //    string sourceDir = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-            //    string backupDir = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/shops" + n);
-            //    string uniqueFileName = null;
-            //    uniqueFileName = "no-image.png";
-            //    //System.IO.File.Copy(Path.Combine(sourceDir, "default.png"), Path.Combine(uploadsFolder, uniqueFileName), true);
-            //    //System.IO.File.Copy(Path.Combine(sourceDir, "default.png"), Path.Combine(uploadsFolder1, uniqueFileName), true);
-            //    //shop.avatar = uniqueFileName;
-            //    //shop.thumb = uniqueFileName;
-            //    shop.images = "{" + '"' + "avatar" + '"' + ":" + '"' + uniqueFileName + '"' + "," + '"' + "thumb" + '"' + ":" + '"' + uniqueFileName + '"' + "}";
-            //}
+         
             await _context.SaveChangesAsync();
           //  var shops = GetAllShops();
             return CreatedAtAction("GetShop", new { id = shop.id }, new { shop.id, shop.images });

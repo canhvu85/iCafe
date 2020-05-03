@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
@@ -15,22 +14,22 @@ namespace Test_coffe.Controllers
     public class CitiesAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly ITokenBuilder _tokenBuilder;
-        private bool isExpired;
-        private ICities _citiesRepository;
+        private readonly ICities _citiesRepository;
 
-        public CitiesAPIController(ApplicationDbContext context, ITokenBuilder tokenBuilder, ICities citiesRepository)
+        public CitiesAPIController(ApplicationDbContext context, ICities citiesRepository)
         {
             _context = context;
-            _tokenBuilder = tokenBuilder;
             _citiesRepository = citiesRepository;
         }
 
         // GET: api/CitiesAPI
+        //[EnableCors("Policy1")]
         [HttpGet]
         public IActionResult GetCity2()
         {
             var result = _citiesRepository.GetAllCities();
+            //Console.WriteLine(result.id);
+
             return Ok(result);
         }
 
@@ -38,14 +37,8 @@ namespace Test_coffe.Controllers
         [HttpGet("withtoken")]
         public IActionResult GetCityToken()
         {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
-            {
-                var result = _citiesRepository.GetAllCities();
-                return Ok(result);
-            }
-            else
-                return Unauthorized();
+            var result = _citiesRepository.GetAllCities();
+            return Ok(result);
         }
 
         // PUT: api/CitiesAPI/5
@@ -54,20 +47,14 @@ namespace Test_coffe.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCities(int id, Cities cities)
         {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
+            if (id != cities.id)
             {
-                if (id != cities.id)
-                {
-                    return BadRequest();
-                }
-                var user = HttpContext.Session.GetObjectFromJson<Users>("user");
-                cities.updated_by = user.username;
-                _citiesRepository.UpdateCities(id, cities);
-                return NoContent();
+                return BadRequest();
             }
-            else
-                return Unauthorized();
+            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            cities.updated_by = user.username;
+            _citiesRepository.UpdateCities(id, cities);
+            return NoContent();
         }
 
         // POST: api/CitiesAPI
@@ -76,37 +63,24 @@ namespace Test_coffe.Controllers
         [HttpPost]
         public async Task<ActionResult<Cities>> PostCities(Cities cities)
         {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
-            {
-                var user = HttpContext.Session.GetObjectFromJson<Users>("user");
-                cities.created_by = user.username;
-                cities.permalink = "hello";
-                _citiesRepository.CreateCities(cities);
-                return NoContent();
-            }
-            else
-                return Unauthorized();
+            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            cities.created_by = user.username;
+            _citiesRepository.CreateCities(cities);
+            return NoContent();
         }
 
         // DELETE: api/CitiesAPI/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Cities>> DeleteCity(int id)
         {
-            isExpired = _tokenBuilder.isExpiredToken();
-            if (isExpired == false)
+            var cities = await _context.Cities.FindAsync(id);
+            if (cities == null)
             {
-                var cities = await _context.Cities.FindAsync(id);
-                if (cities == null)
-                {
-                    return NotFound();
-                }
-                var user = HttpContext.Session.GetObjectFromJson<Users>("user");
-                _citiesRepository.RemoveCities(id, user.username);
-                return NoContent();
+                return NotFound();
             }
-            else
-                return Unauthorized();
+            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            _citiesRepository.RemoveCities(id, user.username);
+            return NoContent();
         }
     }
 }

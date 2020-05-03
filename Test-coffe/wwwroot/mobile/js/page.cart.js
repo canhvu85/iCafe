@@ -336,7 +336,7 @@ $(".nav-cart").on("click", function () {
 })
 
 //gui thu ngan
-let user = JSON.parse(localStorage.getItem('user'));
+let user = JSON.parse(sessionStorage.getItem('user'));
 var un = user.username;
 var table_status;
 var bill_id;

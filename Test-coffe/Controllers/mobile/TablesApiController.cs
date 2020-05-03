@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Test_coffe.Controllers.mobile.Services;
 using Test_coffe.Models;
 
 namespace Test_coffe.Controllers
@@ -14,17 +15,20 @@ namespace Test_coffe.Controllers
     public class TablesApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private ITablesMobile _tablesMobileRepository;
 
-        public TablesApiController(ApplicationDbContext context)
+        public TablesApiController(ApplicationDbContext context, ITablesMobile tablesMobileRepository)
         {
             _context = context;
+            _tablesMobileRepository = tablesMobileRepository;
         }
 
         // GET: api/TablesApi
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tables>>> GetTable(int? shop_id)
         {
-            return await _context.Tables.Include(t => t.Floors).Where(t => t.Floors.ShopsId == shop_id && t.isDeleted == false).ToListAsync();
+            // return await _context.Tables.Include(t => t.Floors).Where(t => t.Floors.ShopsId == shop_id && t.isDeleted == false).ToListAsync();
+            return _tablesMobileRepository.GetAllTablesShop(shop_id);
         }
 
         [HttpGet("floor")]
@@ -32,7 +36,8 @@ namespace Test_coffe.Controllers
         {
             if (floor_id != null)
             {
-                return await _context.Tables.Include(t=>t.Floors).Where(t => t.Floors.id == floor_id && t.isDeleted == false).ToListAsync();
+                //return await _context.Tables.Include(t=>t.Floors).Where(t => t.Floors.id == floor_id && t.isDeleted == false).ToListAsync();
+                return _tablesMobileRepository.GetAllTablesFloor(floor_id);
             }
             else
                 return NoContent();
@@ -74,6 +79,7 @@ namespace Test_coffe.Controllers
                 tableOld = _context.Tables.Find(id);
 
                 tableOld.status = table.status;
+
                 if (table.name != null)
                 {
                     var tableOld1 = _context.Tables.Where(t => t.permalink == table.permalink 
@@ -116,22 +122,29 @@ namespace Test_coffe.Controllers
         [HttpPut("del/{id}")]
         public IActionResult SoftDeleteTable(int id, String name)
         {
-          
-            var tableOld = _context.Tables.Find(id);
-            tableOld.isDeleted = true;
-            tableOld.deleted_at = DateTime.Now;
-            tableOld.deleted_by = name;
-           
-            using (var db = _context)
+            var bill = _context.Bills.Where(b => b.TablesId == id).ToList().FirstOrDefault();
+            if (bill != null)
             {
-                //db.Users.Attach(user);
-                db.Tables.Attach(tableOld);
-                db.Entry(tableOld).Property(n => n.isDeleted).IsModified = true;
-                db.Entry(tableOld).Property(i => i.deleted_at).IsModified = true;
-                db.Entry(tableOld).Property(c => c.deleted_by).IsModified = true;
-                db.SaveChanges();
+                return Content("Bàn này đã có bill, không thể xóa!");
             }
+            else
+            {
+                //var tableOld = _context.Tables.Find(id);
+                //tableOld.isDeleted = true;
+                //tableOld.deleted_at = DateTime.Now;
+                //tableOld.deleted_by = name;
 
+                //using (var db = _context)
+                //{
+                //    //db.Users.Attach(user);
+                //    db.Tables.Attach(tableOld);
+                //    db.Entry(tableOld).Property(n => n.isDeleted).IsModified = true;
+                //    db.Entry(tableOld).Property(i => i.deleted_at).IsModified = true;
+                //    db.Entry(tableOld).Property(c => c.deleted_by).IsModified = true;
+                //    db.SaveChanges();
+                //}
+                _tablesMobileRepository.RemoveTable(id, name);
+            }
             return NoContent();
         }
 

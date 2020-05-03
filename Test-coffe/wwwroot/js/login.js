@@ -61,11 +61,15 @@ function login() {
         data: JSON.stringify(users)
     }).then(function (response) {
         console.log(response);
+        console.log(response.data);
         if (response.status == 200 || response.status == 202) {
             showErrorbyAlert(response.data);
         } else if (response.status == 201) {
             showSuccessbyAlert('Đăng nhập hệ thống thành công.')
             localStorage.setItem('user', JSON.stringify(response.data[0]));
+            var user = jwt_decode(response.data);
+            user.remember_token = response.data;
+            localStorage.setItem('user', JSON.stringify(user));
             setTimeout(function () {
                 window.location.replace("/cashier");
             }, 2000);

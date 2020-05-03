@@ -1,5 +1,7 @@
-﻿var shop = shop || {};
-var hdnUserSession = $("#hdnUserSession").data("value");
+﻿
+var shop = shop || {};
+//var hdnUserSession = $("#hdnUserSession").data("value");
+var UserSession = sessionStorage.getItem('user');
 
 let connection = new signalR.HubConnectionBuilder().withUrl("/signalServer").build()
 
@@ -136,7 +138,7 @@ function createShop(value) {
             <td>${value.get('cityName')}</td>
             <td><a href = "javascript:;" onclick = "shop.openEdit(${result.id},'${value.get('name')}','${value.get('info')}','${avatar}','${value.get('time_open')}','${value.get('time_close')}','${value.get('permalink')}',${value.get('CityId')})">           
             <i class='fa fa-edit edit-btn'></i>Sửa</a ></td >
-            <td><a href = 'javascript:;' onclick='deleteItem(${result.id})'><i class='fa fa-trash-alt delete-btn'></i>Xóa</a></td>
+            <td><a href='javascript:;' onclick='inActiveItem(${result.id})' class='btn btn-primary'><i class='fas fa-toggle-on'></i>  Đang hoạt động</a></td>
             </tr>`
         );
 
@@ -225,18 +227,27 @@ function showList() {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': hdnUserSession.remember_token
+            'Authorization': UserSession.remember_token           
         }
     }).then(function (response) {
         let data = response.data;
         $("#tbList").html("");
         $.each(data, function (index, value) {
-            let avatar = value.images != null ? JSON.parse(value.images).thumb : "#";
+            console.log(value.images);
+            let avatar = value.images != "" ? JSON.parse(value.images).thumb : "#";
             //len truoc
             var dateOpen = new Date(value.time_open);
             dateOpen = `${dateOpen.getDate()}/${(dateOpen.getMonth() + 1)}/${dateOpen.getFullYear()}`;
             var dateClose = new Date(value.time_close);
             dateClose = `${dateClose.getDate()}/${(dateClose.getMonth() + 1)}/${dateClose.getFullYear()}`;
+            console.log(value.isDeleted);
+            let btn = "";
+            if (!value.isDeleted) {
+                btn = `<td><a href='javascript:;' onclick='inActiveItem(${value.id})' class='btn btn-primary'><i class='fas fa-toggle-on'></i>  Đang hoạt động</a></td>`;
+               
+            } else 
+                btn = `<td><a href='javascript:;' onclick='activeItem(${value.id})' class='btn btn-warning'><i class='fas fa-toggle-off'></i>  Không hoạt động</a></td>`;
+           
             $("#tbList").prepend(
                 `<tr id='c${value.id}'>
                 <td>${value.name}</td>
@@ -247,9 +258,10 @@ function showList() {
                 <td>${value.cityName}</td>
                 <td><a href = "javascript:;" onclick = "shop.openEdit(${value.id},'${value.name}','${value.info}','${avatar}','${value.time_open}','${value.time_close}','${value.permalink}',${value.cityId})">             
                 <i class='fa fa-edit edit-btn'></i>Sửa</a ></td >
-                <td><a href = 'javascript:;' onclick='deleteItem(${value.id})'><i class='fa fa-trash-alt delete-btn'></i>Xóa</a></td>
+                ${btn}
                 </tr>`
             );
+            
         });
     });
 }
@@ -402,7 +414,7 @@ function editBtn(idEdit, value) {
                 'Thêm thông tin thành công.',
                 'success'
             );
-
+            var lastTD = $("#c" + shop_id + " td:last-child").html();
             let avatar = result != null ? result.thumb : "#";
             //len truoc
             idEdit += "";
@@ -419,7 +431,7 @@ function editBtn(idEdit, value) {
             <td>${value.get('cityName')}</td>
             <td><a href = "javascript:;" onclick = "shop.openEdit(${value.get('id')},'${value.get('name')}','${value.get('info')}','${avatar}','${value.get('time_open')}','${value.get('time_close')}','${value.get('permalink')}',${value.get('CityId')})">
             <i class='fa fa-edit edit-btn'></i>Sửa</a ></td >
-            <td><a href = 'javascript:;' onclick='deleteItem(${value.get('id')})'><i class='fa fa-trash-alt delete-btn'></i>Xóa</a></td>`
+            <td>${lastTD}</td>`
             );
         }
     }, (error) => {
@@ -467,6 +479,53 @@ function deleteBtn(shop_id) {
                     // Do something with the result
                     //showList();
                     $("#c" + shop_id).html("");              
+            });
+        }
+    })
+}
+
+
+function inActiveItem(shop_id) {  
+    Swal.fire({
+        title: 'Bạn chắc chắn muốn đóng shop này?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Vâng, đóng nó đi!',
+        cancelButtonText: 'Hủy',
+    }).then((result) => {
+        if (result.value) {
+            axios({
+                url: '/api/mobile/ShopsApi/inactive/' + parseInt(shop_id) + "/?name=" + UserSession.username,
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' }
+                // data: JSON.stringify(data),
+            }).then(function () {
+                $("#c" + shop_id + " td:last-child").html(`<a href='javascript:;' onclick='activeItem(${shop_id})' class='btn btn-warning'><i class='fas fa-toggle-off'></i>  Không hoạt động</a>`);
+            });
+        }
+    })
+}
+
+function activeItem(shop_id) {
+    Swal.fire({
+        title: 'Bạn chắc chắn muốn mở lại shop này?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Vâng, mở nó đi!',
+        cancelButtonText: 'Hủy',
+    }).then((result) => {
+        if (result.value) {
+            axios({
+                url: '/api/mobile/ShopsApi/active/' + parseInt(shop_id) + "/?name=" + UserSession.username,
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' }
+                // data: JSON.stringify(data),
+            }).then(function () {
+                $("#c" + shop_id + " td:last-child").html(`<a href='javascript:;' onclick='inActiveItem(${shop_id})' class='btn btn-primary'><i class='fas fa-toggle-on'></i>  Đang hoạt động</a>`);
             });
         }
     })

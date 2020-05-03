@@ -34,8 +34,8 @@ if (table_temp != null) {
 console.log("aa");
 console.log(table_temp);
 
-let user = JSON.parse(localStorage.getItem('user'));
-let shop_id = user.ShopsId;
+var user = JSON.parse(sessionStorage.getItem('user'));
+var shop_id = user.ShopsId*1;
 
 let str_name = '';
 str_name += '<div class="" style="float: left; padding: 10px;">' +

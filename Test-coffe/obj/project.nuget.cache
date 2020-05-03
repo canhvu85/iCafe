@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "x9lT9+XeX8yFjqr8rTPJuA12yn7/dYwnmrtZy9czHxVzbtJ6oGc2zsHPF+2t8nfJQ9ghoygXHCMRguJ57Sb2ZQ==",
+  "dgSpecHash": "KeZwSUq6pBBeBKFlr8VnYdFlpVeYLcPE6eL2ocAihJSw636K9RApqOIuKBK09BUZov1BeETwI/lWiVPniwOZ+g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Phan Anh Vu\\Desktop\\github vu\\iCafe\\Test-coffe\\Test-coffe.csproj",
+  "projectFilePath": "C:\\Users\\Phan Anh Vu\\Desktop\\github\\iCafe\\Test-coffe\\Test-coffe.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\dapper\\2.0.35\\dapper.2.0.35.nupkg.sha512",
     "C:\\Users\\Phan Anh Vu\\.nuget\\packages\\lazziya.imageresize\\2.0.0\\lazziya.imageresize.2.0.0.nupkg.sha512",

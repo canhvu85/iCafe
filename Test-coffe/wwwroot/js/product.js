@@ -1,5 +1,8 @@
-﻿var hdnUserSession = $("#hdnUserSession").data("value");
-var shopId = hdnUserSession.ShopsId;
+﻿//var hdnUserSession = $("#hdnUserSession").data("value");
+//var shopId = hdnUserSession.ShopsId;
+
+var UserSession = JSON.parse(sessionStorage.getItem('user'));
+var shopId = UserSession.ShopsId;
 
 var product = product || {};
 
@@ -205,7 +208,7 @@ function showList(cataId) {
         var ss = [];
 
         $.each(data, function (index, value) {
-            let avatar = value.images != null ? JSON.parse(value.images).thumb : "#";
+            let avatar = value.images != "" ? JSON.parse(value.images).thumb : "#";
             var m = [];
             m.push(value.id);
             m.push(value.name);
@@ -567,15 +570,13 @@ function deleteBtn(product_id, data) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: '/api/mobile/ProductsApi/del/' + parseInt(product_id) + "/?name=vu",
+                url: '/api/mobile/ProductsApi/del/' + parseInt(product_id) + "/?name=" + UserSession.username,
                 type: 'PUT',
                 dataType: "json",
                 contentType: "application/json",
                // data: JSON.stringify(data),
                 success: function () {
-                    // Do something with the result
-                    //showList();
-                    //$("#c" + shop_id).html("");
+                    
                     $('#tbl2').dataTable().fnDeleteRow(document.getElementById("c" + product_id));
                 }
             });

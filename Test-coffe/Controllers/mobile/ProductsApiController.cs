@@ -21,72 +21,74 @@ namespace Test_coffe.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
         private IUploadImage _uploadImage;
+        private IProducts _productsRepository;
 
-        public ProductsApiController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment, IUploadImage uploadImage)
+        public ProductsApiController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment, IUploadImage uploadImage, IProducts productsRepository)
         {
             _context = context;
             _uploadImage = uploadImage;
             this._hostingEnvironment = hostingEnvironment;
-        
+            _productsRepository = productsRepository;
         }
 
         // GET: api/ProductsApi
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Products>>> GetProductList(int? cataId)
         {
-           
-            if (cataId == null)
-            {
-               var  result = from s in _context.Products
-                             join c in _context.Cataloges on s.CatalogesId equals c.id
-                             where s.isDeleted == false
-                             orderby s.created_at descending
-                             select new
-                             {
-                                 id = s.id,
-                                 name = s.name,
-                                 price = s.price,
-                                 images = s.images,
-                                 unit = s.unit,
-                                 permalink = s.permalink,
-                                 isDeleted = s.isDeleted,
-                                 deleted_at = s.deleted_at,
-                                 deleted_by = s.deleted_by,
-                                 created_at = s.created_at,
-                                 created_by = s.created_by,
-                                 updated_at = s.updated_at,
-                                 updated_by = s.updated_by,
-                                 catalogeId = c.id,
-                                 catalogeName = c.name
-                             };
-                return Ok(result);
-            }
-            else
-            {
-              var  result = from s in _context.Products
-                             join c in _context.Cataloges on s.CatalogesId equals c.id
-                             where s.isDeleted == false && cataId == s.CatalogesId
-                            orderby s.updated_at descending
-                            select new
-                             {
-                                 id = s.id,
-                                 name = s.name,
-                                 price = s.price,
-                                 images = s.images,
-                                 unit = s.unit,
-                                 permalink = s.permalink,
-                                 isDeleted = s.isDeleted,
-                                 deleted_at = s.deleted_at,
-                                 deleted_by = s.deleted_by,
-                                 created_at = s.created_at,
-                                 created_by = s.created_by,
-                                 updated_at = s.updated_at,
-                                 updated_by = s.updated_by,
-                                 catalogeId = c.id,
-                                 catalogeName = c.name
-                             };
-                return Ok(result);
-            }
+            var result = _productsRepository.GetAllProductsByCataloge(cataId);
+            return Ok(result);
+            //if (cataId == null)
+            //{
+            //   var  result = from s in _context.Products
+            //                 join c in _context.Cataloges on s.CatalogesId equals c.id
+            //                 where s.isDeleted == false
+            //                 orderby s.created_at descending
+            //                 select new
+            //                 {
+            //                     id = s.id,
+            //                     name = s.name,
+            //                     price = s.price,
+            //                     images = s.images,
+            //                     unit = s.unit,
+            //                     permalink = s.permalink,
+            //                     isDeleted = s.isDeleted,
+            //                     deleted_at = s.deleted_at,
+            //                     deleted_by = s.deleted_by,
+            //                     created_at = s.created_at,
+            //                     created_by = s.created_by,
+            //                     updated_at = s.updated_at,
+            //                     updated_by = s.updated_by,
+            //                     catalogeId = c.id,
+            //                     catalogeName = c.name
+            //                 };
+            //    return Ok(result);
+            //}
+            //else
+            //{
+            //  var  result = from s in _context.Products
+            //                 join c in _context.Cataloges on s.CatalogesId equals c.id
+            //                 where s.isDeleted == false && cataId == s.CatalogesId
+            //                orderby s.updated_at descending
+            //                select new
+            //                 {
+            //                     id = s.id,
+            //                     name = s.name,
+            //                     price = s.price,
+            //                     images = s.images,
+            //                     unit = s.unit,
+            //                     permalink = s.permalink,
+            //                     isDeleted = s.isDeleted,
+            //                     deleted_at = s.deleted_at,
+            //                     deleted_by = s.deleted_by,
+            //                     created_at = s.created_at,
+            //                     created_by = s.created_by,
+            //                     updated_at = s.updated_at,
+            //                     updated_by = s.updated_by,
+            //                     catalogeId = c.id,
+            //                     catalogeName = c.name
+            //                 };
+            //    return Ok(result);
+            //}
             
            // return await _context.Products.ToListAsync();
         }
@@ -104,8 +106,9 @@ namespace Test_coffe.Controllers
             }
             else
             {
-                return  _context.Products.Where(p => p.Cataloges.ShopsId == shop_id && p.isDeleted == false).ToList();
-               
+                // return  _context.Products.Where(p => p.Cataloges.ShopsId == shop_id && p.isDeleted == false).ToList();
+                var result = _productsRepository.GetAllProductsByShop(shop_id);
+                return Ok(result);
             }
 
         }
@@ -124,29 +127,30 @@ namespace Test_coffe.Controllers
             }
             else
             {
-                //return  _context.Products.Where(p => p.Cataloges.ShopsId == shop_id && p.isDeleted == false).ToList();
-                var result = from s in _context.Products
-                             join c in _context.Cataloges on s.CatalogesId equals c.id
-                             where s.isDeleted == false && shop_id == s.Cataloges.ShopsId
-                             orderby s.updated_at descending
-                             select new
-                             {
-                                 id = s.id,
-                                 name = s.name,
-                                 price = s.price,
-                                 images = s.images,
-                                 unit = s.unit,
-                                 permalink = s.permalink,
-                                 isDeleted = s.isDeleted,
-                                 deleted_at = s.deleted_at,
-                                 deleted_by = s.deleted_by,
-                                 created_at = s.created_at,
-                                 created_by = s.created_by,
-                                 updated_at = s.updated_at,
-                                 updated_by = s.updated_by,
-                                 catalogeId = c.id,
-                                 catalogeName = c.name
-                             };
+                ////return  _context.Products.Where(p => p.Cataloges.ShopsId == shop_id && p.isDeleted == false).ToList();
+                //var result = from s in _context.Products
+                //             join c in _context.Cataloges on s.CatalogesId equals c.id
+                //             where s.isDeleted == false && shop_id == s.Cataloges.ShopsId
+                //             orderby s.updated_at descending
+                //             select new
+                //             {
+                //                 id = s.id,
+                //                 name = s.name,
+                //                 price = s.price,
+                //                 images = s.images,
+                //                 unit = s.unit,
+                //                 permalink = s.permalink,
+                //                 isDeleted = s.isDeleted,
+                //                 deleted_at = s.deleted_at,
+                //                 deleted_by = s.deleted_by,
+                //                 created_at = s.created_at,
+                //                 created_by = s.created_by,
+                //                 updated_at = s.updated_at,
+                //                 updated_by = s.updated_by,
+                //                 catalogeId = c.id,
+                //                 catalogeName = c.name
+                //             };
+                var result = _productsRepository.GetAllProductsByShopCp(shop_id);
                 return Ok(result);
 
             }
@@ -203,12 +207,16 @@ namespace Test_coffe.Controllers
             product.permalink = HttpContext.Request.Form["permalink"];
             product.unit = HttpContext.Request.Form["unit"];
             product.updated_at = DateTime.Now;
-            product.updated_by = "vu";
+            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            product.updated_by = user.username;
             product.CatalogesId = int.Parse(HttpContext.Request.Form["CatalogeId"]);
             //shop.avatar = "abc";
             var httpPostedFile = HttpContext.Request.Form.Files["avatarFile"];
-           
-            product.images = _uploadImage.changeImage(_hostingEnvironment,httpPostedFile,"products",product.id);
+            var img = _uploadImage.changeImage(_hostingEnvironment, httpPostedFile, "products", product.id);
+            if (img != "")
+            {
+                product.images = img;
+            }
       
             using (var db = _context)
             {
@@ -236,25 +244,22 @@ namespace Test_coffe.Controllers
         [HttpPut("del/{id}")]
         public IActionResult SoftDeleteProduct(int id, String name)
         {
-            //if (id != product.id)
-            //{
-            //    return BadRequest();
-            //}
-            var productOld = _context.Products.Find(id);
-            productOld.isDeleted = true;
-            productOld.deleted_at = DateTime.Now;
-            productOld.deleted_by = name;
-           // var product1 = new Products() { id = product.id, isDeleted = product.isDeleted, deleted_at = DateTime.Now, deleted_by = product.deleted_by };
-            using (var db = _context)
-            {
-                //db.Users.Attach(user);
-                db.Products.Attach(productOld);
-                db.Entry(productOld).Property(n => n.isDeleted).IsModified = true;
-                db.Entry(productOld).Property(i => i.deleted_at).IsModified = true;
-                db.Entry(productOld).Property(c => c.deleted_by).IsModified = true;
-                db.SaveChanges();
-            }
 
+            //var productOld = _context.Products.Find(id);
+            //productOld.isDeleted = true;
+            //productOld.deleted_at = DateTime.Now;
+            //productOld.deleted_by = name;
+
+            //using (var db = _context)
+            //{
+            //    //db.Users.Attach(user);
+            //    db.Products.Attach(productOld);
+            //    db.Entry(productOld).Property(n => n.isDeleted).IsModified = true;
+            //    db.Entry(productOld).Property(i => i.deleted_at).IsModified = true;
+            //    db.Entry(productOld).Property(c => c.deleted_by).IsModified = true;
+            //    db.SaveChanges();
+            //}
+            _productsRepository.RemoveProducts(id, name);
             return NoContent();
         }
 
@@ -279,6 +284,8 @@ namespace Test_coffe.Controllers
             product.permalink = HttpContext.Request.Form["permalink"];
             product.unit = HttpContext.Request.Form["unit"];
             product.CatalogesId = int.Parse(HttpContext.Request.Form["CatalogeId"]);
+            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
+            product.created_by = user.username;
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
             

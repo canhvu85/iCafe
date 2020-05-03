@@ -220,8 +220,8 @@
 
 
 
-var hdnUserSession = $("#hdnUserSession").data("value");
-
+//var hdnUserSession = $("#user").data("value");
+let user = JSON.parse(localStorage.getItem('user'));
 
 $(document).ready(function () {
     displayItems();
@@ -242,7 +242,7 @@ function displayItems() {
         method: "GET",
         headers: {
             'content-type': 'application/json',
-            'Authorization': hdnUserSession.remember_token
+            'Authorization': user.remember_token
         }
     }).then(function (response) {
         $("#tbList").html("");
@@ -265,14 +265,15 @@ function displayItems() {
 function addItem(item) {
     if (item.trim().length > 0) {
         let newData = {
-            "name": item.trim()
+            "name": item.trim().replace(/([^0-9a-z-\s])/g, ''),
+            "permalink": toSlug(item.trim())
         };
         axios({
             method: 'POST',
             url: GetCity,
             headers: {
                 'content-type': 'application/json',
-                'Authorization': hdnUserSession.remember_token
+                'Authorization': user.remember_token
             },
             data: newData
         }).then(function () {
@@ -319,14 +320,15 @@ function editItem(tdid, val) {
         // btnChange.onclick = function () {
         var newData = {
             'id': tdid,
-            'name': input.value.trim()
+            'name': input.value.trim().replace(/([^0-9a-z-\s])/g, ''),
+            "permalink": toSlug(input.value.trim())
         }
         axios({
             method: 'PUT',
             url: GetCity + "/" + tdid,
             headers: {
                 'content-type': 'application/json',
-                'Authorization': hdnUserSession.remember_token
+                'Authorization': user.remember_token
             },
             data: newData
         }).then(function () {
@@ -375,7 +377,7 @@ function deleteItem(id) {
                 url: GetCity + "/" + parseInt(id),
                 headers: {
                     'content-type': 'application/json',
-                    'Authorization': hdnUserSession.remember_token
+                    'Authorization': user.remember_token
                 }
             }).then(function () {
                 displayItems();
@@ -431,3 +433,8 @@ function abc() {
     });
 
 }
+
+
+
+
+

@@ -60,13 +60,7 @@ function getTables() {
 	//	crossDomain: true,
 	//	beforeSend: function (xhr) {
 	//		xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-
-	//		xhr.setRequestHeader('Authorization', hdnUserSession.token);
-
 	//		xhr.setRequestHeader('Authorization', hdnUserSession.remember_token);
-
-	//		xhr.setRequestHeader('Authorization', hdnUserSession.remember_token);
-
 	//	},
 	//	url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
 	//	method: "GET",
@@ -78,13 +72,7 @@ function getTables() {
 
 	//$.ajax({
 	//	beforeSend: function (xhr) {
-
-	//		xhr.setRequestHeader('Authorization', hdnUserSession.token);
-
 	//		xhr.setRequestHeader('Authorization', hdnUserSession.remember_token);
-
-	//		xhr.setRequestHeader('Authorization', hdnUserSession.remember_token);
-
 	//	},
 	//	url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
 	//	method: "GET",
@@ -92,34 +80,6 @@ function getTables() {
 	//	contentType: "application/json"
 	//}).done(function (data) {
 	//	console.log(data)
-	//});
-
-
-	//axios({
-	//	url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
-	//	method: "GET",
-	//	headers: {
-	//		'content-type': 'application/json',
-	//		'Authorization': "hdnUserSession.token"
-	//	},
-	//}).then(function (response) {
-	//	console.log(response);
-	//	let str = '';
-	//	let active = ' active';
-	//	$.each(response.data, function (index, value) {
-	//		str += `<div class="num-table col-md-2 ${active}">
-	//			<a href="#main-order-${value.id}">
-	//			<h2 id="${value.id}">${value.name}</h2>
-	//			</a>
-	//			</div>`;
-	//		active = '';
-	//	});
-	//	$(".list-table").html(str);
-	//	table_click();
-	//	getBill(response.data[0].id, response.data[0].name);
-	//	tablesId = response.data[0].id;
-	//}).catch(function () {
-	//	console.log("Loiiiiiiiii");
 	//});
 
 
@@ -535,3 +495,4 @@ $("#logOut").on("click", function () {
 		alert("loi");
 	})
 });
+
