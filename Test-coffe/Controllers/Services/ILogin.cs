@@ -9,5 +9,7 @@ namespace Test_coffe.Controllers.Services
     public interface ILogin
     {
         dynamic GetUser(Users users);
+
+        void Register(Users users);
     }
 }

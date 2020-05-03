@@ -1,15 +1,15 @@
 
 
 function readTextFile(file, callback) {
-    let rawFile = new XMLHttpRequest();
-    rawFile.overrideMimeType("application/json");
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function () {
-        if (rawFile.readyState === 4 && rawFile.status == "200") {
-            callback(rawFile.responseText);
-        }
-    }
-    rawFile.send(null);
+	let rawFile = new XMLHttpRequest();
+	rawFile.overrideMimeType("application/json");
+	rawFile.open("GET", file, true);
+	rawFile.onreadystatechange = function () {
+		if (rawFile.readyState === 4 && rawFile.status == "200") {
+			callback(rawFile.responseText);
+		}
+	}
+	rawFile.send(null);
 }
 
 var table01 = {};
@@ -34,17 +34,20 @@ if (table_temp != null) {
 console.log("aa");
 console.log(table_temp);
 
-let user = JSON.parse(localStorage.getItem('user'));
-let shop_id = user.ShopsId;
+var user = JSON.parse(sessionStorage.getItem('user'));
+var shop_id = user.ShopsId * 1;
 
 let str_name = '';
 str_name += '<div class="" style="float: left; padding: 10px;">' +
 	'<label>' + user.username + ' Mobile' + '</label>' +
-			'</div>';
+	'</div>';
 $("#nav-top .nav_tablet_mobile").html(str_name);
 
 function TableList() {
 	$.ajax({
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader('Authorization', user.remember_token);
+		},
 		url: "/api/mobile/TablesApi/?shop_id=" + shop_id,
 		method: "GET",
 		dataType: "json",
@@ -106,12 +109,11 @@ function TableList() {
 				$(".cart-checkout .cart-money-total span").html(addCommas(total));
 				$(".cart-checkout-fix").css("display", "flex");
 			}
-			
+
 		} else {
 			if (table_cur_ls != null) table_cur = table_cur_ls;
 			if (table_name_to_cart_ls != null) table_name_to_cart = table_name_to_cart_ls;
-			if (table_id_to_cart_ls != null)
-			{
+			if (table_id_to_cart_ls != null) {
 				table_id_to_cart = table_id_to_cart_ls;
 				firstTable = table_id_to_cart_ls;
 			}
@@ -125,7 +127,7 @@ function TableList() {
 		localStorage.setItem('table_id_to_cart', table_id_to_cart);
 		console.log(table_cur);
 		//	localStorage.setItem('table01', JSON.stringify(table01));		
-		
+
 		//BillDetailList(firstTable);
 		//BillOfTable(firstTable)
 
@@ -144,6 +146,9 @@ function TableList() {
 }
 
 $.ajax({
+	beforeSend: function (xhr) {
+		xhr.setRequestHeader('Authorization', user.remember_token);
+	},
 	url: "/api/mobile/CatalogesAPI/?shop_id=" + shop_id,
 	method: "GET",
 	async: false,
@@ -174,6 +179,9 @@ $.ajax({
 
 function ProductList() {
 	$.ajax({
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader('Authorization', user.remember_token);
+		},
 		url: "/api/mobile/ProductsApi/shop/?shop_id=" + shop_id,
 		method: "GET",
 		dataType: "json",
@@ -184,16 +192,16 @@ function ProductList() {
 			console.log(data);
 			let items;
 			let active = ' active';
-				for (var i = 0; i < groupItemCount; i++) {
+			for (var i = 0; i < groupItemCount; i++) {
 				items = data.filter(function (rs) {
 					return rs.catalogesId == groupItemArray[i];
 				});
-					console.log(items);
+				console.log(items);
 				let j = items.length;
 				if (j > 0) {
 					let str = `<div id="group-item-${groupItemArray[i]}" class="list-items ${active}">`;
 					for (let k = 0; k < j; k++) {
-						let avatar = items[k].images != null ? JSON.parse(items[k].images).avatar: "#";
+						let avatar = items[k].images != null ? JSON.parse(items[k].images).avatar : "#";
 						str += `<div class="item" data-id="${items[k].id}" data-name="${items[k].name}" data-price="${items[k].price}" data-avatar="${avatar}">
 							<div class="item-img">
 							<img width="50px" height="50px" src="../uploads/products/${items[k].id}/${avatar}" onerror="loadImageError(this)">
@@ -228,7 +236,7 @@ function ProductList() {
 //			return rs.group_id == groupItemArray[i];
 //		});
 //		let j = items.length;
-		
+
 //		if(j>0){
 //		    let str = '<div id="group-item-'+groupItemArray[i]+'" class="list-items'+active+'">';
 //		    for(let k = 0; k < j; k++) {
@@ -275,16 +283,16 @@ function changeTable(table_per, table_id) {
 	if (table01[table_per].length == 0) {
 		$(".cart-checkout .cart-count-total").html('');
 		$(".cart-checkout .cart-money-total span").html("Giỏ Hàng");
-		$(".cart-checkout-fix").css("display", "flex");		
+		$(".cart-checkout-fix").css("display", "flex");
 	} else {
-		$.each(table01[table_cur], function() {		    
-			let q = this.item_quantity;	
-				q *= 1;
-			    let p = this.item_price;
-				total += p * q;
-				countItem += q;
-		    });
-		
+		$.each(table01[table_cur], function () {
+			let q = this.item_quantity;
+			q *= 1;
+			let p = this.item_price;
+			total += p * q;
+			countItem += q;
+		});
+
 		// let str2 = countItem + " | Giỏ hàng " + addCommas(total) + ' đ' + ' ->';
 		// $("#btnCheckout").html(str2);
 		$(".cart-checkout .cart-count-total").html(countItem);
@@ -292,12 +300,12 @@ function changeTable(table_per, table_id) {
 		$(".cart-checkout-fix").css("display", "flex");
 	}
 
-	var table_name = $('#'+table_cur).data('name');
+	var table_name = $('#' + table_cur).data('name');
 	let str = '';
-	str +=	`<div>
+	str += `<div>
 			<p><b>${table_name}</b></p>
 			<p>${user.username}</p>
-			</div>`;		
+			</div>`;
 	$("#table-order-name").html(str);
 
 	table_name_to_cart = table_name;
@@ -311,22 +319,22 @@ function changeTable(table_per, table_id) {
 	//BillOfTable(table_id);
 
 
-	 // Click table on Mobile
-    //$(".num-table a").click(function() {
-    //	$(".list-table-mobile .num-table").removeClass("active");
-    //	$(this).parent().addClass("active");
-    	
-    //	$(".main-order").css("display", "none");
-    //	$($(this).attr("href")).css("display", "block");
+	// Click table on Mobile
+	//$(".num-table a").click(function() {
+	//	$(".list-table-mobile .num-table").removeClass("active");
+	//	$(this).parent().addClass("active");
 
-    //	$(".list-table-extend-mobile button").eq(0).css("display", "inline-block");
-    //	$(".list-table-extend-mobile button").eq(1).css("display", "none");
-    //	$(".list-table-mobile").height(70);
-    //	$(".container .main-order-left").css("display", "block");
-    //	$(".container .main-order-right").eq(0).css("display", "block");
-    //	$(".nav_overlay_mobile").css("display", "none");
-    //	return false;
-    //});
+	//	$(".main-order").css("display", "none");
+	//	$($(this).attr("href")).css("display", "block");
+
+	//	$(".list-table-extend-mobile button").eq(0).css("display", "inline-block");
+	//	$(".list-table-extend-mobile button").eq(1).css("display", "none");
+	//	$(".list-table-mobile").height(70);
+	//	$(".container .main-order-left").css("display", "block");
+	//	$(".container .main-order-right").eq(0).css("display", "block");
+	//	$(".nav_overlay_mobile").css("display", "none");
+	//	return false;
+	//});
 	$("#list-table .num-table").on("click", function () {
 		$(".list-table-mobile .num-table").removeClass("active");
 		$(this).addClass("active");
@@ -354,48 +362,48 @@ function changeTable(table_per, table_id) {
 }
 
 function changeGroupItem() {
-	$(".item-group a").on("click", function() {
-    	$(".item-group").removeClass("active");
-    	$(this).parent().addClass("active");
-    	$(".group-list-items-mobile .list-items").removeClass("active");
-    	$($(this).attr("href")).addClass("active");
-    	return false;
-    });
+	$(".item-group a").on("click", function () {
+		$(".item-group").removeClass("active");
+		$(this).parent().addClass("active");
+		$(".group-list-items-mobile .list-items").removeClass("active");
+		$($(this).attr("href")).addClass("active");
+		return false;
+	});
 }
 
 function btnPlus() {
-    // $(".item-btn .btn-plus").click(function() {
-    $(".group-list-items-mobile .item").click(function() {
-    	$("#btnCheckout").css("display", "block");
-        let itemId = $(this).data("id");
-    	let name = $(this).data("name");
+	// $(".item-btn .btn-plus").click(function() {
+	$(".group-list-items-mobile .item").click(function () {
+		$("#btnCheckout").css("display", "block");
+		let itemId = $(this).data("id");
+		let name = $(this).data("name");
 		let price = $(this).data("price");
 		let avatar = $(this).data("avatar");
 		//if (avatar == "no-image.png") {
 		//	avatar = "#";
-  //      }
+		//      }
 		let k = false;
 		console.log(table_cur);
 		$.each(table01[table_cur], function () {
 			if (this.item_id == parseInt(itemId)) {
-		    	let q = this.item_quantity + 1;
-		        this.item_quantity = q;
+				let q = this.item_quantity + 1;
+				this.item_quantity = q;
 				this.money = q * price;
-		        k = true;
-		    }
+				k = true;
+			}
 		});
 
-		if (!k) {			
+		if (!k) {
 			let table = new Tables(0, 0,
 				parseInt(table_id_to_cart), itemId,
-								   name, price,
-								   1, price,
-								   avatar
+				name, price,
+				1, price,
+				avatar
 			);
 			table01[table_cur].push(table);
 
 			//table01[table_cur].push({
-   //           	"id": bill_detail_id_max + 1,
+			//           	"id": bill_detail_id_max + 1,
 			//	"bill_id": 1,
 			//	"table_id": table_id_to_cart,
 			//	"item_id": itemId,
@@ -404,35 +412,35 @@ function btnPlus() {
 			//	"item_quantity": 1,
 			//	"money": price,
 			//	"avatar": avatar
-   //         });
-			
-	    // 	let str = '' +
-		   //  	'<div class="bill-items">' +
-			  //   '<div class="col-md-5">'+
-			  //   '<p>'+name+'</p>'+
-			  //   '<p>Giá: '+addCommas(price)+' vnđ</p>'+
-			  //   '</div>'+
-			  //   '<div class="col-md-3" style="text-align: center;">'+
-			  //   	'<button class="btn-minus"><i class="fa fa-minus"></i></button>'+
-					// '<span>'+
-					// '1' +
-					// '</span>'+
-					// '<button class="btn-plus"><i class="fa fa-plus"></i></button>'+
-			  //   '</div>'+
-			  //   '<div class="col-md-4" style="text-align: right;">'+
-			  //   '<p>'+addCommas(price)+' vnđ</p>'+
-			  //   '</div>'+
-			  //   '</div>';
+			//         });
 
-		   //  $("#table-bill-1").append(str);
+			// 	let str = '' +
+			//  	'<div class="bill-items">' +
+			//   '<div class="col-md-5">'+
+			//   '<p>'+name+'</p>'+
+			//   '<p>Giá: '+addCommas(price)+' vnđ</p>'+
+			//   '</div>'+
+			//   '<div class="col-md-3" style="text-align: center;">'+
+			//   	'<button class="btn-minus"><i class="fa fa-minus"></i></button>'+
+			// '<span>'+
+			// '1' +
+			// '</span>'+
+			// '<button class="btn-plus"><i class="fa fa-plus"></i></button>'+
+			//   '</div>'+
+			//   '<div class="col-md-4" style="text-align: right;">'+
+			//   '<p>'+addCommas(price)+' vnđ</p>'+
+			//   '</div>'+
+			//   '</div>';
+
+			//  $("#table-bill-1").append(str);
 
 			total += price;
-			countItem ++;
+			countItem++;
 			// let str2 = countItem + " | Giỏ hàng " + addCommas(total) + ' đ' + ' ->';
 			// $("#btnCheckout").html(str2);
 			$(".cart-checkout .cart-count-total").html(countItem);
 			$(".cart-checkout .cart-money-total span").html(addCommas(total));
-	    	
+
 		}
 		else {
 			// let str = '';
@@ -457,24 +465,27 @@ function btnPlus() {
 			// $("#table-bill-1").html(str);
 
 			total += price;
-			countItem ++;
+			countItem++;
 			// let str2 = countItem + " | Giỏ hàng " + addCommas(total) + ' đ' + ' ->';
-	    	// $("#btnCheckout").html(str2);
+			// $("#btnCheckout").html(str2);
 
-	    	$(".cart-checkout .cart-count-total").html(countItem);
+			$(".cart-checkout .cart-count-total").html(countItem);
 			$(".cart-checkout .cart-money-total span").html(addCommas(total));
 
 		}
 		$(".cart-checkout-fix").css("display", "flex");
 
 		localStorage.setItem('table01', JSON.stringify(table01));
-    });
+	});
 }
 
 
 function BillOfTable(table_id) {
 	$("#total-money-1 .col-md-4").html("");
 	$.ajax({
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader('Authorization', user.remember_token);
+		},
 		url: "/api/mobile/BillsApi/?table_id=" + table_id,
 		method: "GET",
 		dataType: "json",
@@ -494,17 +505,20 @@ function BillOfTable(table_id) {
 			//});	
 			str = '';
 			str += `<p><b>${addCommas(data[0].total_money)}</b></p>`;
-				$("#total-money-1 .col-md-4").html(str);
+			$("#total-money-1 .col-md-4").html(str);
 		},
 		error: function (error) {
 			$("#total-money-1 .col-md-4").html("");
-        }
+		}
 	});
 }
 
 function BillDetailList(table_id) {
 	$("#table-bill-1").html("");
 	$.ajax({
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader('Authorization', user.remember_token);
+		},
 		url: "/api/mobile/BillDetailsApi/?table_id=" + table_id,
 		method: "GET",
 		dataType: "json",

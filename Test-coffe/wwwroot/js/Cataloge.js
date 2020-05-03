@@ -251,13 +251,13 @@
 
 
 
-var hdnUserSession = $("#hdnUserSession").data("value");
-console.log("shopsId  " + hdnUserSession.ShopsId);
+//var hdnUserSession = $("#hdnUserSession").data("value");
+//console.log("shopsId  " + user.ShopsId);
 
-//let user = JSON.parse(localStorage.getItem('user'));
+let user = JSON.parse(sessionStorage.getItem('user'));
 
 $(document).ready(function () {
-    displayItems(hdnUserSession.ShopsId);
+    displayItems(user.ShopsId);
 });
 
 $("#formCreate").submit(function (event) {
@@ -272,7 +272,7 @@ function displayItems(shopsId) {
         method: "GET",
         headers: {
             'content-type': 'application/json',
-            'Authorization': hdnUserSession.remember_token
+            'Authorization': user.remember_token
         }
     }).then(function (response) {
         $("#tbList").html("");
@@ -296,20 +296,21 @@ function addItem(item) {
         let newData = {
             "name": item.trim().replace(/([^0-9a-z-\s])/g, ''),
             "permalink": toSlug(item.trim()),
-            "shopsId": hdnUserSession.ShopsId
+            "shopsId": user.ShopsId,
+            "created_by": user.username
         };
         axios({
             url: GetCataloge,
             method: "POST",
             headers: {
                 'content-type': 'application/json',
-                'Authorization': hdnUserSession.remember_token
+                'Authorization': user.remember_token
             },
             data: newData
         }).then(function () {
             $("#formCreate")[0].reset();
             showSuccessbyAlert('Tạo danh mục mới thành công.')
-            displayItems(hdnUserSession.ShopsId);
+            displayItems(user.ShopsId);
         }).catch(function () {
             unAuthorized();
         });
@@ -349,14 +350,15 @@ function editItem(tdid, val) {
         var newData = {
             'id': tdid,
             'name': input.value.trim().replace(/([^0-9a-z-\s])/g, ''),
-            "permalink": toSlug(input.value.trim())
+            "permalink": toSlug(input.value.trim()),
+            "updated_by": user.username
         }
         axios({
             url: GetCataloge + "/" + tdid,
             method: "PUT",
             headers: {
                 'content-type': 'application/json',
-                'Authorization': hdnUserSession.remember_token
+                'Authorization': user.remember_token
             },
             data: newData
         }).then(function () {
@@ -368,7 +370,7 @@ function editItem(tdid, val) {
             $(input).remove();
             $("#span" + tdid).show();
 
-            displayItems(hdnUserSession.ShopsId);
+            displayItems(user.ShopsId);
         }).catch(function () {
             $("#showEdit").modal("hide");
             unAuthorized();
@@ -389,7 +391,7 @@ function editItem(tdid, val) {
         $(input).remove();
         $("#span" + tdid).show("slow");
 
-        displayItems(hdnUserSession.ShopsId);
+        displayItems(user.ShopsId);
     };
     form.appendChild(btnCancel);
     $("#span" + tdid).hide();
@@ -405,10 +407,10 @@ function deleteItem(id) {
                 method: "DELETE",
                 headers: {
                     'content-type': 'application/json',
-                    'Authorization': hdnUserSession.remember_token
+                    'Authorization': user.remember_token
                 }
             }).then(function () {
-                displayItems(hdnUserSession.ShopsId);
+                displayItems(user.ShopsId);
             }).catch(function (data) {
                 showErrorbyAlert(data.responseText)
                 unAuthorized();

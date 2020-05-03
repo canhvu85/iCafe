@@ -6,7 +6,7 @@ $( document ).ready(function() {
 	    }
 	    else {
             // var name = localStorage.getItem('user');
-            let user = JSON.parse(localStorage.getItem('user'));
+            let user = JSON.parse(sessionStorage.getItem('user'));
             // console.log(user);
             if(user == null) {
                 window.location.replace("..");       

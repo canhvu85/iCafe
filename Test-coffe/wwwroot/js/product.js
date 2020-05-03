@@ -1,5 +1,8 @@
-﻿var hdnUserSession = $("#hdnUserSession").data("value");
-var shopId = hdnUserSession.ShopsId;
+﻿//var hdnUserSession = $("#hdnUserSession").data("value");
+//var shopId = hdnUserSession.ShopsId;
+
+var UserSession = JSON.parse(sessionStorage.getItem('user'));
+var shopId = UserSession.ShopsId;
 
 var product = product || {};
 
@@ -39,6 +42,9 @@ for (let i = 0; i < catalogeList.length; i++) {
 
 function getCataloges() {
     $.ajax({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', UserSession.remember_token);
+		},
         url: "api/mobile/CatalogesAPI/?shop_id=" + shopId,
         method: "GET",
         dataType: "json",
@@ -77,6 +83,9 @@ product.openAddProduct = function (number) {
 
 function createProduct(value) {
     $.ajax({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', UserSession.remember_token);
+        },
         url: "/api/mobile/ProductsApi/",
         method: "POST",
         contentType: false,
@@ -195,6 +204,9 @@ function showList(cataId) {
     }
 
     $.ajax({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', UserSession.remember_token);
+        },
         url: st,
         method: "GET",
         dataType: "json",
@@ -205,7 +217,7 @@ function showList(cataId) {
         var ss = [];
 
         $.each(data, function (index, value) {
-            let avatar = value.images != null ? JSON.parse(value.images).thumb : "#";
+            let avatar = value.images != "" ? JSON.parse(value.images).thumb : "#";
             var m = [];
             m.push(value.id);
             m.push(value.name);
@@ -442,6 +454,9 @@ $('#eavatar').change(function () {
 
 function editBtn(idEdit, value) {
     $.ajax({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', UserSession.remember_token);
+        },
         url: "/api/mobile/ProductsApi/" + idEdit,
         method: "PUT",
         contentType: false,
@@ -567,15 +582,16 @@ function deleteBtn(product_id, data) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: '/api/mobile/ProductsApi/del/' + parseInt(product_id) + "/?name=vu",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', UserSession.remember_token);
+                },
+                url: '/api/mobile/ProductsApi/del/' + parseInt(product_id) + "/?name=" + UserSession.username,
                 type: 'PUT',
                 dataType: "json",
                 contentType: "application/json",
                // data: JSON.stringify(data),
                 success: function () {
-                    // Do something with the result
-                    //showList();
-                    //$("#c" + shop_id).html("");
+                    
                     $('#tbl2').dataTable().fnDeleteRow(document.getElementById("c" + product_id));
                 }
             });

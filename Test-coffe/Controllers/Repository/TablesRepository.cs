@@ -28,7 +28,7 @@ namespace Test_coffe.Controllers.Repository
             SQLUtils.ExecuteCommand(SQLUtils._connStr, conn =>
             {
                 var query = conn.Query<Tables>(update_Tables,
-                    new { status = Tables.status, updated_by = Tables.updated_by, id = id });
+                    new { Tables.status, Tables.updated_by, id });
             });
         }
     }

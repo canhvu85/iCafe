@@ -2,8 +2,10 @@
 //let user = JSON.parse(localStorage.getItem('user'));
 let totalMn;
 
-var hdnUserSession = $("#hdnUserSession").data("value");
-console.log("shopsId  " + hdnUserSession.ShopsId);
+//var hdnUserSession = $("#hdnUserSession").data("value");
+//console.log("shopsId  " + hdnUserSession.ShopsId);
+
+let user = JSON.parse(sessionStorage.getItem('user'));
 
 getBillsId();
 getBillDetails(parseInt($("#billsList tr:first td:first").text()));
@@ -17,7 +19,7 @@ function getBillDetails(billsId) {
 		method: "GET",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		}
 	}).then(function (response) {
 		$("#billsDTList").html("");
@@ -70,10 +72,10 @@ function findByDate(startDate, endDate) {
 		"ordering": true,
 		"info": true,
 		"ajax": {
-			"url": `api/BillsAPI/shop/${hdnUserSession.ShopsId}/date/${startDate}/${endDate}`,
+			"url": `api/BillsAPI/shop/${user.ShopsId}/date/${startDate}/${endDate}`,
 			"headers": {
 				'content-type': 'application/json',
-				'Authorization': hdnUserSession.remember_token
+				'Authorization': user.remember_token
 			},
 			"dataSrc": ""
 		},

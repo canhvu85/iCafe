@@ -1,0 +1,307 @@
+﻿@model IEnumerable<Test_coffe.Models.Bills>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@functions{
+    public string addCommas(string nStr)
+    {
+        nStr = new String(nStr.ToCharArray().Reverse().ToArray());
+        var groups = nStr.Select((c, ix) => new { Char = c, Index = ix })
+                     .GroupBy(x => x.Index / 3)
+                     .Select(g => String.Concat(g.Select(x => x.Char)));
+        string result = string.Join(".", groups);
+        result = new String(result.ToCharArray().Reverse().ToArray());
+        return result;
+    }
+}
+
+@section css{
+    <link rel="stylesheet" href="~/AdminLTE-3.0.2/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" type="text/css" href="~/css/sweetalert.css">
+    <link rel="stylesheet" href="~/css/style.css">
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Thống Kê</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Thống Kê</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-3">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Date picker</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Date range -->
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="far fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control float-right datePicker" id="datePicker">
+                            <button class="text-muted" id="datePickerBtn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                    <!-- /.form group -->
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Month Year picker</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Date range -->
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <select id="monthPicker" class="form-control float-right">
+                                        <option value="0">Tháng</option>
+                                        @for (var i = 1; i < 13; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+
+                        <div class="col-5">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <select id="yearPicker" class="form-control float-right">
+                                        <option value="0">Năm</option>
+                                        @{
+                                            var yearNow = @DateTime.Now.Year;
+                                        }
+                                        @for (var i = 2019; i <= @yearNow; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <button class="text-muted" style="padding: 7px" id="monthYearBtn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- /.form group -->
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+
+        <div class="col-5">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Date range</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Date range -->
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control float-right dateRangeLeft" id="dateRangeLeft">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+
+                        <div class="col-5">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control float-right dateRangeRight" id="dateRangeRight">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <button class="text-muted" style="padding: 7px" id="dateRangeBtn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.form group -->
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Hóa đơn</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            @*<tr style="white-space: nowrap;">*@
+                            <tr>
+                                <th>id</th>
+                                <th>
+                                    Bàn
+                                </th>
+                                <th>Tài Khoản</th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.time_out)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.sub_total)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.fee_service)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.total_money)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.status)
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="billsList">
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Tables.name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.created_by)
+                                    </td>
+                                    <td>
+                                        @Html.ValueFor(modelItem => item.time_out, "{0:dd/MM/yyyy}")
+                                        @*@Html.DisplayFor(modelItem => item.time_out)*@
+                                    </td>
+                                    <td>
+                                        @addCommas(item.sub_total.ToString()) vnđ
+                                        @*@Html.DisplayFor(modelItem => item.sub_total)*@
+                                    </td>
+                                    <td>
+                                        @addCommas(item.fee_service.ToString()) vnđ
+                                        @*@Html.DisplayFor(modelItem => item.fee_service)*@
+                                    </td>
+                                    <td>
+                                        @addCommas(item.total_money.ToString()) vnđ
+                                        @*@Html.DisplayFor(modelItem => item.total_money)*@
+                                    </td>
+                                    <td>
+                                        @{ var txt = "";
+                                            if (item.status == 0)
+                                                txt = "<span class='badge bg-danger'>Chưa thanh toán</span>";
+                                            else
+                                                txt = "<span class='badge bg-secondary'>Đã thanh toán</span>";
+                                        }
+                                        @Html.Raw(txt)
+
+                                        @*(@Html.DisplayFor(modelItem => item.status)*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="6">Tổng cộng: </th>
+                                <th colspan="2" style="text-align: right;" id="totalMoney"></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Hóa đơn chi tiết</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive" style="max-height: 101vh">
+                    <table class="table table-bordered" style="border: 1px solid #dee2e6">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên / Giá</th>
+                                <th>SL</th>
+                                <th>Tổng Tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody id="billsDTList">
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="~/AdminLTE-3.0.2/plugins/moment/moment.min.js"></script>
+    <script src="~/AdminLTE-3.0.2/plugins/daterangepicker/daterangepicker.js"></script>
+    <script type="text/javascript" src="~/js/sweetalert-dev.js"></script>
+    <script type="text/javascript" src="~/js/lib.js"></script>
+    <script src="~/js/script.js"></script>
+    <script type="text/javascript">
+       var GetBillDetail = "@Url.Action("GetBillDetail2", "BillDetailsAPI")";
+    </script>
+    <script src="~/js/statistical.js"></script>
+}

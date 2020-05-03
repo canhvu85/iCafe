@@ -13,6 +13,7 @@ namespace Test_coffe.Controllers.Services
     public class JwtTokenMiddleware
     {
         private readonly RequestDelegate _next;
+        private string _token;
 
         public JwtTokenMiddleware(RequestDelegate next)
         {
@@ -21,27 +22,36 @@ namespace Test_coffe.Controllers.Services
 
         public async Task Invoke(HttpContext httpContext, ITokenBuilder tokenBuilder)
         {
-            if (httpContext.Request.Path == "/api/CitiesAPI" ||
-               httpContext.Request.Path.StartsWithSegments("/api/ShopsAPI") ||
-               httpContext.Request.Path.StartsWithSegments("/uploads") ||
-                !httpContext.Request.Path.StartsWithSegments("/api"))
+            if (httpContext.Request.Path.StartsWithSegments("/api"))
             {
-                await _next(httpContext);
-            }
-            else
-            {
-                var isExpired = tokenBuilder.isExpiredToken();
-                if (isExpired == false)
+                if (httpContext.Request.Path == "/api/CitiesAPI" ||
+                     httpContext.Request.Path == "/api/mobile/CitiesAPI" ||
+                     httpContext.Request.Path.StartsWithSegments("/api/mobile/ShopsApi") ||
+                     httpContext.Request.Path.StartsWithSegments("/api/mobile/UsersApi") ||
+                     httpContext.Request.Path.StartsWithSegments("/api/ShopsAPI"))
                 {
                     await _next(httpContext);
                 }
                 else
                 {
-                    httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                    await httpContext.Response.WriteAsync("Access denied !");
+                    string remember_token = httpContext.Request.Headers["Authorization"];
+                    _token = remember_token;
+                    var isExpired = tokenBuilder.isExpiredToken();
+                    if (isExpired == false)
+                    {
+                        await _next(httpContext);
+                    }
+                    else
+                    {
+                        httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        await httpContext.Response.WriteAsync("Access denied !");
+                    }
                 }
             }
-
+            else
+            {
+                await _next(httpContext);
+            }
         }
     }
 

@@ -33,29 +33,32 @@ namespace Test_coffe.Controllers.Services
                 new Claim("ShopsId", users.ShopsId.ToString()),
                 new Claim("PositionsId", users.PositionsId.ToString())
             };
-            var jwt = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddMinutes(5), signingCredentials: signingCredentials);
+            var jwt = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddMinutes(15), signingCredentials: signingCredentials);
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             return encodedJwt;
         }
 
         public bool isExpiredToken()
         {
-            var user = _httpContextAccessor.HttpContext.Session.GetObjectFromJson<Users>("user");
+            //var user = _httpContextAccessor.HttpContext.Session.GetObjectFromJson<Users>("user");
             string remember_token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
-
-            if (_context.Users.Any(u => u.username == user.username && u.remember_token == remember_token))
+            Console.WriteLine(remember_token);
+            var token = new JwtSecurityTokenHandler().ReadJwtToken(remember_token);
+            var username = token.Claims.First(claim => claim.Type == "username").Value;
+            var ShopsId = int.Parse(token.Claims.First(claim => claim.Type == "ShopsId").Value);
+            if (_context.Users.Any(u => u.username == username && u.ShopsId == ShopsId && u.remember_token == remember_token))
             {
                 var jwttoken = new JwtSecurityTokenHandler().ReadToken(remember_token);
                 var expTime = jwttoken.ValidTo;
                 var currentTime = DateTime.UtcNow;
-                Console.WriteLine("remember_token " + remember_token);
+                //Console.WriteLine("remember_token " + remember_token);
                 Console.WriteLine("jwttoken " + jwttoken);
                 Console.WriteLine("exp " + expTime);
                 Console.WriteLine("current " + currentTime);
 
                 //var jwttoken2 = new JwtSecurityTokenHandler().ReadJwtToken(remember_token);
-                var jwttoken2 = jwttoken as JwtSecurityToken;
-                Console.WriteLine("ShopsId " + jwttoken2.Claims.First(claim => claim.Type == "ShopsId").Value);
+                //var jwttoken2 = jwttoken as JwtSecurityToken;
+                //Console.WriteLine("ShopsId " + jwttoken2.Claims.First(claim => claim.Type == "ShopsId").Value);
 
                 if (expTime >= currentTime)
                 {

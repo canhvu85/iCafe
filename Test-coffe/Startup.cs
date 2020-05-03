@@ -11,6 +11,8 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
 using Test_coffe.Controllers.Hubs;
+using Test_coffe.Controllers.mobile.Repository;
+using Test_coffe.Controllers.mobile.Services;
 using Test_coffe.Controllers.Repository;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
@@ -33,6 +35,14 @@ namespace Test_coffe
             services.AddTransient<ICataloges, CatalogesRepository>();
             services.AddTransient<ITables, TablesRepository>();
             services.AddTransient<ILogin, LoginRepository>();
+            services.AddTransient<IBills, BillsRepository>();
+
+            services.AddTransient<IShops, ShopsRepository>();
+            services.AddTransient<IUploadImage, UploadRepository>();
+            services.AddTransient<IProducts, ProductsRepository>();
+            services.AddTransient<IFloors, FloorsRepository>();
+            services.AddTransient<ITablesMobile, TablesMobileRepository>();
+
             SQLUtils._connStr = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddCors(options =>

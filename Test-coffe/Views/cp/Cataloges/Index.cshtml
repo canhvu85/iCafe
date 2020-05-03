@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Test_coffe.Models.Cataloges>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section css{
+    <link rel="stylesheet" href="~/css/custom-style.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/sweetalert2v8.11.8.css">
+}
+
+
+<section class="content-header">
+    <div class="input-group mb-3">
+        <div class="card">
+            <div class="card-header">
+                <h5>Tạo Danh Mục Mới</h5>
+            </div>
+            <form id="formCreate" class="card-body">
+                <input type="text" id="item" name="item" class="form-control col-sm-9 mr-3" placeholder="Tên Danh Mục Mới" aria-label="New Product" aria-describedby="button-addon2" ng-model="item">
+                <button class="btn btn-primary col-sm-2 border-0 mb-2" type="submit" id="button-addon5"><i class="fa fa-plus create-btn"></i>Tạo</button>
+            </form>
+        </div>
+    </div>
+
+    <h5>Danh Sách Danh Mục</h5>
+
+</section>
+
+<section class="content">
+    <table id="dtProducts" class="table table-striped border-top-0" cellspacing="0" width="100%">
+        <thead>
+            <tr class="border-top-0">
+                <th scope="col">#</th>
+                <th scope="col">Tên Danh Mục</th>
+                <th scope="col"></th>
+                <th scope="col"><span id="countItem" class="text-danger"></span></th>
+            </tr>
+        </thead>
+        <tbody id="tbList">
+        </tbody>
+    </table>
+</section>
+
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="~/js/sweetalert2@9.js"></script>
+    <script src="~/js/lib.js"></script>
+    <script type="text/javascript">
+       var GetCataloge = "@Url.Action("GetCataloge2", "CatalogesAPI")";
+    </script>
+    <script src="~/js/Cataloge.js"></script>
+}
+

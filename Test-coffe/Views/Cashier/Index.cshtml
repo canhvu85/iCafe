@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+﻿
 @{
     Layout = null;
 }
@@ -17,7 +16,6 @@
 
 </head>
 <body>
-    <input type="hidden" id="hdnUserSession" data-value="@HttpContextAccessor.HttpContext.Session.GetString("user")" />
 
     <div id="main">
         <div id="nav-top">

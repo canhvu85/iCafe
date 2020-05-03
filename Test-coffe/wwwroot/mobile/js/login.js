@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 }); 
 
-var user = JSON.parse(localStorage.getItem('user'));
+//var user = JSON.parse(localStorage.getItem('user'));
 // console.log(user);
 
 $('#day_open').datepicker({
@@ -94,6 +94,7 @@ $("#login").submit(function (event) {
 
 function login() {
     localStorage.clear();
+    sessionStorage.clear();
     let un = $("#username").val();
     let pwd = $("#password").val();
     // let city_id = $("#city .selected").data("value");
@@ -106,34 +107,29 @@ function login() {
     });
     console.log(data_user);
     // console.log(data);
-    $.ajax({
+    axios({
         url: "/api/mobile/UsersApi/mobile/userlogin", // endpoint
-        type: "POST",
-        dataType: "json",
-        contentType: "application/json",
+        method: "POST",
+        headers: { 'content-type': 'application/json' },
         data: data_user
-    }).done(function (result) {
+    }).then(function (result) {
         // success
-        console.log(result.name);
-        showSuccessbyAlert("Thông báo!", "Đăng nhập thành công!")
-        //swal({
-        //    title: "Thông báo!",
-        //    text: "Đăng nhập thành công!",
-        //    type: "success",
-        //    confirmButtonText: "OK"
-        //});
-        localStorage.setItem('user', data_user);
-        setTimeout(function () {
-            window.location.replace("/mobile/index");
-        }, 2000);
-    }).fail(function (errorData) {
-        //onError(errorData);
+        //  console.log(result.name);
+        if (result.status == 200) {
+            showSuccessbyAlert("Thông báo!", "Đăng nhập thành công!")
+            //localStorage.setItem('user', data_user);
+            let user = jwt_decode(result.data);
+            user.remember_token = result.data;
+            sessionStorage.setItem('user', JSON.stringify(user));
+           //console.log(user);
+            setTimeout(function () {
+                window.location.replace("/mobile/index");
+            }, 1000);
+        }
+    }).catch(function (errorData) {
+        
         showErrorbyAlert('Cảnh báo', 'Đăng nhập không thành công!');
-        //swal({
-        //    icon: 'error',
-        //    title: 'Cảnh báo',
-        //    text: 'Đăng nhập không thành công!'
-        //})
+       
     });
 
 }

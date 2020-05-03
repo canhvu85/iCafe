@@ -28,7 +28,7 @@ let connection2 = new signalR.HubConnectionBuilder().withUrl("/Cancel").withAuto
 
 connection2.start()
 
-connection2.on(hdnUserSession.username, function () {
+connection2.on(user.username, function () {
 	console.log("OK2");
 })
 
@@ -60,9 +60,9 @@ function getTables() {
 	//	crossDomain: true,
 	//	beforeSend: function (xhr) {
 	//		xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-	//		xhr.setRequestHeader('Authorization', hdnUserSession.remember_token);
+	//		xhr.setRequestHeader('Authorization', user.remember_token);
 	//	},
-	//	url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
+	//	url: GetTable + "/?shop_id=" + user.ShopsId,
 	//	method: "GET",
 	//	dataType: "json",
 	//	contentType: "application/json"
@@ -72,9 +72,9 @@ function getTables() {
 
 	//$.ajax({
 	//	beforeSend: function (xhr) {
-	//		xhr.setRequestHeader('Authorization', hdnUserSession.remember_token);
+	//		xhr.setRequestHeader('Authorization', user.remember_token);
 	//	},
-	//	url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
+	//	url: GetTable + "/?shop_id=" + user.ShopsId,
 	//	method: "GET",
 	//	dataType: "json",
 	//	contentType: "application/json"
@@ -84,11 +84,11 @@ function getTables() {
 
 
 	axios({
-		url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
+		url: GetTable + "/?shop_id=" + user.ShopsId,
 		method: "GET",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		}
 	}).then(function (response) {
 		let str = '';
@@ -110,7 +110,7 @@ function getTables() {
 	});
 
 	//axios({
-	//	url: GetTable + "/?shop_id=" + hdnUserSession.ShopsId,
+	//	url: GetTable + "/?shop_id=" + user.ShopsId,
 	//	method: "GET"
 	//}).then(function (response) {
 	//	let str = '';
@@ -142,11 +142,11 @@ function changeCategory() {
 
 function getCataloges() {
 	axios({
-		url: GetCataloge + "/shop/" + hdnUserSession.ShopsId,
+		url: GetCataloge + "/shop/" + user.ShopsId,
 		method: "GET",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		}
 	}).then(function (response) {
 		groupItemCount = response.data.length;
@@ -169,11 +169,11 @@ function getCataloges() {
 
 function getProducts() {
 	axios({
-		url: "api/ProductsAPI/shop/" + hdnUserSession.ShopsId,
+		url: "api/ProductsAPI/shop/" + user.ShopsId,
 		method: "GET",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		}
 	}).then(function (response) {
 		let items;
@@ -229,12 +229,13 @@ function addItemProduct() {
 			if (rs.data.length == 0) {
 				let bills = {
 					TablesId: tablesId,
-					created_by: hdnUserSession.username
+					created_by: user.username
 				}
 
 				createBill(bills).then(function (rs) {
-					billsId = rs.data.id;
-					createDrawNewOrder(price, hdnUserSession.username, itemId, billsId, tablesId, name);
+					console.log(rs);
+					billsId = rs.data[0].id;
+					createDrawNewOrder(price, user.username, itemId, billsId, tablesId, name);
 					itemsPrinted = 0;
 				})
 
@@ -242,7 +243,7 @@ function addItemProduct() {
 					unAuthorized();
 				});
 			} else if (rs.data.length == 1) {
-				if (rs.data.status != 2) {
+				if (rs.data[0].status != 2) {
 					updateTable(tablesId, 2).catch(function () {
 						unAuthorized();
 					});
@@ -255,12 +256,12 @@ function addItemProduct() {
 						tables[i].total = q * price;
 						k = true;
 						billDetailsId = tables[i].billDetailsId;
-						billDetails = billDetailsObj(billDetailsId, tables[i].quantity, tables[i].total, 4, hdnUserSession.username);
+						billDetails = billDetailsObj(billDetailsId, tables[i].quantity, tables[i].total, 4, user.username);
 					}
 				}
 
 				if (!k) {
-					createDrawNewOrder(price, hdnUserSession.username, itemId, rs.data[0].id, tablesId, name);
+					createDrawNewOrder(price, user.username, itemId, rs.data[0].id, tablesId, name);
 				} else {
 					updateBillDetail(billDetailsId, billDetails).catch(function () {
 						unAuthorized();
@@ -306,12 +307,12 @@ function updateTable(tablesId, status) {
 		method: "PUT",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		},
 		data: {
 			id: tablesId,
 			status: status,
-			updated_by: hdnUserSession.username
+			updated_by: user.username
 		}
 	});
 }
@@ -388,7 +389,7 @@ function printOrder() {
 			}
 
 			function editBillDetails(x) {
-				billDetails = billDetailsObj(x.id, x.quantity, x.total, 1, hdnUserSession.username);
+				billDetails = billDetailsObj(x.id, x.quantity, x.total, 1, user.username);
 				updateBillDetail(x.id, billDetails).catch(function () {
 					unAuthorized();
 				});
@@ -399,10 +400,11 @@ function printOrder() {
 				let bills = {
 					id: billsId,
 					sub_total: sub_total,
-					updated_by: hdnUserSession.username
+					updated_by: user.username
 				};
 				updateBill(billsId, bills).then(function () {
 					tables = [];
+					console.log("tablesName  " + tablesName);
 					getBill(tablesId, tablesName);
 				}).catch(function () {
 					unAuthorized();
@@ -419,7 +421,7 @@ function printOrder() {
 function cancelOrder() {
 	$("#main-order-1 .btn-temp-order .btn-warning").on("click", function () {
 		alert("da huy don");
-		billDetails = billDetailsObj(235, 1, 0, 2, hdnUserSession.username);
+		billDetails = billDetailsObj(235, 1, 0, 2, user.username);
 		updateBillDetail(235, billDetails).then(function (rs) {
 			if (rs.data != null && rs.data.message == "Không tìm thấy") {
 				console.log("Không tìm thấy");
@@ -443,12 +445,12 @@ function checkout() {
 		alert("da thanh toan");
 		getOrderPrinted(tablesId).then(function (rs) {
 			$.each(rs.data, function (index, value) {
-				billDetails = billDetailsObj(value.id, value.quantity, value.total, 3, hdnUserSession.username);
+				billDetails = billDetailsObj(value.id, value.quantity, value.total, 3, user.username);
 				updateBillDetail(value.id, billDetails).then(function () {
 					let bills = {
 						id: billsId,
 						status: 1,
-						updated_by: hdnUserSession.username
+						updated_by: user.username
 					};
 					updateBill(billsId, bills).then(function () {
 						updateTable(tablesId, 0).then(function () {
@@ -485,10 +487,11 @@ $("#logOut").on("click", function () {
 		method: "POST",
 		headers: { 'content-type': 'application/json' },
 		data: JSON.stringify({
-			id: hdnUserSession.id,
-			updated_by: hdnUserSession.username
+			id: parseInt(user.id),
+			updated_by: user.username
 		})
 	}).then(function () {
+		sessionStorage.clear();
 		alert("Đã logout");
 		window.location.replace("/");
 	}).catch(function () {

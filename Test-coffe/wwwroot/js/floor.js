@@ -4,8 +4,11 @@
 //    displayItems();
 //});
 
-var hdnUserSession = $("#hdnUserSession").data("value");
-var shopId = hdnUserSession.ShopsId;
+//var hdnUserSession = $("#hdnUserSession").data("value");
+//var shopId = hdnUserSession.ShopsId;
+
+var UserSession = JSON.parse(sessionStorage.getItem('user'));
+var shopId = UserSession.ShopsId*1;
 
 function addItem(item) {
     if (item.trim().length > 0) {
@@ -13,13 +16,17 @@ function addItem(item) {
         let newData = {
             "name": item.trim(),
             "permalink": toSlug(item.trim()),
-            'shopsId': shopId
+            'shopsId': shopId,
+            "created_by": UserSession.username
         };
         axios({
             url: "/api/mobile/FloorsApi",
             method: "post",
             dataType: "json",
-            headers: { 'Content-Type': "application/json"},
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': UserSession.remember_token
+            },
             data: JSON.stringify(newData)
         }).then(function (response) {
             if (response.status == 200) {
@@ -68,7 +75,10 @@ function displayItems(shop_id) {
         method: "GET",
         dataType: "json",
        // async: false,
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': UserSession.remember_token
+        }
     }).then(function (response) {
         listFloor = response.data;
         let data = response.data;
@@ -125,14 +135,18 @@ function editItem(tdid, val) {
             'id': tdid,
             'name': input.value.trim(),
             'permalink': toSlug(input.value.trim()),   
-            'shopsId': shopId
+            'shopsId': shopId,
+            'updated_by': UserSession.username
         }
         axios({
             url: "/api/mobile/FloorsApi/" + tdid,
             method: "PUT",
             dataType: "json",
            // async: false,
-            headers: { 'Content-Type': "application/json" },
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': UserSession.remember_token
+            },
             data: JSON.stringify(newData)
         }).catch(function (error) {
            // $("#showEdit").modal("hide");
@@ -208,9 +222,12 @@ function deleteItem(id) {
     }).then((result) => {
         if (result.value) {
             axios({
-                url: '/api/mobile/FloorsApi/del/' + parseInt(id) + "/?name=vu",
+                url: '/api/mobile/FloorsApi/del/' + parseInt(id) + "/?name=" + UserSession.username,
                 method: 'put',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': UserSession.remember_token
+                }
             }).then(function (response) {
                 if (response.status == 200) {
                     Swal.fire({

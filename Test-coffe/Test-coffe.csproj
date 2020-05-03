@@ -131,6 +131,20 @@
     <Compile Remove="Migrations\20200411120103_up2.Designer.cs" />
     <Compile Remove="Migrations\20200413145944_up.cs" />
     <Compile Remove="Migrations\20200413145944_up.Designer.cs" />
+    <Compile Remove="Migrations\20200414090602_up.cs" />
+    <Compile Remove="Migrations\20200414090602_up.Designer.cs" />
+    <Compile Remove="Migrations\20200418135956_up2.cs" />
+    <Compile Remove="Migrations\20200418135956_up2.Designer.cs" />
+    <Compile Remove="Migrations\20200421122501_up3.cs" />
+    <Compile Remove="Migrations\20200421122501_up3.Designer.cs" />
+    <Compile Remove="Migrations\20200424130625_pp.cs" />
+    <Compile Remove="Migrations\20200424130625_pp.Designer.cs" />
+    <Compile Remove="Migrations\20200426055251_upl.cs" />
+    <Compile Remove="Migrations\20200426055251_upl.Designer.cs" />
+    <Compile Remove="Migrations\20200426083920_upgh.cs" />
+    <Compile Remove="Migrations\20200426083920_upgh.Designer.cs" />
+    <Compile Remove="Migrations\20200430084059_up4.cs" />
+    <Compile Remove="Migrations\20200430084059_up4.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -153,6 +167,11 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
     <PackageReference Include="MvcHaack.Ajax" Version="1.1.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\Repository\mobile\" />
+    <Folder Include="Controllers\Services\mobile\" />
   </ItemGroup>
 
 

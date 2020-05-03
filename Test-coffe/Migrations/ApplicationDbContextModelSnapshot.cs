@@ -396,6 +396,10 @@ namespace Test_coffe.Migrations
                     b.Property<int?>("UsersId")
                         .HasColumnType("int");
 
+                    b.Property<string>("action")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
                     b.Property<DateTime>("created_at")
                         .HasColumnType("datetime");
 
@@ -412,6 +416,10 @@ namespace Test_coffe.Migrations
 
                     b.Property<bool>("isDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("permalink_permissions")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<DateTime?>("updated_at")
                         .HasColumnType("datetime");
