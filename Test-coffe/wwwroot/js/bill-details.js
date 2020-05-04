@@ -37,7 +37,7 @@ function getListBillDetails(tablesId) {
 		method: "GET",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		}
 	})
 }
@@ -48,7 +48,7 @@ function createBillDetails(billDetails) {
 		method: "POST",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		},
 		data: billDetails
 	});
@@ -60,7 +60,7 @@ function updateBillDetail(billDetailsId, billDetails) {
 		method: "PUT",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		},
 		data: billDetails
 	});
@@ -82,7 +82,7 @@ function getGroupOrderPrinted(tableId) {
 		method: "GET",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		}
 	});
 }
@@ -93,7 +93,7 @@ function getOrderPrinted(tableId) {
 		method: "GET",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		}
 	});
 }
@@ -163,7 +163,7 @@ function getOrderNewWaiter(tablesId) {
 		method: "GET",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		}
 	}).then(function (response) {
 		if (response.data.length > 0) {

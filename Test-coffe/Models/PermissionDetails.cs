@@ -10,6 +10,10 @@ namespace Test_coffe.Models
     public class PermissionDetails
     {
         public int id { get; set; }
+        [MaxLength(255)]
+        public string permalink_permissions { get; set; }
+        [MaxLength(255)]
+        public string action { get; set; }
 
         public int? PermissionsId { get; set; }
         public Permissions Permissions { get; set; }

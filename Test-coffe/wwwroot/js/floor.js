@@ -23,7 +23,10 @@ function addItem(item) {
             url: "/api/mobile/FloorsApi",
             method: "post",
             dataType: "json",
-            headers: { 'Content-Type': "application/json"},
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': UserSession.remember_token
+            },
             data: JSON.stringify(newData)
         }).then(function (response) {
             if (response.status == 200) {
@@ -72,7 +75,10 @@ function displayItems(shop_id) {
         method: "GET",
         dataType: "json",
        // async: false,
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': UserSession.remember_token
+        }
     }).then(function (response) {
         listFloor = response.data;
         let data = response.data;
@@ -137,7 +143,10 @@ function editItem(tdid, val) {
             method: "PUT",
             dataType: "json",
            // async: false,
-            headers: { 'Content-Type': "application/json" },
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': UserSession.remember_token
+            },
             data: JSON.stringify(newData)
         }).catch(function (error) {
            // $("#showEdit").modal("hide");
@@ -215,7 +224,10 @@ function deleteItem(id) {
             axios({
                 url: '/api/mobile/FloorsApi/del/' + parseInt(id) + "/?name=" + UserSession.username,
                 method: 'put',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': UserSession.remember_token
+                }
             }).then(function (response) {
                 if (response.status == 200) {
                     Swal.fire({

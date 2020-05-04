@@ -1,9 +1,10 @@
-﻿var hdnUserSession = $("#hdnUserSession").data("value");
-let remember_token = JSON.parse(localStorage.getItem('remember_token'));
+﻿//var hdnUserSession = $("#hdnUserSession").data("value");
+let user = JSON.parse(sessionStorage.getItem('user'));
 
 function getBill(tablesId, tablesName) {
 	checkBill(tablesId).then(function (response) {
 		if (response.data.length > 0) {
+			console.log(response.data[0]);
 			billsId = response.data[0].id;
 			let txt = `<div>
 				<p><b>${response.data[0].tablesName}</b></p>
@@ -20,7 +21,7 @@ function getBill(tablesId, tablesName) {
 		else {
 			let txt = `<div>
 				<p><b>${tablesName}</b></p>
-				<p>${hdnUserSession.name}</p>
+				<p>${user.username}</p>
 				</div >`;
 			$(".table-name").html(txt);
 			let str = '';
@@ -45,7 +46,7 @@ function createBill(bills) {
 		method: "POST",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		},
 		data: bills
 	});
@@ -57,7 +58,7 @@ function updateBill(billsId, bills) {
 		method: "PUT",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		},
 		data: bills
 	});
@@ -69,7 +70,7 @@ function checkBill(tablesId) {
 		method: "GET",
 		headers: {
 			'content-type': 'application/json',
-			'Authorization': hdnUserSession.remember_token
+			'Authorization': user.remember_token
 		}
 	})
 }

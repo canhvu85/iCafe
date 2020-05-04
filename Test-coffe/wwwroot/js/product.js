@@ -42,6 +42,9 @@ for (let i = 0; i < catalogeList.length; i++) {
 
 function getCataloges() {
     $.ajax({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', UserSession.remember_token);
+		},
         url: "api/mobile/CatalogesAPI/?shop_id=" + shopId,
         method: "GET",
         dataType: "json",
@@ -80,6 +83,9 @@ product.openAddProduct = function (number) {
 
 function createProduct(value) {
     $.ajax({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', UserSession.remember_token);
+        },
         url: "/api/mobile/ProductsApi/",
         method: "POST",
         contentType: false,
@@ -198,6 +204,9 @@ function showList(cataId) {
     }
 
     $.ajax({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', UserSession.remember_token);
+        },
         url: st,
         method: "GET",
         dataType: "json",
@@ -445,6 +454,9 @@ $('#eavatar').change(function () {
 
 function editBtn(idEdit, value) {
     $.ajax({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', UserSession.remember_token);
+        },
         url: "/api/mobile/ProductsApi/" + idEdit,
         method: "PUT",
         contentType: false,
@@ -570,6 +582,9 @@ function deleteBtn(product_id, data) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', UserSession.remember_token);
+                },
                 url: '/api/mobile/ProductsApi/del/' + parseInt(product_id) + "/?name=" + UserSession.username,
                 type: 'PUT',
                 dataType: "json",

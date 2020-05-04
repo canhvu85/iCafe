@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using System.Linq;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
@@ -30,7 +29,12 @@ namespace Test_coffe.Controllers.Repository
             SQLUtils.ExecuteCommand(SQLUtils._connStr, conn =>
             {
                 var query = conn.Query<Cities>(create_Cities,
-                    new { name = cities.name, permalink = cities.permalink, created_by = cities.created_by });
+                    new
+                    {
+                        cities.name,
+                        cities.permalink,
+                        cities.created_by
+                    });
             });
         }
 
@@ -42,7 +46,13 @@ namespace Test_coffe.Controllers.Repository
             SQLUtils.ExecuteCommand(SQLUtils._connStr, conn =>
                 {
                     var query = conn.Query<Cities>(update_Cities,
-                        new { name = cities.name, permalink = cities.permalink, updated_by = cities.updated_by, id = id });
+                        new
+                        {
+                            cities.name,
+                            cities.permalink,
+                            cities.updated_by,
+                            id
+                        });
                 });
         }
 
@@ -54,7 +64,12 @@ namespace Test_coffe.Controllers.Repository
             SQLUtils.ExecuteCommand(SQLUtils._connStr, conn =>
             {
                 var query = conn.Query<Cities>(remove_Cities,
-                    new { isDeleted = 1, deleted_by = username, id = id });
+                    new
+                    {
+                        isDeleted = 1,
+                        deleted_by = username,
+                        id
+                    });
             });
         }
     }

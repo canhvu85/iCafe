@@ -220,8 +220,8 @@
 
 
 
-//var hdnUserSession = $("#user").data("value");
-let user = JSON.parse(localStorage.getItem('user'));
+//var hdnUserSession = $("#hdnUserSession").data("value");
+let user = JSON.parse(sessionStorage.getItem('user'));
 
 $(document).ready(function () {
     displayItems();
@@ -266,7 +266,8 @@ function addItem(item) {
     if (item.trim().length > 0) {
         let newData = {
             "name": item.trim().replace(/([^0-9a-z-\s])/g, ''),
-            "permalink": toSlug(item.trim())
+            "permalink": toSlug(item.trim()),
+            "created_by": user.username
         };
         axios({
             method: 'POST',
@@ -276,10 +277,14 @@ function addItem(item) {
                 'Authorization': user.remember_token
             },
             data: newData
-        }).then(function () {
-            $("#formCreate")[0].reset();
-            showSuccessbyAlert('Tạo thành phố mới thành công.')
-            displayItems();
+        }).then(function (response) {
+            if (response.status == 203) {
+                showErrorbyAlert("Bạn không có quyền thực hiện hành động này");
+            } else {
+                $("#formCreate")[0].reset();
+                showSuccessbyAlert('Tạo thành phố mới thành công.')
+                displayItems();
+            }
         }).catch(function () {
             showErrorbyAlert('Đã xảy ra lỗi!')
             unAuthorized();
@@ -321,7 +326,8 @@ function editItem(tdid, val) {
         var newData = {
             'id': tdid,
             'name': input.value.trim().replace(/([^0-9a-z-\s])/g, ''),
-            "permalink": toSlug(input.value.trim())
+            "permalink": toSlug(input.value.trim()),
+            "updated_by": user.username
         }
         axios({
             method: 'PUT',
@@ -331,16 +337,20 @@ function editItem(tdid, val) {
                 'Authorization': user.remember_token
             },
             data: newData
-        }).then(function () {
-            showEditSuccessbyAlert('Sửa thông tin thành công.')
-            $(btnChange).remove();
-            $(btnCancel).remove();
-            $(".btnEdit").css("visibility", 'visible');
-            $(".btnDel").css("visibility", 'visible');
-            $(input).remove();
-            $("#span" + tdid).show();
+        }).then(function (response) {
+            if (response.status == 203) {
+                showErrorbyAlert("Bạn không có quyền thực hiện hành động này");
+            } else {
+                showEditSuccessbyAlert('Sửa thông tin thành công.')
+                $(btnChange).remove();
+                $(btnCancel).remove();
+                $(".btnEdit").css("visibility", 'visible');
+                $(".btnDel").css("visibility", 'visible');
+                $(input).remove();
+                $("#span" + tdid).show();
 
-            displayItems();
+                displayItems();
+            }
         }).catch(function () {
             $("#showEdit").modal("hide");
             showErrorbyAlert('Đã xảy ra lỗi!')
@@ -379,8 +389,12 @@ function deleteItem(id) {
                     'content-type': 'application/json',
                     'Authorization': user.remember_token
                 }
-            }).then(function () {
-                displayItems();
+            }).then(function (response) {
+                if (response.status == 203) {
+                    showErrorbyAlert("Bạn không có quyền thực hiện hành động này");
+                } else {
+                    displayItems();
+                }
             }).catch(function (data) {
                 showErrorbyAlert(data.responseText)
                 unAuthorized();

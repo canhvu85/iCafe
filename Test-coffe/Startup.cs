@@ -43,6 +43,8 @@ namespace Test_coffe
             services.AddTransient<ITables, TablesRepository>();
             services.AddTransient<ILogin, LoginRepository>();
 
+            services.AddTransient<IBills, BillsRepository>();
+
             SQLUtils._connStr = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddCors(options =>

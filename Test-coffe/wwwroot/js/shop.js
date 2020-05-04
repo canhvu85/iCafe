@@ -106,7 +106,10 @@ function createShop(value) {
        // processData: false,
        // async:false,      
         data: value,
-        headers: {'Content-Type':'multipart/form-data'}
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': UserSession.remember_token
+        }
     }).then(function (response) {
         let result = response.data;
         //signalR
@@ -395,7 +398,10 @@ function editBtn(idEdit, value) {
         url: "/api/mobile/ShopsApi/" + idEdit,
         method: "put",
         data: value,
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': UserSession.remember_token
+        }
     }).then((response) => {
         if (response.status == 200) {
             Swal.fire({
@@ -473,7 +479,10 @@ function deleteBtn(shop_id) {
             axios({
                 url: '/api/mobile/ShopsApi/del/' + parseInt(shop_id) + "/?name=vu",
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': UserSession.remember_token
+                }
                 // data: JSON.stringify(data),
             }).then(function () {
                     // Do something with the result
@@ -499,7 +508,10 @@ function inActiveItem(shop_id) {
             axios({
                 url: '/api/mobile/ShopsApi/inactive/' + parseInt(shop_id) + "/?name=" + UserSession.username,
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': UserSession.remember_token
+                }
                 // data: JSON.stringify(data),
             }).then(function () {
                 $("#c" + shop_id + " td:last-child").html(`<a href='javascript:;' onclick='activeItem(${shop_id})' class='btn btn-warning'><i class='fas fa-toggle-off'></i>  Không hoạt động</a>`);
@@ -522,7 +534,10 @@ function activeItem(shop_id) {
             axios({
                 url: '/api/mobile/ShopsApi/active/' + parseInt(shop_id) + "/?name=" + UserSession.username,
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': UserSession.remember_token
+                }
                 // data: JSON.stringify(data),
             }).then(function () {
                 $("#c" + shop_id + " td:last-child").html(`<a href='javascript:;' onclick='inActiveItem(${shop_id})' class='btn btn-primary'><i class='fas fa-toggle-on'></i>  Đang hoạt động</a>`);

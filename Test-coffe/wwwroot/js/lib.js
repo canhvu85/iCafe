@@ -140,10 +140,11 @@ function unAuthorized() {
         method: "POST",
         headers: { 'content-type': 'application/json' },
         data: JSON.stringify({
-            id: hdnUserSession.id,
-            updated_by: hdnUserSession.username
+            id: parseInt(user.id),
+            updated_by: user.username
         })
     }).then(function () {
+        sessionStorage.clear();
         showErrorbyAlert("Bạn không có quyền thực hiện hành động này").then((result) => {
             if (result.value) {
                 window.location.replace("/");

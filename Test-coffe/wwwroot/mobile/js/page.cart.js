@@ -14,6 +14,9 @@ var itemId,
 	totalMoney;
 
 //vu
+let user = JSON.parse(sessionStorage.getItem('user'));
+var un = user.username;
+
 var table_selected = localStorage.getItem('table_cur');
 console.log("day la cart: " + table_selected);
 var table_ls = JSON.parse(localStorage.getItem('table01'));
@@ -32,6 +35,9 @@ var table_name = localStorage.getItem('table_name_to_cart');
 
 //draw billsdetail
 $.ajax({
+	beforeSend: function (xhr) {
+		xhr.setRequestHeader('Authorization', user.remember_token);
+	},
 	url: "/api/mobile/BillDetailsApi/?table_id=" + table_id_ls * 1,
 	method: "GET",
 	dataType: "json",
@@ -70,6 +76,9 @@ $.ajax({
 
 //draw bills
 $.ajax({
+	beforeSend: function (xhr) {
+		xhr.setRequestHeader('Authorization', user.remember_token);
+	},
 	url: "/api/mobile/BillsApi/?table_id=" + table_id_ls * 1,
 	method: "GET",
 	dataType: "json",
@@ -336,8 +345,13 @@ $(".nav-cart").on("click", function () {
 })
 
 //gui thu ngan
+<<<<<<< HEAD
 let user = JSON.parse(sessionStorage.getItem('user'));
 var un = user.username;
+=======
+//let user = JSON.parse(sessionStorage.getItem('user'));
+//var un = user.username;
+>>>>>>> 4e068ae1f6795d453ad2a311572a4126a4239ff0
 var table_status;
 var bill_id;
 
@@ -359,6 +373,9 @@ $(".cart-checkout").on("click", function () {
 				"TablesId": table_id_seclected * 1
 			}
 			$.ajax({
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('Authorization', user.remember_token);
+				},
 				url: "/api/mobile/BillsApi",
 				method: "POST",
 				dataType: "json",
@@ -381,6 +398,9 @@ $(".cart-checkout").on("click", function () {
 		if (table_status == 1 || table_status == 2 || table_status == 3) {
 			console.log("lay bill id");
 			$.ajax({
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('Authorization', user.remember_token);
+				},
 				url: "/api/mobile/BillsApi/?table_id=" + table_id_ls * 1,
 				method: "GET",
 				dataType: "json",
@@ -405,6 +425,9 @@ $(".cart-checkout").on("click", function () {
 			"status": 2
 		}
 		$.ajax({
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader('Authorization', user.remember_token);
+			},
 			url: "/api/mobile/TablesApi/" + table_id_seclected,
 			method: "PUT",
 			dataType: "json",
@@ -440,6 +463,9 @@ $(".cart-checkout").on("click", function () {
 				"BillsId": bId
 			}
 			$.ajax({
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('Authorization', user.remember_token);
+				},
 				url: "/api/mobile/BillDetailsApi",
 				method: "POST",
 				dataType: "json",
@@ -476,6 +502,9 @@ $(".cart-checkout").on("click", function () {
 function checkStatusTable(table_id) {
 	table_id *= 1;
 	$.ajax({
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader('Authorization', user.remember_token);
+		},
 		url: "/api/mobile/TablesApi/" + table_id ,
 		method: "GET",
 		dataType: "json",

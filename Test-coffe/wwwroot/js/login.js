@@ -69,7 +69,7 @@ function login() {
             localStorage.setItem('user', JSON.stringify(response.data[0]));
             var user = jwt_decode(response.data);
             user.remember_token = response.data;
-            localStorage.setItem('user', JSON.stringify(user));
+            sessionStorage.setItem('user', JSON.stringify(user));
             setTimeout(function () {
                 window.location.replace("/cashier");
             }, 2000);

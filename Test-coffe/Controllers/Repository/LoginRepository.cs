@@ -1,8 +1,5 @@
 ﻿using Dapper;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
@@ -11,6 +8,7 @@ namespace Test_coffe.Controllers.Repository
     public class LoginRepository : ILogin
     {
         private string get_Users;
+        private string create_Users;
 
         public dynamic GetUser(Users users)
         {
@@ -23,9 +21,31 @@ namespace Test_coffe.Controllers.Repository
 
             var query = SQLUtils.ExecuteCommand(SQLUtils._connStr,
                       conn => conn.Query(get_Users,
-                      new { username = users.username, password = users.password,
-                          ShopsId = users.ShopsId }));
+                      new
+                      {
+                          users.username,
+                          users.password,
+                          users.ShopsId
+                      })).FirstOrDefault();
             return query;
+        }
+
+        public void Register(Users users)
+        {
+            create_Users = "INSERT INTO [Users] ([username], [password], [PositionsId], [ShopsId], [isDeleted], [created_at])" +
+                                   "VALUES(@username, @password, @PositionsId, @ShopsId, 0, GETDATE())";
+
+            SQLUtils.ExecuteCommand(SQLUtils._connStr, conn =>
+            {
+                var query = conn.Query<Users>(create_Users,
+                    new
+                    {
+                        users.username,
+                        users.password,
+                        users.PositionsId,
+                        users.ShopsId
+                    });
+            });
         }
     }
 }

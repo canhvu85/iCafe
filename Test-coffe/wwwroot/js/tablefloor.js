@@ -11,7 +11,10 @@ function getFloors() {
         url: "api/mobile/FloorsApi/?shop_id=" + shopId,
         method: "get",
         // async: false,
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': UserSession.remember_token
+        }
     }).then(function (response) {
         floorList = response.data;
         drawFloors();
@@ -51,7 +54,10 @@ function addItem(item) {
             url: "/api/mobile/TablesApi",
             method: "post",
             dataType: "json",
-            headers: { 'Content-Type': "application/json" },
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': UserSession.remember_token
+            },
             data: JSON.stringify(newData)
         }).then(function (data) {
             if (data.status == 200) {
@@ -99,7 +105,10 @@ function displayItems(floor_id) {
         method: "GET",
         dataType: "json",
         async: false,
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': UserSession.remember_token
+        }
     }).then(function (response) {
         listTable = response.data;
         let data = response.data;
@@ -183,7 +192,10 @@ function editItem(tdid, val, flid) {
             method: "PUT",
             dataType: "json",
             async: false,
-            headers: { 'Content-Type': "application/json" },
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': UserSession.remember_token
+            },
             data: JSON.stringify(newData)
         }).catch(function () {
             $("#showEdit").modal("hide");
@@ -262,7 +274,10 @@ function deleteItem(id) {
             axios({
                 url: '/api/mobile/TablesApi/del/' + parseInt(id) + "/?name=" + UserSession.username,
                 method: 'put',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': UserSession.remember_token
+                }
             }).then(function (response) {
                 if (response.status == 200) {
                     Swal.fire({
