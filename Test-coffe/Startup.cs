@@ -36,6 +36,9 @@ namespace Test_coffe
             services.AddTransient<ITables, TablesRepository>();
             services.AddTransient<ILogin, LoginRepository>();
             services.AddTransient<IBills, BillsRepository>();
+            services.AddTransient<IBillDetails, BillDetailsRepository>();
+            services.AddTransient<IShop, ShopRepository>();
+            services.AddTransient<IProduct, ProductRepository>();
 
             services.AddTransient<IShops, ShopsRepository>();
             services.AddTransient<IUploadImage, UploadRepository>();

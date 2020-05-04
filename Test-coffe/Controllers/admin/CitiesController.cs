@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Test_coffe.Models;
@@ -29,9 +28,13 @@ namespace Test_coffe.Controllers
             if (user != null &&
                 _context.PermissionDetails.Any(pd => pd.UsersId == user.id &&
                 pd.permalink_permissions == route && pd.action == method))
+            {
                 return View();
+            }
             else
+            {
                 return Redirect("/");
+            }
 
             //return Redirect("/");
             //return RedirectToAction("Index", "Login");

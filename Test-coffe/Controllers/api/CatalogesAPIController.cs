@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
@@ -17,6 +15,7 @@ namespace Test_coffe.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ICataloges _catalogesRepository;
+        private dynamic result;
 
         public CatalogesAPIController(ApplicationDbContext context, ICataloges catalogesRepository)
         {
@@ -28,14 +27,14 @@ namespace Test_coffe.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cataloges>>> GetCataloge2()
         {
-            var result = _catalogesRepository.GetAllCataloges();
+            result = _catalogesRepository.GetAllCataloges();
             return Ok(result);
         }
 
         [HttpGet("shop/{ShopId}")]
         public IActionResult GetCatalogesByShop(int? ShopId)
         {
-            var result = _catalogesRepository.GetAllCatalogesByShop(ShopId);
+            result = _catalogesRepository.GetAllCatalogesByShop(ShopId);
             return Ok(result);
         }
 

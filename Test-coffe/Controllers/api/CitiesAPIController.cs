@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +14,7 @@ namespace Test_coffe.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ICities _citiesRepository;
+        private dynamic result;
         private string route;
         private string method;
         private string remember_token;
@@ -35,7 +32,7 @@ namespace Test_coffe.Controllers
         [HttpGet]
         public IActionResult GetCity2()
         {
-            var result = _citiesRepository.GetAllCities();
+            result = _citiesRepository.GetAllCities();
             return Ok(result);
         }
 
@@ -43,7 +40,7 @@ namespace Test_coffe.Controllers
         [HttpGet("withtoken")]
         public IActionResult GetCityToken()
         {
-            var result = _citiesRepository.GetAllCities();
+            result = _citiesRepository.GetAllCities();
             return Ok(result);
         }
 
@@ -72,7 +69,9 @@ namespace Test_coffe.Controllers
                 return NoContent();
             }
             else
+            {
                 return StatusCode(203);
+            }
 
 
             //var result = from p in _context.PermissionDetails
@@ -113,7 +112,9 @@ namespace Test_coffe.Controllers
                 return NoContent();
             }
             else
+            {
                 return StatusCode(203);
+            }
         }
 
         // DELETE: api/CitiesAPI/5
@@ -139,7 +140,9 @@ namespace Test_coffe.Controllers
                 return NoContent();
             }
             else
+            {
                 return StatusCode(203);
+            }
         }
     }
 }

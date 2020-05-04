@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
 namespace Test_coffe.Controllers
@@ -14,46 +9,44 @@ namespace Test_coffe.Controllers
     public class ShopsAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IShop _shopRepository;
+        private dynamic result;
 
-        public ShopsAPIController(ApplicationDbContext context)
+        public ShopsAPIController(ApplicationDbContext context, IShop shopRepository)
         {
             _context = context;
+            _shopRepository = shopRepository;
         }
-
-        // GET: api/ShopsAPI
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Shops>>> GetShop()
-        //{
-        //    return await _context.Shops.OrderBy(s => s.name).ToListAsync();
-        //}
 
         [HttpGet]
         public IActionResult GetShop2()
         {
-            var result = from s in _context.Shops
-                         where s.isDeleted == false
-                         orderby s.name
-                         select new
-                         {
-                             id = s.id,
-                             name = s.name,
-                             citiesId = s.CitiesId
-                         };
+            //var result = from s in _context.Shops
+            //             where s.isDeleted == false
+            //             orderby s.name
+            //             select new
+            //             {
+            //                 id = s.id,
+            //                 name = s.name,
+            //                 citiesId = s.CitiesId
+            //             };
+            result = _shopRepository.GetShop();
             return Ok(result);
         }
 
         [HttpGet("cities/{citiesId}")]
         public IActionResult GetShopByCities(int? citiesId)
         {
-            var result = from s in _context.Shops
-                         where s.isDeleted == false && s.CitiesId == citiesId
-                         orderby s.name
-                         select new
-                         {
-                             s.id,
-                             s.name,
-                             s.CitiesId
-                         };
+            //var result = from s in _context.Shops
+            //             where s.isDeleted == false && s.CitiesId == citiesId
+            //             orderby s.name
+            //             select new
+            //             {
+            //                 s.id,
+            //                 s.name,
+            //                 s.CitiesId
+            //             };
+            result = _shopRepository.GetShopByCities(citiesId);
             return Ok(result);
         }
     }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
@@ -16,6 +12,7 @@ namespace Test_coffe.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IBills _billsRepository;
+        private dynamic result;
 
         public BillsAPIController(ApplicationDbContext context, IBills billsRepository)
         {
@@ -40,7 +37,7 @@ namespace Test_coffe.Controllers
             //                 b.fee_service,
             //                 b.total_money
             //             };
-            var result = _billsRepository.GetBillByTable(TableId);
+            result = _billsRepository.GetBillByTable(TableId);
             return Ok(result);
         }
 
@@ -84,7 +81,7 @@ namespace Test_coffe.Controllers
             //        b.fee_service,
             //        b.total_money
             //    }).ToList();
-            var result = _billsRepository.GetBillByDate(shopsId, startDate, endDate);
+            result = _billsRepository.GetBillByDate(shopsId, startDate, endDate);
             return Ok(result);
         }
 
@@ -126,7 +123,7 @@ namespace Test_coffe.Controllers
             //        throw;
             //    }
             //}
-            var result = _billsRepository.GetBillByTable(billsOld.TablesId);
+            result = _billsRepository.GetBillByTable(billsOld.TablesId);
             return CreatedAtAction("GetBill", result);
         }
 
@@ -139,7 +136,7 @@ namespace Test_coffe.Controllers
             //_context.Bills.Add(bills);
             //await _context.SaveChangesAsync();
             _billsRepository.CreateBills(bills);
-            var result = _billsRepository.GetBillByTable(bills.TablesId);
+            result = _billsRepository.GetBillByTable(bills.TablesId);
             return CreatedAtAction("GetBill", result);
         }
     }

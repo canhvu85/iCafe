@@ -1,11 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
@@ -28,7 +23,7 @@ namespace Test_coffe.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tables>>> GetTable2(int? shop_id)
         {
-            var result = _tablesRepository.GetAllTables(shop_id);
+            result = _tablesRepository.GetAllTables(shop_id);
             return Ok(result);
         }
 
