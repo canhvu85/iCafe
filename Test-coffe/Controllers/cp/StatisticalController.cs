@@ -27,6 +27,7 @@ namespace Test_coffe.Controllers
             {
                 var result = _context.Bills.Include(t => t.Tables)
                     .Where(b => b.Tables.Floors.ShopsId == user.ShopsId)
+                    .OrderBy(b => b.id)
                     .ToListAsync();
                 //return View(await result);
                 return View("~/Views/cp/Statistical/Index.cshtml", await result);
