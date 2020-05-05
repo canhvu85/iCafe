@@ -213,7 +213,7 @@
                         </thead>
                         <tbody id="billsList">
                             @{var index = 0;
-                              var txt = "";}
+                                var txt = "";}
                             @foreach (var item in Model)
                             {
                                 index = Model.ToList().IndexOf(item);
@@ -244,9 +244,9 @@
                                                                 @addCommas(item.total_money.ToString()) vnđ
                                                                 @Html.DisplayFor(modelItem => item.total_money)
                                                             </td>*@
-                                    <td>
-                                        <script> $("#billsList tr:eq(@index) td:eq(6)").html(addCommas(@item.total_money.ToString()) + ' vnđ')</script>
-                                    </td>
+                                <td>
+                                    <script> $("#billsList tr:eq(@index) td:eq(6)").html(addCommas(@item.total_money.ToString()) + ' vnđ')</script>
+                                </td>
                                     <td>
                                         @{
                                             if (item.status == 0)

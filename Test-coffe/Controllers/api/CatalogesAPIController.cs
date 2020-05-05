@@ -23,7 +23,6 @@ namespace Test_coffe.Controllers
             _catalogesRepository = catalogesRepository;
         }
 
-        // GET: api/CatalogesAPI
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cataloges>>> GetCataloge2()
         {
@@ -38,9 +37,6 @@ namespace Test_coffe.Controllers
             return Ok(result);
         }
 
-        // PUT: api/CatalogesAPI/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCataloges(int id, Cataloges cataloges)
         {
@@ -53,9 +49,6 @@ namespace Test_coffe.Controllers
             return NoContent();
         }
 
-        // POST: api/CatalogesAPI
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task<ActionResult<Cataloges>> PostCataloges(Cataloges cataloges)
         {

@@ -131,43 +131,6 @@ namespace Test_coffe.Controllers
             return Ok(result);
         }
 
-        // PUT: api/BillDetailsAPI/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutBillDetail(int id, BillDetails billDetails)
-        //{
-        //    if (id != billDetails.id)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    var billDetailsOld = _context.BillDetails.Find(id);
-        //    billDetailsOld.updated_at = DateTime.Now;
-        //    billDetailsOld.updated_by = billDetails.created_by;
-        //    billDetailsOld.quantity = billDetails.quantity;
-        //    billDetailsOld.total = billDetails.total;
-        //    billDetailsOld.status = billDetails.status;
-        //    _context.Entry(billDetailsOld).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!BillDetailExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
         [HttpPut("{id}")]
         public IActionResult PutBillDetail(int id, BillDetails billDetails)
         {
@@ -179,17 +142,10 @@ namespace Test_coffe.Controllers
             return NoContent();
         }
 
-        // POST: api/BillDetailsAPI
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public ActionResult<BillDetails> PostBillDetail(BillDetails billDetails)
         {
-            //_context.BillDetails.Add(billDetails);
-            //await _context.SaveChangesAsync();
-
             result = _billsDetailsRepository.CreateBillDetails(billDetails);
-            //return CreatedAtAction("GetBillDetail", new { id = billDetails.id }, billDetails);
             return Ok(result);
         }
 
