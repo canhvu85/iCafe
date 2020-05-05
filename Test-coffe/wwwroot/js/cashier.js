@@ -233,8 +233,7 @@ function addItemProduct() {
 				}
 
 				createBill(bills).then(function (rs) {
-					console.log(rs);
-					billsId = rs.data[0].id;
+					billsId = rs.data;
 					createDrawNewOrder(price, user.username, itemId, billsId, tablesId, name);
 					itemsPrinted = 0;
 				})
@@ -243,7 +242,7 @@ function addItemProduct() {
 					unAuthorized();
 				});
 			} else if (rs.data.length == 1) {
-				if (rs.data[0].status != 2) {
+				if (rs.data.status != 2) {
 					updateTable(tablesId, 2).catch(function () {
 						unAuthorized();
 					});
@@ -328,7 +327,7 @@ function createDrawNewOrder(price, username, itemId, billsId, tablesId, name) {
 		"billsId": billsId
 	}
 	createBillDetails(billDetails).then(function (rs) {
-		billDetailsId = rs.data.id;
+		billDetailsId = rs.data;
 		let tb = new Tables(billDetailsId, billsId, tablesId, itemId,
 			name, price, 1, price, 0);
 		tables.push(tb);
@@ -404,7 +403,6 @@ function printOrder() {
 				};
 				updateBill(billsId, bills).then(function () {
 					tables = [];
-					console.log("tablesName  " + tablesName);
 					getBill(tablesId, tablesName);
 				}).catch(function () {
 					unAuthorized();
@@ -491,11 +489,9 @@ $("#logOut").on("click", function () {
 			updated_by: user.username
 		})
 	}).then(function () {
-		sessionStorage.clear();
 		alert("Đã logout");
 		window.location.replace("/");
 	}).catch(function () {
 		alert("loi");
 	})
 });
-

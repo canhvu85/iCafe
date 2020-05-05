@@ -1,4 +1,6 @@
-﻿using Test_coffe.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Test_coffe.Models;
 
 namespace Test_coffe.Controllers.Services
 {
@@ -8,7 +10,7 @@ namespace Test_coffe.Controllers.Services
 
         dynamic GetBillByDate(int? shopsId, string? startDate, string? endDate);
 
-        void CreateBills(Bills bills);
+        int CreateBills(Bills bills);
 
         void UpdateBills(int id, Bills bills);
     }

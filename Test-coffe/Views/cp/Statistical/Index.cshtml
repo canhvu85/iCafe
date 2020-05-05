@@ -21,6 +21,16 @@
     <link rel="stylesheet" href="~/AdminLTE-3.0.2/plugins/daterangepicker/daterangepicker.css">
     <link rel="stylesheet" type="text/css" href="~/css/sweetalert.css">
     <link rel="stylesheet" href="~/css/style.css">
+    <script type="text/javascript">
+        function addCommas1(nStr) {
+            nStr += '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(nStr)) {
+                nStr = nStr.replace(rgx, '$1' + '.' + '$2');
+            }
+            return nStr;
+        }
+    </script>
 }
 
 
@@ -234,8 +244,10 @@
                                         @addCommas(item.fee_service.ToString()) vnđ
                                         @*@Html.DisplayFor(modelItem => item.fee_service)*@
                                     </td>
-                                    <td>
-                                        @addCommas(item.total_money.ToString()) vnđ
+                                    <td id="@($"total_{item.total_money}")">
+                                        @Html.Raw("<script type='text/javascript'>" +
+        "document.getElementById('total_"+@item.total_money+"').innerHTML = addCommas1(" + @item.total_money.ToString() + ") + ' vnđ';</script>")
+                                        @*@addCommas(item.total_money.ToString()) vnđ*@
                                         @*@Html.DisplayFor(modelItem => item.total_money)*@
                                     </td>
                                     <td>
@@ -301,6 +313,15 @@
     <script type="text/javascript" src="~/js/lib.js"></script>
     <script src="~/js/script.js"></script>
     <script type="text/javascript">
+                function addCommas1(nStr) {
+            nStr += '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(nStr)) {
+                nStr = nStr.replace(rgx, '$1' + '.' + '$2');
+            }
+            return nStr;
+        }
+
        var GetBillDetail = "@Url.Action("GetBillDetail2", "BillDetailsAPI")";
     </script>
     <script src="~/js/statistical.js"></script>

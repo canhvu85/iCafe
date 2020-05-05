@@ -1,10 +1,8 @@
 ﻿//var hdnUserSession = $("#hdnUserSession").data("value");
 let user = JSON.parse(sessionStorage.getItem('user'));
-
 function getBill(tablesId, tablesName) {
 	checkBill(tablesId).then(function (response) {
 		if (response.data.length > 0) {
-			console.log(response.data[0]);
 			billsId = response.data[0].id;
 			let txt = `<div>
 				<p><b>${response.data[0].tablesName}</b></p>
@@ -74,4 +72,3 @@ function checkBill(tablesId) {
 		}
 	})
 }
-

@@ -14,7 +14,7 @@ namespace Test_coffe.Controllers.Services
 
         dynamic GetOrderPrinted(int? TableId);
 
-        void CreateBillDetails(BillDetails billDetails);
+        int CreateBillDetails(BillDetails billDetails);
 
         void UpdateBillDetails(int id, BillDetails billDetails);
     }

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
@@ -113,10 +112,11 @@ namespace Test_coffe.Controllers.Repository
                    };
         }
 
-        public void CreateBillDetails(BillDetails billDetails)
+        public int CreateBillDetails(BillDetails billDetails)
         {
             _context.BillDetails.Add(billDetails);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
+            return _context.Bills.Max(b => b.id);
         }
 
         public void UpdateBillDetails(int id, BillDetails billDetails)
@@ -129,7 +129,7 @@ namespace Test_coffe.Controllers.Repository
             billDetailsOld.status = billDetails.status;
             _context.Entry(billDetailsOld).State = EntityState.Modified;
 
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
     }
 }

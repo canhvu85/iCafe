@@ -42,7 +42,7 @@ namespace Test_coffe.Controllers.Services
         {
             //var user = _httpContextAccessor.HttpContext.Session.GetObjectFromJson<Users>("user");
             string remember_token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
-            Console.WriteLine(remember_token);
+            //Console.WriteLine(remember_token);
             var token = new JwtSecurityTokenHandler().ReadJwtToken(remember_token);
             var username = token.Claims.First(claim => claim.Type == "username").Value;
             var ShopsId = int.Parse(token.Claims.First(claim => claim.Type == "ShopsId").Value);
@@ -52,9 +52,9 @@ namespace Test_coffe.Controllers.Services
                 var expTime = jwttoken.ValidTo;
                 var currentTime = DateTime.UtcNow;
                 //Console.WriteLine("remember_token " + remember_token);
-                Console.WriteLine("jwttoken " + jwttoken);
-                Console.WriteLine("exp " + expTime);
-                Console.WriteLine("current " + currentTime);
+                //Console.WriteLine("jwttoken " + jwttoken);
+                //Console.WriteLine("exp " + expTime);
+                //Console.WriteLine("current " + currentTime);
 
                 //var jwttoken2 = new JwtSecurityTokenHandler().ReadJwtToken(remember_token);
                 //var jwttoken2 = jwttoken as JwtSecurityToken;

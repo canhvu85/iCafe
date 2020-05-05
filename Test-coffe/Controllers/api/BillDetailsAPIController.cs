@@ -188,8 +188,9 @@ namespace Test_coffe.Controllers
             //_context.BillDetails.Add(billDetails);
             //await _context.SaveChangesAsync();
 
-            _billsDetailsRepository.CreateBillDetails(billDetails);
-            return CreatedAtAction("GetBillDetail", new { id = billDetails.id }, billDetails);
+            result = _billsDetailsRepository.CreateBillDetails(billDetails);
+            //return CreatedAtAction("GetBillDetail", new { id = billDetails.id }, billDetails);
+            return Ok(result);
         }
 
         private bool BillDetailExists(int id)

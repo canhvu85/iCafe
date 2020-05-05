@@ -12,6 +12,7 @@ namespace Test_coffe.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ITables _tablesRepository;
+        private dynamic result;
 
         public TablesAPIController(ApplicationDbContext context, ITables tablesRepository)
         {

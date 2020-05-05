@@ -1,4 +1,6 @@
-﻿using Dapper;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
@@ -6,75 +8,84 @@ namespace Test_coffe.Controllers.Repository
 {
     public class BillsRepository : IBills
     {
-        private string get_Bills;
-        private string create_Bills;
-        private string update_Bills;
+        private readonly ApplicationDbContext _context;
+
+        public BillsRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         public dynamic GetBillByTable(int? TableId)
         {
-            get_Bills = "SELECT b.[id], t.[name] as tablesName, b.[sub_total], b.[fee_service], b.[total_money], " +
-                "b.[created_by] FROM[Bills] b JOIN [Tables] t ON b.[TablesId] = t.[id] " +
-                "WHERE b.[isDeleted] = 0 AND t.[isDeleted] = 0  AND t.[status] <> 0 " +
-                "AND b.[status] = 0 AND b.[TablesId] = @TableId";
-
-            var query = SQLUtils.ExecuteCommand(SQLUtils._connStr,
-                                  conn => conn.Query(get_Bills, new { TableId }));
-            return query;
+            return from b in _context.Bills
+                   where b.isDeleted == false &&
+                   b.Tables.status != 0 &&
+                   b.status == 0 &&
+                   b.TablesId == TableId
+                   select new
+                   {
+                       b.id,
+                       tablesName = b.Tables.name,
+                       b.created_by,
+                       b.sub_total,
+                       b.fee_service,
+                       b.total_money
+                   };
         }
 
         public dynamic GetBillByDate(int? shopsId, string startDate, string endDate)
         {
-            get_Bills = "SELECT b.[id], b.[time_out], t.[name], b.[status], b.[created_by], " +
-                "b.[sub_total], b.[fee_service], b.[total_money] FROM[Bills] b JOIN[Tables] " +
-                "t on b.[TablesId] = t.[id] JOIN[Floors] f on f.[id] = t.[FloorsId] " +
-                "WHERE b.[isDeleted] = 0 AND t.[isDeleted] = 0 AND f.[isDeleted] = 0 " +
-                "AND f.[ShopsId] = @shopsId AND CAST(b.[time_out] as startDate) >= @startDate " +
-                "AND CAST(b.[time_out] as endDate) <= @endDate";
-
-            var query = SQLUtils.ExecuteCommand(SQLUtils._connStr,
-                                  conn => conn.Query(get_Bills, new {
-                                      ShopsId = shopsId ,
-                                      startDate,
-                                      endDate
-                                  }));
-            return query;
+            return _context.Bills
+                .FromSqlRaw("SELECT b.* FROM Bills b JOIN Tables t on b.TablesId = t.id JOIN Floors f on f.id = t.FloorsId " +
+                            "WHERE b.isDeleted = 0 AND f.ShopsId = " + shopsId + " AND " +
+                            "CAST(b.time_out as date) >= '" + startDate + "' AND CAST(b.time_out as date) <= '" + endDate + "'")
+                .Select(b => new
+                {
+                    b.id,
+                    b.time_out,
+                    b.Tables.name,
+                    b.status,
+                    b.created_by,
+                    b.sub_total,
+                    b.fee_service,
+                    b.total_money
+                }).ToList();
         }
 
-        public void CreateBills(Bills Bills)
-        {
-            create_Bills = "INSERT INTO [Bills] ([time_enter], [status], [sub_total], "+
-                "[fee_service], [total_money] ,[TablesId], [isDeleted], [created_at], "+
-                "[created_by]) VALUES(GETDATE(), 0, 0, 0, 0, @TablesId, 0, GETDATE(), @created_by)";
+        //public async Task<ActionResult<Bills>> CreateBills(Bills bills)
+        //{
 
-            SQLUtils.ExecuteCommand(SQLUtils._connStr, conn =>
-            {
-                var query = conn.Query<Bills>(create_Bills,
-                    new
-                    {
-                        Bills.TablesId,
-                        Bills.created_by
-                    });
-            });
+        //    _context.Bills.Add(bills);
+        //    await _context.SaveChanges();
+        //    return bills;
+        //    //int? id = _context.Bills.Max(b => (int?)b.id);
+        //    //Console.WriteLine(id);
+
+        //    //return id;
+        //}
+
+        public int CreateBills(Bills bills)
+        {
+            _context.Bills.Add(bills);
+            _context.SaveChanges();
+            return _context.Bills.Max(b => b.id);
         }
 
-        public void UpdateBills(int id, Bills Bills)
+        public void UpdateBills(int id, Bills bills)
         {
-            update_Bills = "UPDATE [Bills] SET [time_out] = GETDATE(), [status] = @status, " +
-                "[sub_total] = @sub_total, [total_money] = @total_money, [updated_at] = GETDATE(), "+
-                "[updated_by] = @updated_by WHERE [id] = @id AND [isDeleted] = 0";
-
-            SQLUtils.ExecuteCommand(SQLUtils._connStr, conn =>
+            var billsOld = _context.Bills.Find(id);
+            billsOld.updated_at = DateTime.Now;
+            billsOld.updated_by = bills.updated_by;
+            billsOld.time_out = DateTime.Now;
+            billsOld.status = bills.status;
+            if (bills.sub_total != 0)
             {
-                var query = conn.Query<Bills>(update_Bills,
-                    new
-                    {
-                        Bills.status,
-                        Bills.sub_total,
-                        Bills.total_money,
-                        Bills.updated_by,
-                        id
-                    });
-            });
+                billsOld.sub_total = bills.sub_total;
+                billsOld.total_money = billsOld.sub_total + billsOld.fee_service;
+            }
+            _context.Entry(billsOld).State = EntityState.Modified;
+
+            _context.SaveChanges();
         }
     }
 }

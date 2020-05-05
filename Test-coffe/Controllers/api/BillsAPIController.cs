@@ -95,36 +95,8 @@ namespace Test_coffe.Controllers
             {
                 return BadRequest();
             }
-            var billsOld = _context.Bills.Find(id);
-            billsOld.updated_at = DateTime.Now;
-            billsOld.updated_by = bills.updated_by;
-            billsOld.time_out = DateTime.Now;
-            billsOld.status = bills.status;
-            if (bills.sub_total != 0)
-            {
-                billsOld.sub_total = bills.sub_total;
-                billsOld.total_money = billsOld.sub_total + billsOld.fee_service;
-            }
-            _billsRepository.UpdateBills(id, billsOld);
-            //_context.Entry(billsOld).State = EntityState.Modified;
-
-            //try
-            //{
-            //    await _context.SaveChangesAsync();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!BillExists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
-            result = _billsRepository.GetBillByTable(billsOld.TablesId);
-            return CreatedAtAction("GetBill", result);
+            _billsRepository.UpdateBills(id, bills);
+            return NoContent();
         }
 
         // POST: api/BillsAPI
@@ -135,9 +107,9 @@ namespace Test_coffe.Controllers
         {
             //_context.Bills.Add(bills);
             //await _context.SaveChangesAsync();
-            _billsRepository.CreateBills(bills);
-            result = _billsRepository.GetBillByTable(bills.TablesId);
-            return CreatedAtAction("GetBill", result);
+            result = _billsRepository.CreateBills(bills);
+            //return CreatedAtAction("GetBillDetail", result);
+            return Ok(result);
         }
     }
 }
