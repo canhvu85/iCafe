@@ -294,9 +294,9 @@ function displayItems(shopsId) {
 function addItem(item) {
     if (item.trim().length > 0) {
         let newData = {
-            "name": item.trim().replace(/([^0-9a-z-\s])/g, ''),
+            "name": item.trim().replace(/([^0-9a-zA-Z-\s])/g, ''),
             "permalink": toSlug(item.trim()),
-            "shopsId": user.ShopsId,
+            "shopsId": parseInt(user.ShopsId),
             "created_by": user.username
         };
         axios({
@@ -307,10 +307,14 @@ function addItem(item) {
                 'Authorization': user.remember_token
             },
             data: newData
-        }).then(function () {
-            $("#formCreate")[0].reset();
-            showSuccessbyAlert('Tạo danh mục mới thành công.')
-            displayItems(user.ShopsId);
+        }).then(function (response) {
+            if (response.status == 200) {
+                showErrorbyAlert(response.data);
+            } else {
+                $("#formCreate")[0].reset();
+                showSuccessbyAlert('Tạo danh mục mới thành công.')
+                displayItems(user.ShopsId);
+            }
         }).catch(function () {
             unAuthorized();
         });
@@ -349,7 +353,7 @@ function editItem(tdid, val) {
         //  btnChange.onclick = function () {
         var newData = {
             'id': tdid,
-            'name': input.value.trim().replace(/([^0-9a-z-\s])/g, ''),
+            'name': input.value.trim().replace(/([^0-9a-zA-Z-\s])/g, ''),
             "permalink": toSlug(input.value.trim()),
             "updated_by": user.username
         }
@@ -361,16 +365,20 @@ function editItem(tdid, val) {
                 'Authorization': user.remember_token
             },
             data: newData
-        }).then(function () {
-            showEditSuccessbyAlert('Sửa thông tin thành công.')
-            $(btnChange).remove();
-            $(btnCancel).remove();
-            $(".btnEdit").css("visibility", 'visible');
-            $(".btnDel").css("visibility", 'visible');
-            $(input).remove();
-            $("#span" + tdid).show();
+        }).then(function (response) {
+            if (response.status == 200) {
+                showErrorbyAlert(response.data);
+            } else {
+                showEditSuccessbyAlert('Sửa thông tin thành công.')
+                $(btnChange).remove();
+                $(btnCancel).remove();
+                $(".btnEdit").css("visibility", 'visible');
+                $(".btnDel").css("visibility", 'visible');
+                $(input).remove();
+                $("#span" + tdid).show();
 
-            displayItems(user.ShopsId);
+                displayItems(user.ShopsId);
+            }
         }).catch(function () {
             $("#showEdit").modal("hide");
             unAuthorized();

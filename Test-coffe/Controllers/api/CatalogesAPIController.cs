@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace Test_coffe.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cataloges>>> GetCataloge2()
+        public IActionResult GetCataloge2()
         {
             result = _catalogesRepository.GetAllCataloges();
             return Ok(result);
@@ -38,23 +39,38 @@ namespace Test_coffe.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCataloges(int id, Cataloges cataloges)
+        public IActionResult PutCataloges(int id, Cataloges cataloges)
         {
             if (id != cataloges.id)
             {
                 return BadRequest();
             }
-            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
-            _catalogesRepository.UpdateCataloges(id, cataloges);
-            return NoContent();
+            if (_context.Cataloges.Any(c => c.name == cataloges.name && c.isDeleted == false))
+            {
+                return Content("Danh mục này đã có, hãy nhập tên khác");
+            }
+            else
+            {
+                _catalogesRepository.UpdateCataloges(id, cataloges);
+                return NoContent();
+            }
         }
 
+        // POST: api/CatalogesAPI
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Cataloges>> PostCataloges(Cataloges cataloges)
+        public IActionResult PostCataloges(Cataloges cataloges)
         {
-            var user = HttpContext.Session.GetObjectFromJson<Users>("user");
-            _catalogesRepository.CreateCataloges(cataloges);
-            return NoContent();
+            if (_context.Cataloges.Any(c => c.name == cataloges.name && c.isDeleted == false))
+            {
+                return Content("Danh mục này đã có, hãy nhập tên khác");
+            }
+            else
+            {
+                _catalogesRepository.CreateCataloges(cataloges);
+                return NoContent();
+            }
         }
 
         // DELETE: api/CatalogesAPI/5

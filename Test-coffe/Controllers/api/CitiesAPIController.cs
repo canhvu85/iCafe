@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,7 +49,7 @@ namespace Test_coffe.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCities(int id, Cities cities)
+        public IActionResult PutCities(int id, Cities cities)
         {
             if (id != cities.id)
             {
@@ -65,8 +66,15 @@ namespace Test_coffe.Controllers
             if (_context.PermissionDetails.Any(pd => pd.UsersId == int.Parse(idUser) &&
                 route.StartsWith(pd.permalink_permissions) && pd.action == method))
             {
-                _citiesRepository.UpdateCities(id, cities);
-                return NoContent();
+                if (_context.Cities.Any(c => c.name == cities.name && c.isDeleted == false))
+                {
+                    return Content("Thành phố này đã có, hãy nhập tên khác");
+                }
+                else
+                {
+                    _citiesRepository.UpdateCities(id, cities);
+                    return NoContent();
+                }
             }
             else
             {
@@ -97,7 +105,7 @@ namespace Test_coffe.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Cities>> PostCities(Cities cities)
+        public IActionResult PostCities(Cities cities)
         {
             route = Request.Path.Value;
             method = Request.Method;
@@ -108,8 +116,15 @@ namespace Test_coffe.Controllers
             if (_context.PermissionDetails.Any(pd => pd.UsersId == int.Parse(idUser) &&
                 pd.permalink_permissions == route && pd.action == method))
             {
-                _citiesRepository.CreateCities(cities);
-                return NoContent();
+                if (_context.Cities.Any(c => c.name == cities.name && c.isDeleted == false))
+                {
+                    return Content("Thành phố này đã có, hãy nhập tên khác");
+                }
+                else
+                {
+                    _citiesRepository.CreateCities(cities);
+                    return NoContent();
+                }
             }
             else
             {

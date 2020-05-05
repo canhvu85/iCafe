@@ -24,9 +24,9 @@ namespace Test_coffe.Controllers.Repository
 
         public void CreateCataloges(Cataloges Cataloges)
         {
-            create_Cataloges = "INSERT INTO [Cataloges] ([name], [permalink], [isDeleted], " +
+            create_Cataloges = "INSERT INTO [Cataloges] ([name], [permalink], [ShopsId], [isDeleted], " +
                                    "[created_at], [created_by]) " +
-                                   "VALUES(@name, @permalink, 0, GETDATE(), @created_by)";
+                                   "VALUES(@name, @permalink, @ShopsId, 0, GETDATE(), @created_by)";
 
             SQLUtils.ExecuteCommand(SQLUtils._connStr, conn =>
             {
@@ -35,6 +35,7 @@ namespace Test_coffe.Controllers.Repository
                     {
                         Cataloges.name,
                         Cataloges.permalink,
+                        Cataloges.ShopsId,
                         Cataloges.created_by
                     });
             });
@@ -42,7 +43,7 @@ namespace Test_coffe.Controllers.Repository
 
         public void UpdateCataloges(int id, Cataloges Cataloges)
         {
-            update_Cataloges = "UPDATE [Cataloges] SET [name] = @name, [permalink] = @permalink,[updated_at] = GETDATE(), " +
+            update_Cataloges = "UPDATE [Cataloges] SET [name] = @name, [permalink] = @permalink, [updated_at] = GETDATE(), " +
                                    "[updated_by] = @updated_by WHERE [id] = @id AND [isDeleted] = 0";
 
             SQLUtils.ExecuteCommand(SQLUtils._connStr, conn =>

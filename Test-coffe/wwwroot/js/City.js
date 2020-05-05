@@ -265,7 +265,7 @@ function displayItems() {
 function addItem(item) {
     if (item.trim().length > 0) {
         let newData = {
-            "name": item.trim().replace(/([^0-9a-z-\s])/g, ''),
+            "name": item.trim().replace(/([^0-9a-zA-Z-\s])/g, ''),
             "permalink": toSlug(item.trim()),
             "created_by": user.username
         };
@@ -278,7 +278,9 @@ function addItem(item) {
             },
             data: newData
         }).then(function (response) {
-            if (response.status == 203) {
+            if (response.status == 200) {
+                showErrorbyAlert(response.data);
+            } else if (response.status == 203) {
                 showErrorbyAlert("Bạn không có quyền thực hiện hành động này");
             } else {
                 $("#formCreate")[0].reset();
@@ -325,7 +327,7 @@ function editItem(tdid, val) {
         // btnChange.onclick = function () {
         var newData = {
             'id': tdid,
-            'name': input.value.trim().replace(/([^0-9a-z-\s])/g, ''),
+            'name': input.value.trim().replace(/([^0-9a-zA-Z-\s])/g, ''),
             "permalink": toSlug(input.value.trim()),
             "updated_by": user.username
         }
@@ -338,7 +340,9 @@ function editItem(tdid, val) {
             },
             data: newData
         }).then(function (response) {
-            if (response.status == 203) {
+            if (response.status == 200) {
+                showErrorbyAlert(response.data);
+            } else if (response.status == 203) {
                 showErrorbyAlert("Bạn không có quyền thực hiện hành động này");
             } else {
                 showEditSuccessbyAlert('Sửa thông tin thành công.')
