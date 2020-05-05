@@ -245,8 +245,9 @@
                                         @*@Html.DisplayFor(modelItem => item.fee_service)*@
                                     </td>
                                     <td id="@($"total_{item.total_money}")">
-                                        @Html.Raw("<script type='text/javascript'>" +
-        "document.getElementById('total_"+@item.total_money+"').innerHTML = addCommas1(" + @item.total_money.ToString() + ") + ' vnđ';</script>")
+                                        <script> document.getElementById("@($"total_{item.total_money}")").innerHTML = addCommas1(@item.total_money.ToString()) + " vnđ"; </script>
+                                        @*@Html.Raw("<script type='text/javascript'>" +
+        "document.getElementById('total_" + @item.total_money + "').innerHTML = addCommas1(" + @item.total_money.ToString() + ") + ' vnđ';</script>")*@
                                         @*@addCommas(item.total_money.ToString()) vnđ*@
                                         @*@Html.DisplayFor(modelItem => item.total_money)*@
                                     </td>
