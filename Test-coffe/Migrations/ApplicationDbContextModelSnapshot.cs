@@ -243,6 +243,44 @@ namespace Test_coffe.Migrations
                     b.HasIndex("ShopsId");
 
                     b.ToTable("Cataloges");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            ShopsId = 1,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 955, DateTimeKind.Local).AddTicks(4368),
+                            isDeleted = false,
+                            name = "Coffee",
+                            permalink = "Coffee"
+                        },
+                        new
+                        {
+                            id = 2,
+                            ShopsId = 1,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 955, DateTimeKind.Local).AddTicks(7573),
+                            isDeleted = false,
+                            name = "MilkTea",
+                            permalink = "MilkTea"
+                        },
+                        new
+                        {
+                            id = 3,
+                            ShopsId = 1,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 955, DateTimeKind.Local).AddTicks(7643),
+                            isDeleted = false,
+                            name = "Food",
+                            permalink = "Food"
+                        },
+                        new
+                        {
+                            id = 4,
+                            ShopsId = 2,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 955, DateTimeKind.Local).AddTicks(7647),
+                            isDeleted = false,
+                            name = "MilkTea",
+                            permalink = "MilkTea"
+                        });
                 });
 
             modelBuilder.Entity("Test_coffe.Models.Cities", b =>
@@ -288,6 +326,24 @@ namespace Test_coffe.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Cities");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 946, DateTimeKind.Local).AddTicks(4642),
+                            isDeleted = false,
+                            name = "Huế",
+                            permalink = "Hue"
+                        },
+                        new
+                        {
+                            id = 2,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 948, DateTimeKind.Local).AddTicks(2930),
+                            isDeleted = false,
+                            name = "Sài Gòn",
+                            permalink = "Sai_Gon"
+                        });
                 });
 
             modelBuilder.Entity("Test_coffe.Models.Floors", b =>
@@ -337,6 +393,35 @@ namespace Test_coffe.Migrations
                     b.HasIndex("ShopsId");
 
                     b.ToTable("Floors");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            ShopsId = 1,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 954, DateTimeKind.Local).AddTicks(4105),
+                            isDeleted = false,
+                            name = "Tầng 1",
+                            permalink = "Tang_1"
+                        },
+                        new
+                        {
+                            id = 2,
+                            ShopsId = 1,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 954, DateTimeKind.Local).AddTicks(7434),
+                            isDeleted = false,
+                            name = "Tầng 2",
+                            permalink = "Tang_2"
+                        },
+                        new
+                        {
+                            id = 3,
+                            ShopsId = 2,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 954, DateTimeKind.Local).AddTicks(7497),
+                            isDeleted = false,
+                            name = "Tầng 1",
+                            permalink = "Tang_1"
+                        });
                 });
 
             modelBuilder.Entity("Test_coffe.Models.Groups", b =>
@@ -528,6 +613,15 @@ namespace Test_coffe.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Positions");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 950, DateTimeKind.Local).AddTicks(5909),
+                            isDeleted = false,
+                            name = "Nhân Viên"
+                        });
                 });
 
             modelBuilder.Entity("Test_coffe.Models.Products", b =>
@@ -588,6 +682,62 @@ namespace Test_coffe.Migrations
                     b.HasIndex("CatalogesId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            CatalogesId = 1,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 955, DateTimeKind.Local).AddTicks(9470),
+                            isDeleted = false,
+                            name = "Cà phê đen",
+                            price = 10000m
+                        },
+                        new
+                        {
+                            id = 2,
+                            CatalogesId = 1,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 956, DateTimeKind.Local).AddTicks(2736),
+                            isDeleted = false,
+                            name = "Cà phê sữa",
+                            price = 12000m
+                        },
+                        new
+                        {
+                            id = 3,
+                            CatalogesId = 2,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 956, DateTimeKind.Local).AddTicks(2788),
+                            isDeleted = false,
+                            name = "Trà sữa socola",
+                            price = 18000m
+                        },
+                        new
+                        {
+                            id = 4,
+                            CatalogesId = 2,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 956, DateTimeKind.Local).AddTicks(2792),
+                            isDeleted = false,
+                            name = "Trà sữa matcha",
+                            price = 20000m
+                        },
+                        new
+                        {
+                            id = 5,
+                            CatalogesId = 3,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 956, DateTimeKind.Local).AddTicks(2795),
+                            isDeleted = false,
+                            name = "Khoai tây chiên",
+                            price = 15000m
+                        },
+                        new
+                        {
+                            id = 6,
+                            CatalogesId = 4,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 956, DateTimeKind.Local).AddTicks(2799),
+                            isDeleted = false,
+                            name = "Cà phê đen",
+                            price = 10000m
+                        });
                 });
 
             modelBuilder.Entity("Test_coffe.Models.Shops", b =>
@@ -654,6 +804,30 @@ namespace Test_coffe.Migrations
                     b.HasIndex("CitiesId");
 
                     b.ToTable("Shops");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            CitiesId = 1,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 950, DateTimeKind.Local).AddTicks(9552),
+                            isDeleted = false,
+                            name = "The One",
+                            status = 0,
+                            time_close = new DateTime(2020, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            time_open = new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            id = 2,
+                            CitiesId = 1,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 954, DateTimeKind.Local).AddTicks(2068),
+                            isDeleted = false,
+                            name = "HighLand",
+                            status = 0,
+                            time_close = new DateTime(2020, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            time_open = new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Test_coffe.Models.Tables", b =>
@@ -706,6 +880,48 @@ namespace Test_coffe.Migrations
                     b.HasIndex("FloorsId");
 
                     b.ToTable("Tables");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            FloorsId = 1,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 954, DateTimeKind.Local).AddTicks(9574),
+                            isDeleted = false,
+                            name = "Bàn 1",
+                            permalink = "Ban_1",
+                            status = 0
+                        },
+                        new
+                        {
+                            id = 2,
+                            FloorsId = 1,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 955, DateTimeKind.Local).AddTicks(2755),
+                            isDeleted = false,
+                            name = "Bàn 2",
+                            permalink = "Ban_2",
+                            status = 0
+                        },
+                        new
+                        {
+                            id = 3,
+                            FloorsId = 2,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 955, DateTimeKind.Local).AddTicks(2807),
+                            isDeleted = false,
+                            name = "Bàn 3",
+                            permalink = "Ban_3",
+                            status = 0
+                        },
+                        new
+                        {
+                            id = 4,
+                            FloorsId = 3,
+                            created_at = new DateTime(2020, 5, 6, 20, 27, 1, 955, DateTimeKind.Local).AddTicks(2811),
+                            isDeleted = false,
+                            name = "Bàn 1",
+                            permalink = "Ban_1",
+                            status = 0
+                        });
                 });
 
             modelBuilder.Entity("Test_coffe.Models.TypeMoneys", b =>
