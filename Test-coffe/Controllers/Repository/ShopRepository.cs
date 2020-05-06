@@ -16,16 +16,29 @@ namespace Test_coffe.Controllers.Repository
             _context = context;
         }
 
-        public dynamic GetShop()
+        //public dynamic GetShop()
+        //{
+        //    return from s in _context.Shops
+        //           where s.isDeleted == false
+        //           orderby s.name
+        //           select new
+        //           {
+        //               s.id,
+        //               s.name,
+        //               citiesId = s.CitiesId
+        //           };
+        //}
+
+        public dynamic GetShopById(int? shopsId)
         {
             return from s in _context.Shops
-                   where s.isDeleted == false
-                   orderby s.name
+                   where s.isDeleted == false && s.id == shopsId
                    select new
                    {
                        s.id,
                        s.name,
-                       citiesId = s.CitiesId
+                       s.info,
+                       s.CitiesId
                    };
         }
 
@@ -38,6 +51,7 @@ namespace Test_coffe.Controllers.Repository
                    {
                        s.id,
                        s.name,
+                       s.info,
                        s.CitiesId
                    };
         }

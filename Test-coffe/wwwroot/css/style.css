@@ -107,7 +107,7 @@
     position: relative;
 }
 
-#frmAddProduct .col-9{
+#frmAddProduct .col-9 {
     margin: 0 auto;
 }
 
@@ -115,6 +115,30 @@
     background-color: dodgerblue;
     color: white;
 }
+
+#tableBill {
+    width: 100%;
+}
+    #tableBill th, #tableBill td {
+        vertical-align: middle !important;
+        padding: .2rem !important;
+    }
+#tableBill tr, #tableBill td, #tableBill th {
+    border: 1px solid;
+}
+    #tableBill th:first-child, #tableBill td:first-child {
+        width: 50%;
+    }
+    #tableBill td:first-child{
+        text-align: left;
+    }
+    #tableBill tr, #tableBill td:nth-child(2), #tableBill td:nth-child(4) {
+        text-align: center;
+    }
+
+    #tableBill td:nth-child(3), #tableBill td:nth-child(5) {
+        text-align: right;
+    }
 
 .table thead th {
     text-align: center;
@@ -128,7 +152,7 @@ button.text-muted:hover {
     color: #007bff !important;
 }
 
-button.text-muted{
+button.text-muted {
     border: none;
 }
 

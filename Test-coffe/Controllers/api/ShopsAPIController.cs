@@ -19,7 +19,7 @@ namespace Test_coffe.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetShop2()
+        public IActionResult GetShop2(int? shopsId)
         {
             //var result = from s in _context.Shops
             //             where s.isDeleted == false
@@ -30,7 +30,10 @@ namespace Test_coffe.Controllers
             //                 name = s.name,
             //                 citiesId = s.CitiesId
             //             };
-            result = _shopRepository.GetShop();
+            //result = _shopRepository.GetShop();
+            //return Ok(result);
+
+            var result = _shopRepository.GetShopById(shopsId);
             return Ok(result);
         }
 

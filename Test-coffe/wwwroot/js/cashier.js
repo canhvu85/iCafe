@@ -440,9 +440,9 @@ function cancelOrder() {
 
 function checkout() {
 	$("#main-order-1 .checkout .btn-success").on("click", function () {
-		alert("da thanh toan");
+		//alert("da thanh toan");
 		$("#showBill").modal("show");
-
+		drawPrintCheckout();
 		//getOrderPrinted(tablesId).then(function (rs) {
 		//	$.each(rs.data, function (index, value) {
 		//		billDetails = billDetailsObj(value.id, value.quantity, value.total, 3, user.username);
@@ -497,3 +497,51 @@ $("#logOut").on("click", function () {
 		alert("loi");
 	})
 });
+
+function drawPrintCheckout() {
+	axios({
+		url: GetShop + "/?shopsId=" + user.ShopsId,
+		method: "GET",
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': user.remember_token
+		}
+	}).then(function (response) {
+		$("#nameShop").html(response.data[0].name);
+		$("#infoShop").html(response.data[0].info);
+		$("#timeCheckout").html(getDateTime());
+		$("#nameTable").html(tablesName);
+		$("#userNameCashier").html(user.username);
+		
+	}).catch(function () {
+		unAuthorized();
+	});
+
+}
+
+function getDateTime() {
+	var now = new Date();
+	var year = now.getFullYear();
+	var month = now.getMonth() + 1;
+	var day = now.getDate();
+	var hour = now.getHours();
+	var minute = now.getMinutes();
+	var second = now.getSeconds();
+	if (month.toString().length == 1) {
+		month = '0' + month;
+	}
+	if (day.toString().length == 1) {
+		day = '0' + day;
+	}
+	if (hour.toString().length == 1) {
+		hour = '0' + hour;
+	}
+	if (minute.toString().length == 1) {
+		minute = '0' + minute;
+	}
+	if (second.toString().length == 1) {
+		second = '0' + second;
+	}
+	var dateTime = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second;
+	return dateTime;
+}

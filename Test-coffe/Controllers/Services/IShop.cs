@@ -2,7 +2,8 @@
 {
     public interface IShop
     {
-        dynamic GetShop();
+        //dynamic GetShop();
+        dynamic GetShopById(int? shopsId);
 
         dynamic GetShopByCities(int? citiesId);
     }
