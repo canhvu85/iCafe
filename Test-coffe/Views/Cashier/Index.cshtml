@@ -171,7 +171,7 @@
         <div class="modal-dialog modal-lg" style="width: 595px">
             <form id="formBill">
                 <div class="modal-content">
-                    <div class="modal-body">
+                    <div id="formPrinted" class="modal-body">
                         <div class="row">
                             <div class="col-12" style="text-align: center;">Nhà Hàng</div>
                         </div>
@@ -214,14 +214,14 @@
 
                         <div class="row" style=" margin-top: -10px;">
                             <div class="col-12" style="font-size: small;">
-                                Thu Ngân: <span id="userNameCashier"></span>
+                                Thu ngân: <span id="userNameCashier"></span>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-12">
                                 <table id="tableBill">
-                                    <tbody>
+                                    <thead>
                                         <tr>
                                             <th>Mặt Hàng</th>
                                             <th>ĐVT</th>
@@ -229,76 +229,8 @@
                                             <th>SL</th>
                                             <th>Tiền</th>
                                         </tr>
-                                        <tr>
-                                            <td>Cà phê đen</td>
-                                            <td>ly</td>
-                                            <td>10.000́</td>
-                                            <td>2</td>
-                                            <td>20.000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cà phê sữa</td>
-                                            <td>ly</td>
-                                            <td>12.000́</td>
-                                            <td>1</td>
-                                            <td>12.000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cà phê sữa</td>
-                                            <td>ly</td>
-                                            <td>12.000́</td>
-                                            <td>1</td>
-                                            <td>12.000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cà phê sữa</td>
-                                            <td>ly</td>
-                                            <td>12.000́</td>
-                                            <td>1</td>
-                                            <td>12.000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cà phê sữa</td>
-                                            <td>ly</td>
-                                            <td>12.000́</td>
-                                            <td>1</td>
-                                            <td>12.000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cà phê đen</td>
-                                            <td>ly</td>
-                                            <td>10.000́</td>
-                                            <td>2</td>
-                                            <td>20.000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cà phê sữa</td>
-                                            <td>ly</td>
-                                            <td>12.000́</td>
-                                            <td>1</td>
-                                            <td>12.000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cà phê sữa</td>
-                                            <td>ly</td>
-                                            <td>12.000́</td>
-                                            <td>1</td>
-                                            <td>12.000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cà phê sữa</td>
-                                            <td>ly</td>
-                                            <td>12.000́</td>
-                                            <td>1</td>
-                                            <td>12.000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cà phê sữa</td>
-                                            <td>ly</td>
-                                            <td>12.000́</td>
-                                            <td>1</td>
-                                            <td>12.000</td>
-                                        </tr>
+                                    </thead>
+                                    <tbody id="listCheckout">
                                     </tbody>
                                 </table>
                             </div>
@@ -306,11 +238,11 @@
 
                         <div class="row" style="text-align: right;">
                             <div class="col-8">Tổng tiền:</div>
-                            <div class="col-4">100.000.000.000</div>
+                            <div class="col-4" id="subTotal"></div>
                         </div>
                         <div class="row" style="text-align: right;">
                             <div class="col-8">Phí dịch vụ:</div>
-                            <div class="col-4">0</div>
+                            <div class="col-4">0 vnđ</div>
                         </div>
                         <div class="row" style="text-align: right;">
                             <div class="col-8">Giảm giá:</div>
@@ -319,7 +251,7 @@
 
                         <div class="row" style="text-align: right;">
                             <div class="col-8">Thành tiền:</div>
-                            <div class="col-4"><strong>100.000.000.000</strong></div>
+                            <div class="col-4"><strong id="totalBill"></strong></div>
                         </div>
 
                     </div>

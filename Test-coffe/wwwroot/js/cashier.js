@@ -105,6 +105,7 @@ function getTables() {
 		table_click();
 		getBill(response.data[0].id, response.data[0].name);
 		tablesId = response.data[0].id;
+		tablesName = response.data[0].name;
 	}).catch(function () {
 		unAuthorized();
 	});
@@ -479,6 +480,10 @@ function checkout() {
 		//	unAuthorized();
 		//});
 	});
+
+	$("#showBill .modal-footer .btn-primary").on("click", function () {
+		printDiv("formPrinted");
+	});
 }
 
 $("#logOut").on("click", function () {
@@ -512,6 +517,28 @@ function drawPrintCheckout() {
 		$("#timeCheckout").html(getDateTime());
 		$("#nameTable").html(tablesName);
 		$("#userNameCashier").html(user.username);
+
+		let str;
+		let sub_total = 0;
+		getGroupOrderPrinted(tablesId).then(function (response) {
+			if (response.data.length > 0) {
+				$.each(response.data, function (index, value) {
+					sub_total += value.total;
+					str += `<tr>
+                                            <td>${value.productsName}</td>
+                                            <td>ly</td>
+                                            <td>${addCommas(value.price)}</td>
+                                            <td>${value.quantity}</td>
+                                            <td>${addCommas(value.total)}</td>
+                                        </tr>`;
+				});
+				$("#listCheckout").html(str);
+				$("#subTotal").html(addCommas(sub_total) + " vnđ");
+				$("#totalBill").html(addCommas(sub_total) + " vnđ");
+			}
+		}).catch(function () {
+			unAuthorized();
+		});
 		
 	}).catch(function () {
 		unAuthorized();
@@ -544,4 +571,15 @@ function getDateTime() {
 	}
 	var dateTime = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second;
 	return dateTime;
+}
+
+function printDiv(divName) {
+	var printContents = document.getElementById(divName).innerHTML;
+	var originalContents = document.body.innerHTML;
+
+	document.body.innerHTML = printContents;
+
+	window.print();
+
+	document.body.innerHTML = originalContents;
 }
