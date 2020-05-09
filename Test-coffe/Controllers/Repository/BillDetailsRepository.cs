@@ -116,7 +116,7 @@ namespace Test_coffe.Controllers.Repository
         {
             _context.BillDetails.Add(billDetails);
             _context.SaveChanges();
-            return _context.Bills.Max(b => b.id);
+            return _context.BillDetails.Max(b => b.id);
         }
 
         public void UpdateBillDetails(int id, BillDetails billDetails)

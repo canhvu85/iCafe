@@ -147,7 +147,7 @@ namespace Test_coffe
             app.UseCors("Policy1");
             app.UseAuthorization();
             app.UseSession();
-            //app.UseMiddleware<JwtTokenMiddleware>();
+            app.UseMiddleware<JwtTokenMiddleware>();
             app.UseMvc();
 
             app.UseSignalR(config =>
