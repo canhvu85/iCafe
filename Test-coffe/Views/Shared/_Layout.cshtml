@@ -18,7 +18,7 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
-    
+
 
     @RenderSection("css", required: false)
 
@@ -172,225 +172,227 @@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-users-cog nav-icon"></i>
-                                <p>
-                                    Tài Khoản
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-users nav-icon level2"></i>
-                                        <p>
-                                            Nhóm
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                                <i class="fas fa-list nav-icon level3"></i>
-                                                <p>Danh sách</p>
-                                            </a>
-                                            <a href="#" class="nav-link">
-                                                <i class="fas fa-plus-square nav-icon level3"></i>
-                                                <p>Thêm</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" id="sideBar">
+                        @*<li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-users-cog nav-icon"></i>
+                                    <p>
+                                        Tài Khoản
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item has-treeview">
+                                        <a href="#" class="nav-link">
+                                            <i class="fas fa-users nav-icon level2"></i>
+                                            <p>
+                                                Nhóm
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="fas fa-list nav-icon level3"></i>
+                                                    <p>Danh sách</p>
+                                                </a>
+                                                <a href="#" class="nav-link">
+                                                    <i class="fas fa-plus-square nav-icon level3"></i>
+                                                    <p>Thêm</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
 
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-user nav-icon level2"></i>
-                                        <p>
-                                            Người Dùng
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="/Users" class="nav-link">
-                                                <i class="fas fa-list nav-icon level3"></i>
-                                                <p>Danh sách</p>
-                                            </a>
-                                            <a href="/Users/Create" class="nav-link">
-                                                <i class="fas fa-plus-square nav-icon level3"></i>
-                                                <p>Thêm</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
+                                    <li class="nav-item has-treeview">
+                                        <a href="#" class="nav-link">
+                                            <i class="fas fa-user nav-icon level2"></i>
+                                            <p>
+                                                Người Dùng
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/Users" class="nav-link">
+                                                    <i class="fas fa-list nav-icon level3"></i>
+                                                    <p>Danh sách</p>
+                                                </a>
+                                                <a href="/Users/Create" class="nav-link">
+                                                    <i class="fas fa-plus-square nav-icon level3"></i>
+                                                    <p>Thêm</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-city nav-icon"></i>
-                                <p>
-                                    Thành Phố
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/Cities" class="nav-link">
-                                        <i class="fas fa-list nav-icon level2"></i>
-                                        <p>Danh sách</p>
-                                    </a>
-                                    <a href="/Cities/Create" class="nav-link">
-                                        <i class="fas fa-plus-square nav-icon level2"></i>
-                                        <p>Thêm</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-city nav-icon"></i>
+                                    <p>
+                                        Thành Phố
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/Cities" class="nav-link">
+                                            <i class="fas fa-list nav-icon level2"></i>
+                                            <p>Danh sách</p>
+                                        </a>
+                                        <a href="/Cities/Create" class="nav-link">
+                                            <i class="fas fa-plus-square nav-icon level2"></i>
+                                            <p>Thêm</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-store nav-icon"></i>
-                                <p>
-                                    Cửa Hàng
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-th nav-icon level2"></i>
-                                        <p>
-                                            Khu Vực
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="/Floors" class="nav-link">
-                                                <i class="fas fa-list nav-icon level3"></i>
-                                                <p>Danh sách</p>
-                                            </a>
-                                            <a href="/Floors/Create" class="nav-link">
-                                                <i class="fas fa-plus-square nav-icon level3"></i>
-                                                <p>Thêm</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-store nav-icon"></i>
+                                    <p>
+                                        Cửa Hàng
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item has-treeview">
+                                        <a href="#" class="nav-link">
+                                            <i class="fas fa-th nav-icon level2"></i>
+                                            <p>
+                                                Khu Vực
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/Floors" class="nav-link">
+                                                    <i class="fas fa-list nav-icon level3"></i>
+                                                    <p>Danh sách</p>
+                                                </a>
+                                                <a href="/Floors/Create" class="nav-link">
+                                                    <i class="fas fa-plus-square nav-icon level3"></i>
+                                                    <p>Thêm</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
 
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-book-medical nav-icon level2"></i>
-                                        <p>
-                                            Thể Loại
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="/Cataloges" class="nav-link">
-                                                <i class="fas fa-list nav-icon level3"></i>
-                                                <p>Danh sách</p>
-                                            </a>
-                                            <a href="/Cataloges/Create" class="nav-link">
-                                                <i class="fas fa-plus-square nav-icon level3"></i>
-                                                <p>Thêm</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                    <li class="nav-item has-treeview">
+                                        <a href="#" class="nav-link">
+                                            <i class="fas fa-book-medical nav-icon level2"></i>
+                                            <p>
+                                                Thể Loại
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/Cataloges" class="nav-link">
+                                                    <i class="fas fa-list nav-icon level3"></i>
+                                                    <p>Danh sách</p>
+                                                </a>
+                                                <a href="/Cataloges/Create" class="nav-link">
+                                                    <i class="fas fa-plus-square nav-icon level3"></i>
+                                                    <p>Thêm</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
 
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-hamburger nav-icon level2"></i>
-                                        <p>
-                                            Sản Phẩm
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="/Products" class="nav-link">
-                                                <i class="fas fa-list nav-icon level3"></i>
-                                                <p>Danh sách</p>
-                                            </a>
-                                            <a href="/Products/Create" class="nav-link">
-                                                <i class="fas fa-plus-square nav-icon level3"></i>
-                                                <p>Thêm</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                    <li class="nav-item has-treeview">
+                                        <a href="#" class="nav-link">
+                                            <i class="fas fa-hamburger nav-icon level2"></i>
+                                            <p>
+                                                Sản Phẩm
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/Products" class="nav-link">
+                                                    <i class="fas fa-list nav-icon level3"></i>
+                                                    <p>Danh sách</p>
+                                                </a>
+                                                <a href="/Products/Create" class="nav-link">
+                                                    <i class="fas fa-plus-square nav-icon level3"></i>
+                                                    <p>Thêm</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
 
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-table nav-icon level2"></i>
-                                        <p>
-                                            Bàn
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="/Tables" class="nav-link">
-                                                <i class="fas fa-list nav-icon level3"></i>
-                                                <p>Danh sách</p>
-                                            </a>
-                                            <a href="/Tables/Create" class="nav-link">
-                                                <i class="fas fa-plus-square nav-icon level3"></i>
-                                                <p>Thêm</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                    <li class="nav-item has-treeview">
+                                        <a href="#" class="nav-link">
+                                            <i class="fas fa-table nav-icon level2"></i>
+                                            <p>
+                                                Bàn
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/Tables" class="nav-link">
+                                                    <i class="fas fa-list nav-icon level3"></i>
+                                                    <p>Danh sách</p>
+                                                </a>
+                                                <a href="/Tables/Create" class="nav-link">
+                                                    <i class="fas fa-plus-square nav-icon level3"></i>
+                                                    <p>Thêm</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
 
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-file-invoice-dollar nav-icon level2"></i>
-                                        <p>
-                                            Hóa Đơn
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="/Bills" class="nav-link">
-                                                <i class="fas fa-list nav-icon level3"></i>
-                                                <p>Danh sách</p>
-                                            </a>
-                                            <a href="/Bills/Create" class="nav-link">
-                                                <i class="fas fa-plus-square nav-icon level3"></i>
-                                                <p>Thêm</p>
-                                            </a>
-                                            <a href="#" class="nav-link">
-                                                <i class="fas fa-receipt nav-icon level3"></i>
-                                                <p>
-                                                    Hóa Đơn Chi Tiết
-                                                    <i class="right fas fa-angle-left"></i>
-                                                </p>
-                                            </a>
-                                            <ul class="nav nav-treeview">
-                                                <li class="nav-item">
-                                                    <a href="/BillDetails" class="nav-link">
-                                                        <i class="fas fa-list nav-icon level4"></i>
-                                                        <p>Danh sách</p>
-                                                    </a>
-                                                    <a href="/BillDetails/Create" class="nav-link">
-                                                        <i class="fas fa-plus-square nav-icon level4"></i>
-                                                        <p>Thêm</p>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
+                                    <li class="nav-item has-treeview">
+                                        <a href="#" class="nav-link">
+                                            <i class="fas fa-file-invoice-dollar nav-icon level2"></i>
+                                            <p>
+                                                Hóa Đơn
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/Bills" class="nav-link">
+                                                    <i class="fas fa-list nav-icon level3"></i>
+                                                    <p>Danh sách</p>
+                                                </a>
+                                                <a href="/Bills/Create" class="nav-link">
+                                                    <i class="fas fa-plus-square nav-icon level3"></i>
+                                                    <p>Thêm</p>
+                                                </a>
+                                                <a href="#" class="nav-link">
+                                                    <i class="fas fa-receipt nav-icon level3"></i>
+                                                    <p>
+                                                        Hóa Đơn Chi Tiết
+                                                        <i class="right fas fa-angle-left"></i>
+                                                    </p>
+                                                </a>
+                                                <ul class="nav nav-treeview">
+                                                    <li class="nav-item">
+                                                        <a href="/BillDetails" class="nav-link">
+                                                            <i class="fas fa-list nav-icon level4"></i>
+                                                            <p>Danh sách</p>
+                                                        </a>
+                                                        <a href="/BillDetails/Create" class="nav-link">
+                                                            <i class="fas fa-plus-square nav-icon level4"></i>
+                                                            <p>Thêm</p>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>*@
                     </ul>
                 </nav>
+
+                <ul class="sidebar-menu" id="menu"></ul>
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
@@ -446,6 +448,89 @@
                     "info": true,
                     "autoWidth": false,
                 });
+            });
+        </script>
+        <script type="text/javascript">
+            $(function () {
+                var str = '';
+                $.ajax({
+                    url: "https://localhost:5001/api/MenusAPI",
+                    dataType: "json",
+                    method: "get",
+                    success: function (data) {
+                        //$(getMenusByConcat(data)).appendTo("#sideBar");
+                        //for (var i = 0; i < data.length; i++) {
+                        //    if(data[i].parentId)
+                        //}
+
+                        var items = data.filter(function (rs) {
+                            return rs.parentId == 0;
+                        });
+                        $(abc(items, data)).appendTo("#sideBar")
+                    }
+                });
+
+                function abc(data, bigData) {
+                    console.log(data);
+                    
+                    for (var i = 0; i < data.length; i++) {
+                        str += `<li class="nav-item has-treeview">
+                                 <a href="#" class="nav-link">
+                                                <i class="fas fa-users nav-icon level2"></i>
+                                                <p>
+                                                    ${data[i].name}
+                                                    <i class="right fas fa-angle-left"></i>
+                                                </p>
+                                            </a>`;
+                        var items = bigData.filter(function (rs) {
+                            return rs.parentId == data[i].id;
+                        });
+                        if (items.length > 0) {
+                            str += '<ul class="nav nav-treeview">';
+                            abc(items, bigData);
+                            str += '</ul>';
+                        }
+                    }
+                    return str;
+                }
+
+                function getMenusByConcat(data) {
+                    var dom = '';
+                    console.log(data);
+
+                    for (var i = 0; i < data.length; i++) {
+                        dom += '<li class="nav-item has-treeview">';
+
+                        if (data[i].parentId > 0) {
+
+                            dom += `<ul class="nav nav-treeview">
+                                        <li class="nav-item has-treeview">
+                                            <a href="#" class="nav-link">
+                                                <i class="fas fa-users nav-icon level2"></i>
+                                                <p>
+                                                    ${data[i].name}
+                                                    <i class="right fas fa-angle-left"></i>
+                                                </p>
+                                            </a>
+                                            ${getMenusByConcat(data[i].parentId)}
+                                        </li>
+                                    </ul>`;
+                        }
+                        else {
+                            dom += `<a href="#" class="nav-link">
+                                        <i class="fas fa-users-cog nav-icon"></i>
+                                        <p>
+                                            ${data[i].name}
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>`;
+                        }
+
+                        dom += '</li>';
+                    }
+
+                    return dom;
+                }
             });
         </script>
     </section>

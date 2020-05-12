@@ -35,6 +35,7 @@ namespace Test_coffe.Models
         public DbSet<Permissions> Permissions { get; set; }
         public DbSet<PermissionDetails> PermissionDetails { get; set; }
         public DbSet<Positions> Positions { get; set; }
+        public DbSet<Menu> Menu { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

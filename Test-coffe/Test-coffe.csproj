@@ -157,6 +157,8 @@
     <Compile Remove="Migrations\20200506131818_up.Designer.cs" />
     <Compile Remove="Migrations\20200506132242_up.cs" />
     <Compile Remove="Migrations\20200506132242_up.Designer.cs" />
+    <Compile Remove="Migrations\20200506132702_up.cs" />
+    <Compile Remove="Migrations\20200506132702_up.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -176,7 +178,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
     <PackageReference Include="MvcHaack.Ajax" Version="1.1.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
   </ItemGroup>

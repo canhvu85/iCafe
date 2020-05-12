@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using Test_coffe.Controllers.Repository;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
 
@@ -152,6 +155,26 @@ namespace Test_coffe.Controllers
         private bool BillDetailExists(int id)
         {
             return _context.BillDetails.Any(e => e.id == id);
+        }
+
+        [HttpGet("GetPaggedData")]
+        public ActionResult GetPaggedData(int? TableId, int pageNumber = 1, int pageSize = 10)
+        {
+            var listData = _billsDetailsRepository.GetGroupOrderPrinted(TableId);
+            var pagedData = Pagination.PagedResult(listData, pageNumber, pageSize);
+            return Ok(pagedData);
+        }
+
+        [HttpGet("printer")]
+        public ActionResult GetPrinterList()
+        {
+            List<string> str = new List<string>();
+            foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
+            {
+                str.Add(printer);
+            }
+            return Ok(str);
+
         }
     }
 }

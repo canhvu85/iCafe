@@ -8,6 +8,7 @@ let tablesName;
 let itemsPrinted = 0;
 let billDetailsId;
 let billsId;
+let pageNum;
 getTables();
 getCataloges();
 getProducts();
@@ -442,47 +443,48 @@ function cancelOrder() {
 function checkout() {
 	$("#main-order-1 .checkout .btn-success").on("click", function () {
 		//alert("da thanh toan");
-		//$("#showBill").modal("show");
-		//drawPrintCheckout();
-		getOrderPrinted(tablesId).then(function (rs) {
-			$.each(rs.data, function (index, value) {
-				billDetails = billDetailsObj(value.id, value.quantity, value.total, 3, user.username);
-				updateBillDetail(value.id, billDetails).then(function () {
-					let bills = {
-						id: billsId,
-						status: 1,
-						updated_by: user.username
-					};
-					updateBill(billsId, bills).then(function () {
-						updateTable(tablesId, 0).then(function () {
-							tables = [];
-							let str = '';
-							str += '<p><b>0 vnđ</b></p>' +
-								'<p>0 vnđ</p>';
-							$("#sub-total-money-1 .col-md-4").html(str);
-							$("#table-bill-1").html("");
-							$("#table-bill-2").html("");
-							$("#total-money-1 .col-md-7").html("<p><b>0 vnđ</b></p>");
+		$("#showBill").modal("show");
+		drawPrintCheckout();
+		//	getOrderPrinted(tablesId).then(function (rs) {
+		//		$.each(rs.data, function (index, value) {
+		//			billDetails = billDetailsObj(value.id, value.quantity, value.total, 3, user.username);
+		//			updateBillDetail(value.id, billDetails).then(function () {
+		//				let bills = {
+		//					id: billsId,
+		//					status: 1,
+		//					updated_by: user.username
+		//				};
+		//				updateBill(billsId, bills).then(function () {
+		//					updateTable(tablesId, 0).then(function () {
+		//						tables = [];
+		//						let str = '';
+		//						str += '<p><b>0 vnđ</b></p>' +
+		//							'<p>0 vnđ</p>';
+		//						$("#sub-total-money-1 .col-md-4").html(str);
+		//						$("#table-bill-1").html("");
+		//						$("#table-bill-2").html("");
+		//						$("#total-money-1 .col-md-7").html("<p><b>0 vnđ</b></p>");
 
-							$("#main-order-1 .checkout").removeClass("active");
-							$("#main-order-1 .btn-temp-order").removeClass("active");
-						}).catch(function () {
-							unAuthorized();
-						});
-					}).catch(function () {
-						unAuthorized();
-					});
-				}).catch(function () {
-					unAuthorized();
-				});
-			});
-		}).catch(function () {
-			unAuthorized();
-		});
-	});
+		//						$("#main-order-1 .checkout").removeClass("active");
+		//						$("#main-order-1 .btn-temp-order").removeClass("active");
+		//					}).catch(function () {
+		//						unAuthorized();
+		//					});
+		//				}).catch(function () {
+		//					unAuthorized();
+		//				});
+		//			}).catch(function () {
+		//				unAuthorized();
+		//			});
+		//		});
+		//	}).catch(function () {
+		//		unAuthorized();
+		//	});
+		//});
 
-	$("#showBill .modal-footer .btn-primary").on("click", function () {
-		printDiv("formPrinted");
+		//$("#showBill .modal-footer .btn-primary").on("click", function () {
+		//	printDiv("formPrinted");
+		//});
 	});
 }
 
@@ -512,39 +514,22 @@ function drawPrintCheckout() {
 			'Authorization': user.remember_token
 		}
 	}).then(function (response) {
+		$("#billId").html(billsId);
 		$("#nameShop").html(response.data[0].name);
 		$("#infoShop").html(response.data[0].info);
 		$("#timeCheckout").html(getDateTime());
 		$("#nameTable").html(tablesName);
 		$("#userNameCashier").html(user.username);
-
-		let str;
-		let sub_total = 0;
-		getGroupOrderPrinted(tablesId).then(function (response) {
-			if (response.data.length > 0) {
-				$.each(response.data, function (index, value) {
-					sub_total += value.total;
-					str += `<tr>
-                                            <td>${value.productsName}</td>
-                                            <td>ly</td>
-                                            <td>${addCommas(value.price)}</td>
-                                            <td>${value.quantity}</td>
-                                            <td>${addCommas(value.total)}</td>
-                                        </tr>`;
-				});
-				$("#listCheckout").html(str);
-				$("#subTotal").html(addCommas(sub_total) + " vnđ");
-				$("#totalBill").html(addCommas(sub_total) + " vnđ");
-			}
-		}).catch(function () {
-			unAuthorized();
-		});
-		
+		pageNum = 1;
+		GetPageData();
 	}).catch(function () {
 		unAuthorized();
 	});
 
 }
+$("#showBill .modal-footer .btn-primary").on("click", function () {
+	GetPageData();
+});
 
 function getDateTime() {
 	var now = new Date();
@@ -582,4 +567,40 @@ function printDiv(divName) {
 	window.print();
 
 	document.body.innerHTML = originalContents;
+}
+
+function GetPageData() {
+	axios({
+		url: `api/BillDetailsAPI/GetPaggedData?TableId=${tablesId}&pageNumber=${pageNum}`,
+		method: "GET",
+		headers: {
+			'content-type': 'application/json',
+			'Authorization': user.remember_token
+		}
+	}).then(function (response) {
+		let str;
+		let sub_total = 0;
+		$.each(response.data.data, function (index, value) {
+			sub_total += value.total;
+			$("#listCheckout").html(str);
+			$("#subTotal").html(addCommas(sub_total) + " vnđ");
+			$("#totalBill").html(addCommas(sub_total) + " vnđ");
+			str += `<tr>
+	                                           <td>${value.productsName}</td>
+	                                           <td>ly</td>
+	                                           <td>${addCommas(value.price)}</td>
+	                                           <td>${value.quantity}</td>
+	                                           <td>${addCommas(value.total)}</td>
+	                                       </tr>`;
+		});
+		$("#listCheckout").html(str);
+		$("#pageNumber").html(`${pageNum}/${response.data.totalPages}`);
+		if (pageNum < response.data.totalPages) {
+			pageNum += 1;
+		} else {
+			console.log("last page");
+		}
+
+	})
+
 }

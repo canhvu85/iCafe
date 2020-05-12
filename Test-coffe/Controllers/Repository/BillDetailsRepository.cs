@@ -53,7 +53,7 @@ namespace Test_coffe.Controllers.Repository
 
         public dynamic GetGroupOrderPrinted(int? TableId)
         {
-            return from b in _context.BillDetails
+            return (from b in _context.BillDetails
                    join p in _context.Products on b.ProductsId equals p.id
                    where b.isDeleted == false &&
                    b.Bills.status == 0 &&
@@ -67,7 +67,7 @@ namespace Test_coffe.Controllers.Repository
                        quantity = grp.Sum(x => x.quantity),
                        total = grp.Sum(x => x.total),
                        billsid = grp.Key.BillsId
-                   };
+                   }).ToList();
         }
 
         public dynamic GetOrderNewWaiter(int? TableId)

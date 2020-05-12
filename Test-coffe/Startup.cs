@@ -39,6 +39,7 @@ namespace Test_coffe
             services.AddTransient<IBillDetails, BillDetailsRepository>();
             services.AddTransient<IShop, ShopRepository>();
             services.AddTransient<IProduct, ProductRepository>();
+            services.AddTransient<IMenu, MenuRepository>();
 
             services.AddTransient<IShops, ShopsRepository>();
             services.AddTransient<IUploadImage, UploadRepository>();
@@ -147,7 +148,7 @@ namespace Test_coffe
             app.UseCors("Policy1");
             app.UseAuthorization();
             app.UseSession();
-            app.UseMiddleware<JwtTokenMiddleware>();
+            //app.UseMiddleware<JwtTokenMiddleware>();
             app.UseMvc();
 
             app.UseSignalR(config =>
