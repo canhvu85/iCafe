@@ -4272,11 +4272,6 @@ F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\P
 F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Positions\Details.cshtml.g.cs
 F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Positions\Edit.cshtml.g.cs
 F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Positions\Index.cshtml.g.cs
-F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Products\Create.cshtml.g.cs
-F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Products\Delete.cshtml.g.cs
-F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Products\Details.cshtml.g.cs
-F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Products\Edit.cshtml.g.cs
-F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Products\Index.cshtml.g.cs
 F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Statistical\Index.cshtml.g.cs
 F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Tables\Create.cshtml.g.cs
 F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Tables\Delete.cshtml.g.cs
@@ -4298,3 +4293,8 @@ F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\U
 F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Users\Details.cshtml.g.cs
 F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Users\Edit.cshtml.g.cs
 F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Users\Index.cshtml.g.cs
+F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\Products\Create.cshtml.g.cs
+F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\Products\Delete.cshtml.g.cs
+F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\Products\Details.cshtml.g.cs
+F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\Products\Edit.cshtml.g.cs
+F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\Products\Index.cshtml.g.cs

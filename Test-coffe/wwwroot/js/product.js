@@ -28,8 +28,8 @@ for (let i = 0; i < catalogeList.length; i++) {
     var z = document.createElement("option");
     z.setAttribute("value", catalogeList[i].id);
     var t = document.createTextNode(catalogeList[i].name);
-    z.appendChild(t);   
-    document.getElementById("CatalogeId").appendChild(z);   
+    z.appendChild(t);
+    document.getElementById("CatalogeId").appendChild(z);
 }
 
 for (let i = 0; i < catalogeList.length; i++) {
@@ -44,7 +44,7 @@ function getCataloges() {
     $.ajax({
         beforeSend: function (xhr) {
             xhr.setRequestHeader('Authorization', UserSession.remember_token);
-		},
+        },
         url: "api/mobile/CatalogesAPI/?shop_id=" + shopId,
         method: "GET",
         dataType: "json",
@@ -62,17 +62,17 @@ product.openAddProduct = function (number) {
         .find("input")
         .val('')
         .end();
-        //.find("input[type=checkbox], input[type=radio]")
-        //.prop("checked", "")
+    //.find("input[type=checkbox], input[type=radio]")
+    //.prop("checked", "")
     //.end();
     form.valid();
     $("#avatar").val("");
-   // $("#blah").attr("src", "/no-img.jpg");
+    // $("#blah").attr("src", "/no-img.jpg");
     $('#blah').css('opacity', 0);
-  //  $('#noimg').css('border', "3px dashed #e3e3e3");
+    //  $('#noimg').css('border', "3px dashed #e3e3e3");
     $('#noimg').css('display', 'flex');
-    $("#blah").attr("src","");
-    
+    $("#blah").attr("src", "");
+
     console.log($("#FilterCataloge").val());
     $('#tbl2_wrapper .row:eq(0), #tbl2_wrapper .row:eq(2)').hide();
     if ($("#FilterCataloge").val() != "") {
@@ -103,13 +103,13 @@ function createProduct(value) {
         //connection.invoke("SendMessage").catch(function (err) {
         //    return console.error(err.toString());
         //});
-       // clearModalCreate();
+        // clearModalCreate();
         $('#addProduct').modal('hide');
         sendMessage("Đã tạo thành công sản phẩm mới !");
 
         var idre = result.id + "";
         let avatar = result.images != null ? JSON.parse(result.images).thumb : "#";
- 
+
         $('#tbl2').dataTable().fnAddData([
             idre,
             value.get('name'),
@@ -122,7 +122,7 @@ function createProduct(value) {
         ]);
 
     });
-   
+
 }
 
 $('#avatar').change(function () {
@@ -130,7 +130,7 @@ $('#avatar').change(function () {
     $('#noimg').css('display', 'none');
 })
 
-product.save = function () {  
+product.save = function () {
     var name = $("#name").val().trim();
     var price = toSlug($("#price").val());
     if (price == "") {
@@ -158,30 +158,30 @@ product.save = function () {
     } else
         formData.append('avatarFile', null);
     let data = tableDT
-                .rows()
-                .data();
-   // console.log("dl:"+data.length);
-   // console.log("5");
+        .rows()
+        .data();
+    // console.log("dl:"+data.length);
+    // console.log("5");
     if (data.length > 0) {
         $('#tbl2_wrapper .row:eq(0), #tbl2_wrapper .row:eq(2)').hide();
         if ($("#FilterCataloge").val() == $("#CatalogeId").val()) {
             $('#tbl2').DataTable().destroy();
             showList($("#FilterCataloge").val());
         } else
-            if ($("#FilterCataloge").val() == "") {              
+            if ($("#FilterCataloge").val() == "") {
                 $('#tbl2').DataTable().destroy();
                 showList("");
-            } else {              
+            } else {
                 $('#tbl2').DataTable().destroy();
                 showList($("#CatalogeId").val());
                 $("#FilterCataloge").val($("#CatalogeId").val());
             }
     } else {
-       // $('#tbl2').DataTable().destroy();
+        // $('#tbl2').DataTable().destroy();
         showList("");
     }
 
-    createProduct(formData); 
+    createProduct(formData);
 }
 
 function clearModalCreate() {
@@ -189,7 +189,7 @@ function clearModalCreate() {
     $("#price").val(null);
     $("#blah").attr('src', null);
     $("#avatar").val(null)
-   // $("#permalink").val(null);
+    // $("#permalink").val(null);
 }
 
 var dataset1 = [];
@@ -217,7 +217,7 @@ function showList(cataId) {
         var ss = [];
 
         $.each(data, function (index, value) {
-            let avatar = value.images != "" ? JSON.parse(value.images).thumb : "#";
+            let avatar = value.images != null ? JSON.parse(value.images).thumb : "#";
             var m = [];
             m.push(value.id);
             m.push(value.name);
@@ -242,9 +242,9 @@ function showList(cataId) {
                 //    "targets": 2,
                 //    "orderData": 2
                 //},
-               
+
                 {
-                    "targets": [1, 2,3,4,6], // your case first column
+                    "targets": [1, 2, 3, 4, 6], // your case first column
                     "className": "text-center"
 
                 },
@@ -259,11 +259,11 @@ function showList(cataId) {
                 {
                     title: "Hình ảnh",
                     data: 0,
-                   // orderData: 0,
+                    // orderData: 0,
                     // orderable: true,
                     render: function (data, type, row, meta) {
 
-                        return `<img style='max-height:120px; max-width:120px;' src='uploads/products/${data}/${row[2]}' onerror='loadImageError(this)' />`;
+                        return `<img style='max-height:120px; max-width:120px;' src='/uploads/products/${data}/${row[2]}' onerror='loadImageError(this)' />`;
                     }
                 },
                 { title: "Danh mục sản phẩm", data: 3 },
@@ -342,7 +342,7 @@ function showList(cataId) {
         //        "</tr>"
         //    );
         //});
-    });  
+    });
 }
 
 
@@ -354,36 +354,36 @@ product.openEdit = function (id) {
     // console.log(time_open);
     formEdit.valid();
     $('#eblah').css('opacity', 0);
-   // $('#enoimg').css('border', "3px dashed #e3e3e3");
+    // $('#enoimg').css('border', "3px dashed #e3e3e3");
     $('#enoimg').css('display', 'flex');
     $("#eblah").attr("src", "");
     idEdit = parseInt(id);
     var itemName = $("#c" + id).data("name");
     var itemPrice = $("#c" + id).data("price");
     var itemUnit = $("#c" + id).data("unit");
-   // itemPrice = Number(itemPrice.replace(/[^0-9.-]+/g, ""));
+    // itemPrice = Number(itemPrice.replace(/[^0-9.-]+/g, ""));
     var itemAvatar = $("#c" + id).data("avatar");
     if (itemAvatar != 'no-image.png') {
-         $('#eblah').css('opacity', 1);
-         $('#enoimg').css('display', 'none');
+        $('#eblah').css('opacity', 1);
+        $('#enoimg').css('display', 'none');
     }
     var itemCatalogeId = $("#c" + id).data("catalogeid");
-   // console.log(id);
-   // console.log(itemName);
+    // console.log(id);
+    // console.log(itemName);
     //getEditInfo(id);
     $("#showEdit").modal("show");
     $("#ename").val(itemName);
     $("#eprice").val(addCommas(itemPrice));
     $("#eunit").val(itemUnit);
-    $("#eblah").attr('src', `uploads/products/${id}/${itemAvatar}`);
+    $("#eblah").attr('src', `/uploads/products/${id}/${itemAvatar}`);
     $("#eavatar").val(null);
     $("#eavatar").change(function () {
         readURL(this, "#eblah");
     });
-   // $('#eblah').css('opacity', 1);
-   // $('#enoimg').css('border', "3px dashed #e3e3e3");
-   // var permalink1 = toSlug(itemName);
-   // $("#epermalink").val(permalink1);
+    // $('#eblah').css('opacity', 1);
+    // $('#enoimg').css('border', "3px dashed #e3e3e3");
+    // var permalink1 = toSlug(itemName);
+    // $("#epermalink").val(permalink1);
     $("#eCatalogeId").val(parseInt(itemCatalogeId));
 }
 
@@ -431,11 +431,14 @@ product.edit = function () {
     // get data
     //formData.get('username'); // Returns "Chris"
     var files = $("#eavatar").get(0).files;
+    console.log(files[0].name);
+    newFile = new File([files[0]], toSlug(files[0].name.split(".")[0]) + "." + files[0].name.split(".")[1], { type: 'image/*' });
+    console.log(newFile);
     // Add the uploaded image content to the form data collection
     if (files.length > 0) {
-        formData.append('avatarFile', files[0]);
+        formData.append('avatarFile', newFile);
     }
-   
+
     n.push(idEdit);
     n.push(name);
     n.push("");
@@ -510,7 +513,7 @@ function editBtn(idEdit, value) {
         //temp[0] = 'Tom';
         var st1 = `<a href = 'javascript:; '  onclick='product.openEdit('${n[0]}')'><i class='fa fa-edit edit-btn'></i>Sửa</a>`;
         var st2 = `<a href = 'javascript:; '  onclick='deleteItem('${n[0]}')'><i class='fa fa-trash-alt delete-btn'></i>Xóa</a>`;
-        var img = `<img style='max-height:120px; max-width:120px;' src='uploads/products/${n[0]}/${n[2]}' onerror='loadImageError(this)'/>`;
+        var img = `<img style='max-height:120px; max-width:120px;' src='/uploads/products/${n[0]}/${n[2]}' onerror='loadImageError(this)'/>`;
         // $('#tbl2').dataTable().fnUpdate([n[1], n[2], n[3], n[4], st1, st2], "#c" + idEdit, undefined, false);
 
         var table = $('#tbl2').DataTable();
@@ -522,9 +525,9 @@ function editBtn(idEdit, value) {
         d[4] = n[0];
         d[5] = n[0];
         table.row("#c" + idEdit).data(d);
-      
 
-        $('#tbl2').dataTable().fnUpdate([n[0],n[1], img, n[3], n[4], n[5], st1, st2], "#c" + idEdit, undefined, false);
+
+        $('#tbl2').dataTable().fnUpdate([n[0], n[1], img, n[3], n[4], n[5], st1, st2], "#c" + idEdit, undefined, false);
 
         var row = "#c" + idEdit;
         console.log(n);
@@ -589,9 +592,9 @@ function deleteBtn(product_id, data) {
                 type: 'PUT',
                 dataType: "json",
                 contentType: "application/json",
-               // data: JSON.stringify(data),
+                // data: JSON.stringify(data),
                 success: function () {
-                    
+
                     $('#tbl2').dataTable().fnDeleteRow(document.getElementById("c" + product_id));
                 }
             });
@@ -703,7 +706,7 @@ form.validate({
             minlength: 3
         },
         price: {
-           // required: true,
+            // required: true,
             number: true
         }
     },
@@ -713,8 +716,8 @@ form.validate({
             minlength: "Phải nhập 3 ký tự trở lên"
         },
         price: {
-           // required: "Vui lòng nhập giá sản phẩm",
-            number:"Vui lòng nhập số"
+            // required: "Vui lòng nhập giá sản phẩm",
+            number: "Vui lòng nhập số"
         }
     }
 });
@@ -739,7 +742,7 @@ formEdit.validate({
             minlength: 3
         },
         eprice: {
-           // required: true,
+            // required: true,
             number: true
         }
     },
@@ -749,7 +752,7 @@ formEdit.validate({
             minlength: "Phải nhập 3 ký tự trở lên"
         },
         eprice: {
-           // required: "Vui lòng nhập giá sản phẩm",
+            // required: "Vui lòng nhập giá sản phẩm",
             number: "Vui lòng nhập số"
         }
     }
