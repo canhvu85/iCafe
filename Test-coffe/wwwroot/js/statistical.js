@@ -213,66 +213,256 @@
 
 
 
-$(document).ready(function () {
-	var grid_selector = "#list4";
-	var pager_selector = "#pager2";
-	jQuery(grid_selector).jqGrid({
-		url: 'https://localhost:5001/api/BillsAPI/?TableId=1',
-		datatype: "json",
-		colNames: ['id', 'tablesName', 'created_by', 'sub_total', 'fee_service', 'total_money'],
-		colModel: [
-			{ name: 'id', index: 'id', width: 55 },
-			{ name: 'tablesName', index: 'tablesName', width: 90 },
-			{ name: 'created_by', index: 'created_by', width: 100 },
-			{ name: 'sub_total', index: 'sub_total', width: 80 },
-			{ name: 'fee_service', index: 'fee_service', width: 80 },
-			{ name: 'total_money', index: 'total_money', width: 80, sortable: false }
-		],
-		//loadonce: true,
-		rowNum: 2,
-		rowList: [2, 20, 30],
-		pager: pager_selector,
-		sortname: 'id',
-		viewrecords: true,
-		guiStyle: "bootstrap",
-		iconSet: "fontAwesome",
-		rownumbers: true,
-		sortorder: "desc",
-		caption: "JSON Example"
-	});
-	jQuery(grid_selector).jqGrid('navGrid', pager_selector, { edit: false, add: false, del: false });
-});
-
-
-//$(function () {
-//    "use strict";
-//    $.ajax({
-//        url: "https://localhost:5001/api/BillsAPI/?TableId=1",
-//        method: "GET",
-//        dataType: "json",
-//        contentType: "application/json"
-//    }).done(function (data) {
-//        jQuery("#list4").jqGrid({
-//            datatype: "local",
-//            height: 250,
-//            colNames: ['id', 'tablesName', 'created_by', 'sub_total', 'fee_service', 'total_money'],
-//            colModel: [
-//                { name: 'id', index: 'id', width: 55 },
-//                { name: 'tablesName', index: 'tablesName', width: 90 },
-//                { name: 'created_by', index: 'created_by', width: 100 },
-//                { name: 'sub_total', index: 'sub_total', width: 80 },
-//                { name: 'fee_service', index: 'fee_service', width: 80 },
-//                { name: 'total_money', index: 'total_money', width: 80, sortable: false }
-//            ],
-//            multiselect: true,
-//            caption: "Manipulating Array Data"
-//        });
-//        var mydata = data;
-//        for (var i = 0; i <= mydata.length; i++)
-//            jQuery("#list4").jqGrid('addRowData', i + 1, mydata[i]);
-//    });
-
+//$(document).ready(function () {
+//	var grid_selector = "#list4";
+//	var pager_selector = "#pager2";
+//	jQuery(grid_selector).jqGrid({
+//		url: 'https://localhost:5001/api/BillsAPI/?TableId=1',
+//		datatype: "json",
+//		colNames: ['id', 'tablesName', 'created_by', 'sub_total', 'fee_service', 'total_money'],
+//		colModel: [
+//			{ name: 'id', index: 'id', width: 55 },
+//			{ name: 'tablesName', index: 'tablesName', width: 90 },
+//			{ name: 'created_by', index: 'created_by', width: 100 },
+//			{ name: 'sub_total', index: 'sub_total', width: 80 },
+//			{ name: 'fee_service', index: 'fee_service', width: 80 },
+//			{ name: 'total_money', index: 'total_money', width: 80, sortable: false }
+//		],
+//		//loadonce: true,
+//		rowNum: 2,
+//		rowList: [2, 20, 30],
+//		pager: pager_selector,
+//		sortname: 'id',
+//		viewrecords: true,
+//		guiStyle: "bootstrap",
+//		iconSet: "fontAwesome",
+//		rownumbers: true,
+//		sortorder: "desc",
+//		caption: "JSON Example"
+//	});
+//	jQuery(grid_selector).jqGrid('navGrid', pager_selector, { edit: false, add: false, del: false });
 //});
+
+
+$(function () {
+    "use strict";
+    //  $.ajax({
+    //      url: "https://localhost:5001/api/BillsAPI/?TableId=1",
+    //      method: "GET",
+    //      dataType: "json",
+    //      contentType: "application/json"
+    //  }).done(function (data) {
+    //      jQuery("#list4").jqGrid({
+    //          datatype: "local",
+    //          height: 250,
+    //          colNames: ['id', 'tablesName', 'created_by', 'sub_total', 'fee_service', 'total_money'],
+    //          colModel: [
+    //              { name: 'id', index: 'id', width: 55 },
+    //              { name: 'tablesName', index: 'tablesName', width: 90 },
+    //              { name: 'created_by', index: 'created_by', width: 100 },
+    //              { name: 'sub_total', index: 'sub_total', width: 80 },
+    //              { name: 'fee_service', index: 'fee_service', width: 80 },
+    //              { name: 'total_money', index: 'total_money', width: 80, sortable: false }
+    //          ],
+    //          //		rowNum: 2,
+    //rowList: [2, 20, 30],
+    //          pager: "#pager2",
+    //sortname: 'id',
+    //viewrecords: true,
+    //guiStyle: "bootstrap",
+    //iconSet: "fontAwesome",
+    //rownumbers: true,
+    //sortorder: "desc",
+    //caption: "hello Example"
+    //      });
+    //      var mydata = data;
+    //      for (var i = 0; i <= mydata.length; i++)
+    //          jQuery("#list4").jqGrid('addRowData', i + 1, mydata[i]);
+    //      jQuery("#pager2").jqGrid('navGrid', '#pager2', { edit: false, add: false, del: false });
+    //  });
+
+
+    //var tagDataJson;
+    //$.ajax({
+    //    url: "https://localhost:5001/api/BillsAPI/?TableId=1",
+    //    method: "GET",
+    //    dataType: "json",
+    //    contentType: "application/json"
+    //}).done(function (data) {
+    //    tagDataJson = { "id": "sequenceNumber", "page": "1", "records": 0, "rows": JSON.parse(JSON.stringify(data)) };
+
+    //    $("#list4").jqGrid({
+    //        datatype: "jsonstring",
+    //        datastr: tagDataJson,
+    //        jsonReader: { repeatitems: false },
+    //        height: "100%",
+    //        width: "70%",
+    //        
+    //        colNames: ['id', 'tablesName', 'created_by', 'sub_total', 'fee_service', 'total_money'],
+    //        colModel: [
+    //            { name: 'id', index: 'id', width: 55 },
+    //            { name: 'tablesName', index: 'tablesName', width: 90 },
+    //            { name: 'created_by', index: 'created_by', width: 100 },
+    //            { name: 'sub_total', index: 'sub_total', width: 80 },
+    //            { name: 'fee_service', index: 'fee_service', width: 80 },
+    //            { name: 'total_money', index: 'total_money', width: 80, sortable: false }
+    //        ],
+    //rowNum: 2,
+    //        loadonce: true,
+    //        gridview: true,
+    //        viewrecords: true,
+    //        scrollOffset: 0,
+    //        emptyrecords: "Nothing to display",
+    //        pgbuttons: true,
+    //        pginput: true,
+    //        ignoreCase: true,
+    //        localReader: { id: 'sequenceNumber' },
+    //        pgtext: "Page {0} of {1}",
+    //        loadtext: "Loading...",
+    //        pager: "#pager2",
+    //        caption: "&nbsp;Tag Grid",
+    //        hidegrid: false
+    //    });
+    //    $("#list4").jqGrid('filterToolbar', { stringResult: true, defaultSearch: "cn" })
+    //})
+
+    var BillJson;
+    $.ajax({
+        url: "https://localhost:5001/api/BillsAPI/?TableId=1",
+        method: "GET",
+        dataType: "json",
+        contentType: "application/json"
+    }).done(function (data) {
+        BillJson = { "id": "sequenceNumber", "page": "1", "records": 0, "rows": JSON.parse(JSON.stringify(data)) };
+
+        //$("#list4").jqGrid({
+        //    datatype: "jsonstring",
+        //    datastr: tagDataJson,
+        //    jsonReader: { repeatitems: false },
+        //    height: "100%",
+        //    //width: null,
+        //    autowidth: true,
+        //    colNames: ['id', 'tablesName', 'created_by', 'sub_total', 'fee_service', 'total_money'],
+        //    colModel: [
+        //        { name: 'id', index: 'id', width: 55 },
+        //        { name: 'tablesName', index: 'tablesName', width: 90 },
+        //        { name: 'created_by', index: 'created_by', width: 100 },
+        //        { name: 'sub_total', index: 'sub_total', width: 80 },
+        //        { name: 'fee_service', index: 'fee_service', width: 80 },
+        //        { name: 'total_money', index: 'total_money', width: 80, sortable: false }
+        //    ],
+        //    rowNum: 5,
+        //    rowList: [5, 7, 30],
+        //    pager: '#pager2',
+        //    sortname: 'id',
+        //    viewrecords: true,
+        //    sortorder: "desc",
+        //    caption: "JSON Example"
+        //});
+        //jQuery("#list4").jqGrid('navGrid', '#pager2');
+
+
+
+
+
+        jQuery("#list4").jqGrid({
+            datatype: "jsonstring",
+            datastr: BillJson,
+            jsonReader: { repeatitems: false },
+            height: "100%",
+            autowidth: true,
+            colNames: ['id', 'tablesName', 'created_by', 'sub_total', 'fee_service', 'total_money'],
+            colModel: [
+                { name: 'id', index: 'id', width: 55 },
+                { name: 'tablesName', index: 'tablesName', width: 90 },
+                { name: 'created_by', index: 'created_by', width: 100 },
+                { name: 'sub_total', index: 'sub_total', width: 80 },
+                { name: 'fee_service', index: 'fee_service', width: 80 },
+                { name: 'total_money', index: 'total_money', width: 80, sortable: false }
+            ],
+            //rowNum: 5,
+            //rowList: [5, 10, 20, 30],
+            //pager: '#pager2',
+            //sortname: 'id',
+            //viewrecords: true,
+            //sortorder: "desc",
+            //multiselect: false,
+            //subGrid: true,
+            //caption: "Custom Icons in Subgrid",
+            rowNum: 2,
+            rowList: [5, 10, 20, 30],
+            loadonce: true,
+            gridview: true,
+            viewrecords: true,
+            scrollOffset: 0,
+            emptyrecords: "Nothing to display",
+            guiStyle: "bootstrap4",
+            iconSet: "fontAwesome",
+            pgbuttons: true,
+            pginput: true,
+            ignoreCase: true,
+            subGrid: true,
+            localReader: { id: 'sequenceNumber' },
+            pgtext: "Page {0} of {1}",
+            loadtext: "Loading...",
+            pager: "#pager2",
+            caption: "&nbsp;Tag Grid",
+            hidegrid: false,
+            // define the icons in subgrid
+            subGridOptions: {
+                "plusicon": "ui-icon-triangle-1-e",
+                "minusicon": "ui-icon-triangle-1-s",
+                "openicon": "ui-icon-arrowreturn-1-e"
+            },
+            subGridRowExpanded: function (subgrid_id, row_id) {
+                console.log("subgrid_id  " + subgrid_id);
+                console.log(row_id);
+                var subgrid_table_id, pager_id;
+                subgrid_table_id = subgrid_id + "_t";
+                pager_id = "p_" + subgrid_table_id;
+                $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
+                var BillDetailJson;
+                $.ajax({
+                    url: "https://localhost:5001/api/BillDetailsAPI/bills/" + row_id,
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json"
+                }).done(function (data) {
+                    BillDetailJson = { "id": "sequenceNumber", "page": "1", "records": 0, "rows": JSON.parse(JSON.stringify(data)) };
+                    jQuery("#" + subgrid_table_id).jqGrid({
+                        datatype: "jsonstring",
+                        datastr: BillDetailJson,
+                        jsonReader: { repeatitems: false },
+                        height: "100%",
+                        //width: "60%",
+                        autowidth: true,
+                        colNames: ['productsName', 'price', 'quantity', 'total'],
+                        colModel: [
+                            { name: "productsName", index: "productsName", width: 80 },
+                            { name: "price", index: "price", width: 130 },
+                            { name: "quantity", index: "quantity", width: 70, align: "right" },
+                            { name: "total", index: "total", width: 70, align: "right" }
+                        ],
+                        loadonce: true,
+                        //pager: pager_id,
+                        sortname: 'num',
+                        sortorder: "asc"
+                    });
+                    //jQuery("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, { edit: false, add: false, del: false })
+                });
+            }
+        });
+        jQuery("#list4").jqGrid('navGrid', '#pager2', { add: false, edit: false, del: false });
+    })
+
+
+
+
+
+
+
+
+});
 
 //$(function () {
 //    "use strict";
