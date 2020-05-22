@@ -117,7 +117,8 @@
 }
 
 #tableBill {
-    width: 100%;
+    /*width: 100%;*/
+    width: 269px;
 }
     #tableBill th, #tableBill td {
         vertical-align: middle !important;
@@ -126,9 +127,9 @@
 #tableBill tr, #tableBill td, #tableBill th {
     border: 1px solid;
 }
-    #tableBill th:first-child, #tableBill td:first-child {
+    /*#tableBill th:first-child, #tableBill td:first-child {
         width: 50%;
-    }
+    }*/
     #tableBill td:first-child{
         text-align: left;
     }
@@ -166,4 +167,8 @@ button.text-muted {
         flex: auto;
         max-width: 100%;
     }
+}
+
+.treeview {
+    padding-left: 20px;
 }

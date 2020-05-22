@@ -249,7 +249,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 1,
                             ShopsId = 1,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 330, DateTimeKind.Local).AddTicks(8103),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 83, DateTimeKind.Local).AddTicks(7843),
                             isDeleted = false,
                             name = "Coffee",
                             permalink = "Coffee"
@@ -258,7 +258,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 2,
                             ShopsId = 1,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 331, DateTimeKind.Local).AddTicks(1509),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 84, DateTimeKind.Local).AddTicks(1406),
                             isDeleted = false,
                             name = "MilkTea",
                             permalink = "MilkTea"
@@ -267,7 +267,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 3,
                             ShopsId = 1,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 331, DateTimeKind.Local).AddTicks(1578),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 84, DateTimeKind.Local).AddTicks(1477),
                             isDeleted = false,
                             name = "Food",
                             permalink = "Food"
@@ -276,7 +276,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 4,
                             ShopsId = 2,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 331, DateTimeKind.Local).AddTicks(1581),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 84, DateTimeKind.Local).AddTicks(1481),
                             isDeleted = false,
                             name = "MilkTea",
                             permalink = "MilkTea"
@@ -331,7 +331,7 @@ namespace Test_coffe.Migrations
                         new
                         {
                             id = 1,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 321, DateTimeKind.Local).AddTicks(4232),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 74, DateTimeKind.Local).AddTicks(8611),
                             isDeleted = false,
                             name = "Huế",
                             permalink = "Hue"
@@ -339,7 +339,7 @@ namespace Test_coffe.Migrations
                         new
                         {
                             id = 2,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 323, DateTimeKind.Local).AddTicks(2572),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 76, DateTimeKind.Local).AddTicks(6231),
                             isDeleted = false,
                             name = "Sài Gòn",
                             permalink = "Sai_Gon"
@@ -399,7 +399,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 1,
                             ShopsId = 1,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 329, DateTimeKind.Local).AddTicks(7295),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 82, DateTimeKind.Local).AddTicks(7426),
                             isDeleted = false,
                             name = "Tầng 1",
                             permalink = "Tang_1"
@@ -408,7 +408,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 2,
                             ShopsId = 1,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 330, DateTimeKind.Local).AddTicks(857),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 83, DateTimeKind.Local).AddTicks(1281),
                             isDeleted = false,
                             name = "Tầng 2",
                             permalink = "Tang_2"
@@ -417,7 +417,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 3,
                             ShopsId = 2,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 330, DateTimeKind.Local).AddTicks(927),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 83, DateTimeKind.Local).AddTicks(1349),
                             isDeleted = false,
                             name = "Tầng 1",
                             permalink = "Tang_1"
@@ -488,6 +488,10 @@ namespace Test_coffe.Migrations
                     b.Property<string>("deleted_by")
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
+
+                    b.Property<string>("icon")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("isDeleted")
                         .HasColumnType("bit");
@@ -665,7 +669,7 @@ namespace Test_coffe.Migrations
                         new
                         {
                             id = 1,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 325, DateTimeKind.Local).AddTicks(6861),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 78, DateTimeKind.Local).AddTicks(8981),
                             isDeleted = false,
                             name = "Nhân Viên"
                         });
@@ -735,7 +739,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 1,
                             CatalogesId = 1,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 331, DateTimeKind.Local).AddTicks(3224),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 84, DateTimeKind.Local).AddTicks(3048),
                             isDeleted = false,
                             name = "Cà phê đen",
                             price = 10000m
@@ -744,7 +748,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 2,
                             CatalogesId = 1,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 331, DateTimeKind.Local).AddTicks(6936),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 84, DateTimeKind.Local).AddTicks(6386),
                             isDeleted = false,
                             name = "Cà phê sữa",
                             price = 12000m
@@ -753,7 +757,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 3,
                             CatalogesId = 2,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 331, DateTimeKind.Local).AddTicks(6993),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 84, DateTimeKind.Local).AddTicks(6439),
                             isDeleted = false,
                             name = "Trà sữa socola",
                             price = 18000m
@@ -762,7 +766,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 4,
                             CatalogesId = 2,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 331, DateTimeKind.Local).AddTicks(6996),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 84, DateTimeKind.Local).AddTicks(6443),
                             isDeleted = false,
                             name = "Trà sữa matcha",
                             price = 20000m
@@ -771,7 +775,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 5,
                             CatalogesId = 3,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 331, DateTimeKind.Local).AddTicks(6999),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 84, DateTimeKind.Local).AddTicks(6445),
                             isDeleted = false,
                             name = "Khoai tây chiên",
                             price = 15000m
@@ -780,7 +784,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 6,
                             CatalogesId = 4,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 331, DateTimeKind.Local).AddTicks(7001),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 84, DateTimeKind.Local).AddTicks(6448),
                             isDeleted = false,
                             name = "Cà phê đen",
                             price = 10000m
@@ -857,7 +861,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 1,
                             CitiesId = 1,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 326, DateTimeKind.Local).AddTicks(492),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 79, DateTimeKind.Local).AddTicks(2265),
                             isDeleted = false,
                             name = "The One",
                             status = 0,
@@ -868,7 +872,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 2,
                             CitiesId = 1,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 329, DateTimeKind.Local).AddTicks(5099),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 82, DateTimeKind.Local).AddTicks(5349),
                             isDeleted = false,
                             name = "HighLand",
                             status = 0,
@@ -933,7 +937,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 1,
                             FloorsId = 1,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 330, DateTimeKind.Local).AddTicks(2845),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 83, DateTimeKind.Local).AddTicks(3002),
                             isDeleted = false,
                             name = "Bàn 1",
                             permalink = "Ban_1",
@@ -943,7 +947,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 2,
                             FloorsId = 1,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 330, DateTimeKind.Local).AddTicks(6334),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 83, DateTimeKind.Local).AddTicks(6209),
                             isDeleted = false,
                             name = "Bàn 2",
                             permalink = "Ban_2",
@@ -953,7 +957,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 3,
                             FloorsId = 2,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 330, DateTimeKind.Local).AddTicks(6390),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 83, DateTimeKind.Local).AddTicks(6260),
                             isDeleted = false,
                             name = "Bàn 3",
                             permalink = "Ban_3",
@@ -963,7 +967,7 @@ namespace Test_coffe.Migrations
                         {
                             id = 4,
                             FloorsId = 3,
-                            created_at = new DateTime(2020, 5, 12, 20, 23, 1, 330, DateTimeKind.Local).AddTicks(6393),
+                            created_at = new DateTime(2020, 5, 19, 19, 31, 0, 83, DateTimeKind.Local).AddTicks(6264),
                             isDeleted = false,
                             name = "Bàn 1",
                             permalink = "Ban_1",

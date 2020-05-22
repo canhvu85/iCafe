@@ -14,6 +14,8 @@ namespace Test_coffe.Models
         public string name { get; set; }
         [MaxLength(255)]
         public string url { get; set; }
+        [MaxLength(50)]
+        public string icon { get; set; }
         public int parentId { get; set; }
 
         public bool isDeleted { get; set; } = false;

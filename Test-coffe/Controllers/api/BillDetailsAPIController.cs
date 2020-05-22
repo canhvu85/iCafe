@@ -64,6 +64,28 @@ namespace Test_coffe.Controllers
             return Ok(result);
         }
 
+        //[HttpGet("TableId/{TableId}")]
+        //public IActionResult GetGroupOrderPrinted(int? TableId)
+        //{
+        //    //var result = from b in _context.BillDetails
+        //    //             join p in _context.Products on b.ProductsId equals p.id
+        //    //             where b.isDeleted == false &&
+        //    //             b.Bills.status == 0 &&
+        //    //             b.Bills.TablesId == TableId &&
+        //    //             b.status == 1
+        //    //             group b by new { p.name, b.price, b.BillsId } into grp
+        //    //             select new
+        //    //             {
+        //    //                 productsName = grp.Key.name,
+        //    //                 grp.Key.price,
+        //    //                 quantity = grp.Sum(x => x.quantity),
+        //    //                 total = grp.Sum(x => x.total),
+        //    //                 billsid = grp.Key.BillsId
+        //    //             };
+        //    result = _billsDetailsRepository.GetGroupOrderPrinted(TableId);
+        //    return Ok(result);
+        //}
+
         [HttpGet("TableId/{TableId}")]
         public IActionResult GetGroupOrderPrinted(int? TableId)
         {
@@ -158,7 +180,7 @@ namespace Test_coffe.Controllers
         }
 
         [HttpGet("GetPaggedData")]
-        public ActionResult GetPaggedData(int? TableId, int pageNumber = 1, int pageSize = 10)
+        public ActionResult GetPaggedData(int? TableId, int pageNumber = 1, int pageSize = 5)
         {
             var listData = _billsDetailsRepository.GetGroupOrderPrinted(TableId);
             var pagedData = Pagination.PagedResult(listData, pageNumber, pageSize);

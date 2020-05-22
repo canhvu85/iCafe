@@ -192,7 +192,7 @@ function getProducts() {
 					img = items[k].images != null ? JSON.parse(items[k].images).thumb : "#";
 					str += `<div class="item">
 						<div class="item-img">
-						<img src="uploads/products/${items[k].id}/${img}" onerror="loadImageError(this);">
+						<img src="uploads/products/${items[k].id}/${img}">
 						</div>
 						<div class="item-btn">
 						<input type="button" class="btn btn-success btn-add" value="Thêm" data-id="${items[k].id}" data-name="${items[k].name}" data-price="${items[k].price}" />
@@ -527,8 +527,72 @@ function drawPrintCheckout() {
 	});
 
 }
+
+
+//function drawPrintCheckout() {
+//	axios({
+//		url: GetShop + "/?shopsId=" + user.ShopsId,
+//		method: "GET",
+//		headers: {
+//			'content-type': 'application/json',
+//			'Authorization': user.remember_token
+//		}
+//	}).then(function (response) {
+//		$("#nameShop").html(response.data[0].name);
+//		$("#infoShop").html(response.data[0].info);
+//		$("#timeCheckout").html(getDateTime());
+//		$("#nameTable").html(tablesName);
+//		$("#userNameCashier").html(user.username);
+//		GetPageData();
+//	}).catch(function () {
+//		unAuthorized();
+//	});
+
+//}
 $("#showBill .modal-footer .btn-primary").on("click", function () {
-	GetPageData();
+	//printDiv('showBill');
+
+	//if ($('.modal').is(':visible')) {
+	//	var modalid = $(event.target).closest('.modal').attr('id');
+	//	$('body').css('visibility', 'hidden');
+	//	$('body').css('margin', 0);
+	//	$("#" + modalid).css('visibility', 'visible');
+	//	$('#' + modalid).removeclass('modal');
+	//	window.print();
+	//	$('body').css('visibility', 'visible');
+	//	$('#' + modalId).addClass('modal');
+	//} else {
+	//	window.print();
+	//}
+
+	//$("#formprinted").printThis({
+	//	debug: false,
+	//	importcss: true,
+	//	importstyle: true,
+	//	printcontainer: true,
+	//	loadcss: ["/css/bootstrap-4.4.1.min.css", "/css/custom.style.css", "/css/style.css","/css/test.css"],
+	//	removeinline: true,
+	//	printdelay: 333,
+	//	header: null,
+	//	formvalues: true
+	//});
+
+	$("#showBill").printThis({
+		debug: false,
+		importCSS: true,
+		importStyle: true,
+		printContainer: true,
+		loadCSS: ["/css/bootstrap-4.4.1.min.css", "/css/custom.style.css", "/css/style.css", "/css/test.css"],
+		pageTitle: "",
+		removeInline: false,
+		printDelay: 0,
+		header: null,
+		formValues: true
+	});
+	setTimeout(function () {
+		GetPageData();
+	}, 500);
+
 });
 
 function getDateTime() {
@@ -558,16 +622,16 @@ function getDateTime() {
 	return dateTime;
 }
 
-function printDiv(divName) {
-	var printContents = document.getElementById(divName).innerHTML;
-	var originalContents = document.body.innerHTML;
+//function printDiv(divName) {
+//	var printContents = document.getElementById(divName).innerHTML;
+//	var originalContents = document.body.innerHTML;
 
-	document.body.innerHTML = printContents;
+//	document.body.innerHTML = printContents;
 
-	window.print();
+//	window.print();
 
-	document.body.innerHTML = originalContents;
-}
+//	document.body.innerHTML = originalContents;
+//}
 
 function GetPageData() {
 	axios({
@@ -588,9 +652,9 @@ function GetPageData() {
 			str += `<tr>
 	                                           <td>${value.productsName}</td>
 	                                           <td>ly</td>
-	                                           <td>${addCommas(value.price)}</td>
+	                                           <td>${addCommas(value.price)} vnđ</td>
 	                                           <td>${value.quantity}</td>
-	                                           <td>${addCommas(value.total)}</td>
+	                                           <td>${addCommas(value.total)} vnđ</td>
 	                                       </tr>`;
 		});
 		$("#listCheckout").html(str);
@@ -600,7 +664,62 @@ function GetPageData() {
 		} else {
 			console.log("last page");
 		}
-
 	})
+}
 
+//function GetPageData() {
+//	axios({
+//		url: `api/BillDetailsAPI/TableId/${tablesId}`,
+//		method: "GET",
+//		headers: {
+//			'content-type': 'application/json',
+//			'Authorization': user.remember_token
+//		}
+//	}).then(function (response) {
+//		let str;
+//		let sub_total = 0;
+//		$.each(response.data, function (index, value) {
+//			sub_total += value.total;
+//			$("#listCheckout").html(str);
+//			$("#subTotal").html(addCommas(sub_total) + " vnđ");
+//			$("#totalBill").html(addCommas(sub_total) + " vnđ");
+//			str += `<tr>
+//	                                           <td>${value.productsName}</td>
+//	                                           <td>ly</td>
+//	                                           <td>${addCommas(value.price)} vnđ</td>
+//	                                           <td>${value.quantity}</td>
+//	                                           <td>${addCommas(value.total)} vnđ</td>
+//	                                       </tr>`;
+//		});
+//		$("#listCheckout").html(str);
+//	})
+//}
+
+
+function printDiv(divName) {
+	GetPageData();
+	var contents = document.getElementById(divName).outerHTML;
+	var frame1 = document.createElement('iframe');
+
+	frame1.name = "frame1";
+	frame1.style.position = "absolute";
+	frame1.style.top = "-1000000px";
+	//frame1.style.width = "302px";
+	document.body.appendChild(frame1);
+	var frameDoc = frame1.contentWindow ? frame1.contentWindow : frame1.contentDocument.document ? frame1.contentDocument.document : frame1.contentDocument;
+	frameDoc.document.open();
+
+	frameDoc.document.write(`<head><link rel="stylesheet" type="text/css" href="/css/bootstrap-4.4.1.min.css">
+			<link rel="stylesheet" type="text/css" href="/css/custom.style.css">
+				<link rel="stylesheet" type="text/css" href="/css/style.css">
+					<link rel="stylesheet" type="text/css" href="/css/test.css"></head>`);
+	frameDoc.document.write(contents);
+	frameDoc.document.close();
+	setTimeout(function () {
+		window.frames["frame1"].focus();
+		window.frames["frame1"].print();
+		document.body.removeChild(frame1);
+	}, 500);
+
+	return false;
 }

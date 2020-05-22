@@ -172,7 +172,7 @@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" id="sideBar">
+                    <ul class="nav nav-pills nav-sidebar flex-column treeview-menu" data-widget="treeview" role="menu" data-accordion="false" id="sideBar">
                         @*<li class="nav-item has-treeview">
                                 <a href="#" class="nav-link">
                                     <i class="fas fa-users-cog nav-icon"></i>
@@ -391,8 +391,6 @@
                             </li>*@
                     </ul>
                 </nav>
-
-                <ul class="sidebar-menu" id="menu"></ul>
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
@@ -439,15 +437,15 @@
     <section class="script">
         <script>
             $(function () {
-                $("#example1").DataTable();
-                $('#example2').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": false,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                });
+                //$("#example1").DataTable();
+                //$('#example2').DataTable({
+                //    "paging": true,
+                //    "lengthChange": false,
+                //    "searching": false,
+                //    "ordering": true,
+                //    "info": true,
+                //    "autoWidth": false,
+                //});
             });
         </script>
         <script type="text/javascript">
@@ -458,78 +456,107 @@
                     dataType: "json",
                     method: "get",
                     success: function (data) {
-                        //$(getMenusByConcat(data)).appendTo("#sideBar");
-                        //for (var i = 0; i < data.length; i++) {
-                        //    if(data[i].parentId)
-                        //}
-
                         var items = data.filter(function (rs) {
                             return rs.parentId == 0;
                         });
-                        $(abc(items, data)).appendTo("#sideBar")
+                        if (items.length > 0) {
+                            var child;
+                            for (var i = 0; i < items.length; i++) {
+
+                                child = data.filter(function (rs) {
+                                    return rs.parentId == items[i].id;
+                                });
+                                if (child.length > 0) {
+                                    str += `<li class="nav-item has-treeview">
+                                                        <a href="#" class="nav-link">
+                                                            <i class="${items[i].icon}"></i>
+                                                            <p>
+                                                                ${items[i].name}
+                                                                <i class="right fas fa-angle-left"></i>
+                                                            </p>
+                                                        </a>`;
+                                    var child2;
+                                    for (var j = 0; j < child.length; j++) {
+                                        child2 = data.filter(function (rs) {
+                                            return rs.parentId == child[j].id;
+                                        });
+                                        str += `<ul class="nav nav-treeview treeview-menu">`;
+                                        if (child2.length > 0) {
+                                            str += `<li class="nav-item has-treeview treeview">
+                                                        <a href="#" class="nav-link">
+                                                            <i class="${child[j].icon}"></i>
+                                                            <p>
+                                                                ${child[j].name}
+                                                                <i class="right fas fa-angle-left"></i>
+                                                            </p>
+                                                        </a>`;
+                                            str += `<ul class="nav nav-treeview treeview-menu">
+                                                                    <li class="nav-item treeview">`;
+                                            for (var k = 0; k < child2.length; k++) {
+                                                str += `<a href="${child2[k].url}" class="nav-link">
+                                                                    <i class="${child2[k].icon}"></i>
+                                                                    <p>${child2[k].name}</p>
+                                                                </a>`
+                                            }
+                                            str += `</li> </ul></li>`;
+                                        } else {
+                                            str += `<li class="nav-item has-treeview treeview">
+                                                        <a href="${child[j].url}" class="nav-link">
+                                                            <i class="${child[j].icon}"></i>
+                                                            <p>${child[j].name}</p>
+                                                        </a>
+                                                    </li>`;
+                                        }
+                                        str += `</ul>`;
+                                    }
+                                    str += `</li>`;
+                                } else {
+                                    str += `<li class="nav-item has-treeview">
+                                                <a href="${items[i].url}" class="nav-link">
+                                                    <i class="${items[i].icon}"></i>
+                                                    <p>${items[i].name}</p>
+                                                </a></li>`;
+                                }
+                            }
+                        }
+                        $("#sideBar").html(str);
+
+                        //$(getMenu(items, data)).appendTo("#sideBar")
                     }
                 });
 
-                function abc(data, bigData) {
-                    console.log(data);
-                    
+
+                function getMenu(data, bigData) {
                     for (var i = 0; i < data.length; i++) {
-                        str += `<li class="nav-item has-treeview">
-                                 <a href="#" class="nav-link">
-                                                <i class="fas fa-users nav-icon level2"></i>
-                                                <p>
-                                                    ${data[i].name}
-                                                    <i class="right fas fa-angle-left"></i>
-                                                </p>
-                                            </a>`;
+                        str += `<li class="nav-item has-treeview treeview">
+                                                                                    <a href="#" class="nav-link">
+                                                                          <i class="fas fa-users nav-icon"></i>
+                                                                                                    <p>${data[i].name}<i class="right fas fa-angle-left"></i></p>
+                                                                   </a>`;
                         var items = bigData.filter(function (rs) {
                             return rs.parentId == data[i].id;
                         });
+                        //var items2 = 0;
+                        //for (var i = 0; i < items.length; i++) {
+                        //    items2 = bigData.filter(function (rs) {
+                        //        return rs.parentId == items[i].id;
+                        //    });
+                        //}
+                        //cons
+                        str += `<ul class="nav nav-treeview treeview-menu">`;
                         if (items.length > 0) {
-                            str += '<ul class="nav nav-treeview">';
-                            abc(items, bigData);
-                            str += '</ul>';
+                            getMenu(items, bigData);
+                        } else {
+                            //str += `<li class="nav-item has-treeview treeview">
+                            //                                       <a href="${data[i].url}" class="nav-link">
+                            //                                   <i class="fas fa-users nav-icon"></i>
+                            //                                         <p>${data[i].name}</p>
+                            //                                 </a>`;
+                            //getMenu(items, bigData);
                         }
+                        str += '</ul>';
                     }
                     return str;
-                }
-
-                function getMenusByConcat(data) {
-                    var dom = '';
-                    console.log(data);
-
-                    for (var i = 0; i < data.length; i++) {
-                        dom += '<li class="nav-item has-treeview">';
-
-                        if (data[i].parentId > 0) {
-
-                            dom += `<ul class="nav nav-treeview">
-                                        <li class="nav-item has-treeview">
-                                            <a href="#" class="nav-link">
-                                                <i class="fas fa-users nav-icon level2"></i>
-                                                <p>
-                                                    ${data[i].name}
-                                                    <i class="right fas fa-angle-left"></i>
-                                                </p>
-                                            </a>
-                                            ${getMenusByConcat(data[i].parentId)}
-                                        </li>
-                                    </ul>`;
-                        }
-                        else {
-                            dom += `<a href="#" class="nav-link">
-                                        <i class="fas fa-users-cog nav-icon"></i>
-                                        <p>
-                                            ${data[i].name}
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>`;
-                        }
-
-                        dom += '</li>';
-                    }
-
-                    return dom;
                 }
             });
         </script>

@@ -9,7 +9,7 @@ namespace Test_coffe.Controllers.Repository
 
         public dynamic GetMenu()
         {
-            get_Menu = "SELECT [id], [name], [url], [parentId] FROM [Menu] WHERE [isDeleted] = 0";
+            get_Menu = "SELECT [id], [name], [url], [icon], [parentId] FROM [Menu] WHERE [isDeleted] = 0";
 
             var query = SQLUtils.ExecuteCommand(SQLUtils._connStr,
                       conn => conn.Query(get_Menu));
