@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Test_coffe.Models.Bills>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@*@functions{
+        public string addCommas(string nStr)
+        {
+            nStr = new String(nStr.ToCharArray().Reverse().ToArray());
+            var groups = nStr.Select((c, ix) => new { Char = c, Index = ix })
+                         .GroupBy(x => x.Index / 3)
+                         .Select(g => String.Concat(g.Select(x => x.Char)));
+            string result = string.Join(".", groups);
+            result = new String(result.ToCharArray().Reverse().ToArray());
+            return result;
+        }
+    }*@
+
+@section css{
+    <link rel="stylesheet" href="~/AdminLTE-3.0.2/plugins/jquery-ui/jquery-ui.css">
+    <link rel="stylesheet" href="~/jquery.jqGrid-4.4.3/css/ui.jqgrid.css">
+    <link rel="stylesheet" href="~/AdminLTE-3.0.2/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+}
+
+<table id="list4"></table>
+<div id="pager2"></div>
+
+@section scripts{
+    <script type="text/javascript" src="~/jquery.jqGrid-4.4.3/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="~/jquery.jqGrid-4.4.3/js/grid.locale-vi.js"></script>
+    @*<script type="text/javascript" src="~/jquery.jqGrid-4.4.3/js/jquery.jqGrid.min.js"></script>*@
+    <script type="text/javascript" src="~/jquery.jqGrid-4.4.3/js/jquery.jqGrid.src.js"></script>
+    @*<script type="text/javascript" src="~/jquery.jqGrid-4.4.3/js/jquery.jqGrid.src-dynamicReader.js"></script>*@
+    <script src="~/js/statistical.js"></script>
+}

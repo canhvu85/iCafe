@@ -8,6 +8,8 @@ namespace Test_coffe.Controllers.Services
     {
         dynamic GetBillByTable(int? TableId);
 
+        dynamic GetBillByShop(int? ShopsId);
+
         dynamic GetBillByDate(int? shopsId, string? startDate, string? endDate);
 
         int CreateBills(Bills bills);

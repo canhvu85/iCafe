@@ -27,25 +27,12 @@ namespace Test_coffe.Controllers
             return Ok(result);
         }
 
-        //[HttpGet("shop/{shopsId}")]
-        //public IActionResult GetBill2(int? shopsId)
-        //{
-        //    var result = from b in _context.Bills
-        //                 where b.isDeleted == false &&
-        //                 b.Tables.Floors.ShopsId == shopsId
-        //                 select new
-        //                 {
-        //                     b.id,
-        //                     b.time_out,
-        //                     b.Tables.name,
-        //                     b.status,
-        //                     b.created_by,
-        //                     b.sub_total,
-        //                     b.fee_service,
-        //                     b.total_money
-        //                 };
-        //    return Ok(result);
-        //}
+        [HttpGet("shop/{shopsId}")]
+        public IActionResult GetBill2(int? shopsId)
+        {
+            result = _billsRepository.GetBillByShop(shopsId);
+            return Ok(result);
+        }
 
         [HttpGet("shop/{shopsId}/date/{startDate}/{endDate}")]
         public IActionResult GetBillByDate(int? shopsId, string? startDate, string? endDate)

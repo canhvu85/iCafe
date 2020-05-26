@@ -4,33 +4,355 @@
     ViewData["Title"] = "Index";
 }
 
-@*@functions{
-        public string addCommas(string nStr)
-        {
-            nStr = new String(nStr.ToCharArray().Reverse().ToArray());
-            var groups = nStr.Select((c, ix) => new { Char = c, Index = ix })
-                         .GroupBy(x => x.Index / 3)
-                         .Select(g => String.Concat(g.Select(x => x.Char)));
-            string result = string.Join(".", groups);
-            result = new String(result.ToCharArray().Reverse().ToArray());
-            return result;
-        }
-    }*@
-
 @section css{
-    <link rel="stylesheet" href="~/AdminLTE-3.0.2/plugins/jquery-ui/jquery-ui.css">
+    <link rel="stylesheet" href="~/AdminLTE-3.0.2/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" type="text/css" href="~/css/sweetalert.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/jquery-ui.min_ace-master.css" />
     <link rel="stylesheet" href="~/jquery.jqGrid-4.4.3/css/ui.jqgrid.css">
-    <link rel="stylesheet" href="~/AdminLTE-3.0.2/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="~/css/statistical.css" />
 }
 
-<table id="list4"></table>
-<div id="pager2"></div>
+
+@*<section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <table id="grid-table"></table>
+
+                                <div id="grid-pager"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>*@
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Thống Kê</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Thống Kê</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-3">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Date picker</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Date range -->
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="far fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control float-right datePicker" id="datePicker">
+                            <button class="text-muted" id="datePickerBtn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                    <!-- /.form group -->
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Month Year picker</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Date range -->
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <select id="monthPicker" class="form-control float-right">
+                                        <option value="0">Tháng</option>
+                                        @for (var i = 1; i < 13; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+
+                        <div class="col-5">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <select id="yearPicker" class="form-control float-right">
+                                        <option value="0">Năm</option>
+                                        @{
+                                            var yearNow = @DateTime.Now.Year;
+                                        }
+                                        @for (var i = 2019; i <= @yearNow; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <button class="text-muted" style="padding: 7px" id="monthYearBtn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- /.form group -->
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+
+        <div class="col-5">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Date range</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Date range -->
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control float-right dateRangeLeft" id="dateRangeLeft">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+
+                        <div class="col-5">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control float-right dateRangeRight" id="dateRangeRight">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <button class="text-muted" style="padding: 7px" id="dateRangeBtn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.form group -->
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Hóa đơn</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- PAGE CONTENT BEGINS -->
+                            <table id="grid-table"></table>
+
+                            <div id="grid-pager"></div>
+
+                            <!-- PAGE CONTENT ENDS -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
 
 @section scripts{
-    <script type="text/javascript" src="~/jquery.jqGrid-4.4.3/js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="~/jquery.jqGrid-4.4.3/js/grid.locale-vi.js"></script>
-    @*<script type="text/javascript" src="~/jquery.jqGrid-4.4.3/js/jquery.jqGrid.min.js"></script>*@
-    <script type="text/javascript" src="~/jquery.jqGrid-4.4.3/js/jquery.jqGrid.src.js"></script>
-    @*<script type="text/javascript" src="~/jquery.jqGrid-4.4.3/js/jquery.jqGrid.src-dynamicReader.js"></script>*@
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="~/AdminLTE-3.0.2/plugins/moment/moment.min.js"></script>
+    <script src="~/AdminLTE-3.0.2/plugins/daterangepicker/daterangepicker.js"></script>
+    <script type="text/javascript" src="~/js/sweetalert-dev.js"></script>
+    <script type="text/javascript" src="~/js/lib.js"></script>
+    <script type="text/javascript">
+       var GetBillDetail = "@Url.Action("GetBillDetail2", "BillDetailsAPI")";
+    </script>
+    <script src="~/js/jquery.jqGrid.min_ace-master.js"></script>
+    <script src="~/jquery.jqGrid-4.4.3/js/grid.locale-vi.js"></script>
     <script src="~/js/statistical.js"></script>
+    <script type="text/javascript">
+        jQuery(function ($) {
+            var grid_selector = "#grid-table";
+            var pager_selector = "#grid-pager";
+
+            var parent_column = $(grid_selector).closest('[class*="col-"]');
+            //resize to fit page size
+            $(window).on('resize.jqGrid', function () {
+                $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+            })
+
+            jQuery(grid_selector).jqGrid({
+                subGrid: true,
+                subGridOptions: {
+                    plusicon: "ace-icon fa fa-plus center bigger-110 blue",
+                    minusicon: "ace-icon fa fa-minus center bigger-110 blue",
+                    openicon: "ace-icon fa fa-chevron-right center orange"
+                },
+                subGridRowExpanded: function (subgridDivId, rowId) {
+                    var subgridTableId = subgridDivId + "_t";
+                    $("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
+                    $("#" + subgridTableId).jqGrid({
+                        url: "https://localhost:5001/api/BillDetailsAPI/bills/" + rowId,
+                        datatype: "json",
+                        colNames: ['Sản Phẩm', 'Giá', 'Số Lượng', 'Tổng Cộng'],
+                        colModel: [
+                            { name: "productsName", index: "productsName", width: 80 },
+                            { name: "price", index: "price", width: 130 },
+                            { name: "quantity", index: "quantity", width: 70, align: "right" },
+                            { name: "total", index: "total", width: 70, align: "right" }
+                        ],
+                        autowidth: true
+                    });
+                },
+                url: 'https://localhost:5001/api/BillsAPI/shop/1',
+                datatype: "json",
+                height: 250,
+                colNames: ['id', 'Bàn', 'Tài Khoản', 'Ngày Đã Thanh Toán', 'Tổng Tiền', 'Phí Dịch Vụ',
+                    'Tổng Cộng', 'Tình Trạng'],
+                colModel: [
+
+                    { name: 'id', index: 'id' },
+                    { name: 'name', index: 'name' },
+                    { name: 'created_by', index: 'created_by' },
+                    { name: 'time_out', index: 'time_out' },
+                    { name: 'sub_total', index: 'sub_total' },
+                    { name: 'fee_service', index: 'fee_service' },
+                    { name: 'total_money', index: 'total_money' },
+                    { name: 'status', index: 'status' }
+                ],
+                autowidth: true,
+                loadonce: true,
+                rowNum: 2,
+                rowList: [2, 5, 30],
+                pager: pager_selector,
+                loadComplete: function () {
+                    var table = this;
+                    setTimeout(function () {
+                        updatePagerIcons(table);
+                    }, 0);
+                },
+            });
+            $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+
+
+            //navButtons
+            jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                { 	//navbar options
+                    edit: false,
+                    add: false,
+                    del: false,
+                    search: true,
+                    searchicon: 'ace-icon fa fa-search orange',
+                    refresh: true,
+                    refreshicon: 'ace-icon fa fa-refresh green',
+                    view: false
+                },
+                {
+                    //search form
+                    recreateForm: true,
+                    afterShowSearch: function (e) {
+                        var form = $(e[0]);
+                        form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                        style_search_form(form);
+                    },
+                    afterRedraw: function () {
+                        style_search_filters($(this));
+                    }
+                    ,
+                    multipleSearch: true
+                }
+            )
+
+            function style_search_filters(form) {
+                form.find('.delete-rule').val('X');
+                form.find('.add-rule').addClass('btn btn-xs btn-primary');
+                form.find('.add-group').addClass('btn btn-xs btn-success');
+                form.find('.delete-group').addClass('btn btn-xs btn-danger');
+            }
+            function style_search_form(form) {
+                var dialog = form.closest('.ui-jqdialog');
+                var buttons = dialog.find('.EditTable')
+                buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+                buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+                buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+            }
+
+            //replace icons with FontAwesome icons like above
+            function updatePagerIcons(table) {
+                var replacement =
+                {
+                    'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                    'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                    'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                    'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+                };
+                $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                    var icon = $(this);
+                    var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                    if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+                })
+            }
+            //$(document).one('ajaxloadstart.page', function (e) {
+            //    $.jgrid.gridDestroy(grid_selector);
+            //    $('.ui-jqdialog').remove();
+            //});
+        });
+    </script>
+
+    @*<script src="~/js/statistical.js"></script>*@
 }

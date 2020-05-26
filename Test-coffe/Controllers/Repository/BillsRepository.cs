@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using Test_coffe.Controllers.Services;
@@ -17,20 +18,66 @@ namespace Test_coffe.Controllers.Repository
 
         public dynamic GetBillByTable(int? TableId)
         {
-            return from b in _context.Bills
-                   where b.isDeleted == false &&
-                   b.Tables.status != 0 &&
-                   b.status == 0 &&
-                   b.TablesId == TableId
-                   select new
-                   {
-                       b.id,
-                       tablesName = b.Tables.name,
-                       b.created_by,
-                       b.sub_total,
-                       b.fee_service,
-                       b.total_money
-                   };
+            //return from b in _context.Bills
+            //       where b.isDeleted == false &&
+            //       b.Tables.status != 0 &&
+            //       b.status == 0 &&
+            //       b.TablesId == TableId
+            //       select new
+            //       {
+            //           b.id,
+            //           tablesName = b.Tables.name,
+            //           b.created_by,
+            //           b.time_out,
+            //           b.sub_total,
+            //           b.fee_service,
+            //           b.total_money,
+            //           b.status
+            //       };
+
+            var sql = "SELECT b.id, t.name, b.created_by, FORMAT(b.time_out , 'dd/MM/yyyy HH:mm:ss') " +
+                "AS time_out , b.sub_total, b.fee_service, b.total_money, b.status FROM Bills b " +
+                "JOIN Tables t ON b.TablesId = t.id WHERE b.isDeleted = 0 AND t.isDeleted = 0 AND " +
+                "t.status <> 0 AND b.status = 0 AND b.TablesId = @TableId";
+
+            var query = SQLUtils.ExecuteCommand(SQLUtils._connStr,
+                      conn => conn.Query(sql,
+                    new
+                    {
+                        TableId
+                    }));
+            return query;
+        }
+
+        public dynamic GetBillByShop(int? ShopsId)
+        {
+            //var result = from b in _context.Bills
+            //             where b.isDeleted == false &&
+            //             b.Tables.Floors.ShopsId == shopsId
+            //             select new
+            //             {
+            //                 b.id,
+            //                 b.time_out,
+            //                 b.Tables.name,
+            //                 b.status,
+            //                 b.created_by,
+            //                 b.sub_total,
+            //                 b.fee_service,
+            //                 b.total_money
+            //             };
+            var sql = "SELECT b.id, t.name, b.created_by, FORMAT(b.time_out , 'dd/MM/yyyy HH:mm:ss') " +
+                "AS time_out , b.sub_total, b.fee_service, b.total_money, b.status FROM Bills b " +
+                "JOIN Tables t ON b.TablesId = t.id JOIN Floors f ON f.id = t.FloorsId WHERE " +
+                "b.isDeleted = 0 AND t.isDeleted = 0 AND t.status <> 0 AND b.status = 0 " +
+                "AND f.ShopsId = @ShopsId";
+
+            var query = SQLUtils.ExecuteCommand(SQLUtils._connStr,
+                      conn => conn.Query(sql,
+                    new
+                    {
+                        ShopsId
+                    }));
+            return query;
         }
 
         public dynamic GetBillByDate(int? shopsId, string startDate, string endDate)

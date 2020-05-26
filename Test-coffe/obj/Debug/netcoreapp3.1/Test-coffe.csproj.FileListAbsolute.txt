@@ -4299,3 +4299,5 @@ F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\Prod
 F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\Products\Edit.cshtml.g.cs
 F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\Products\Index.cshtml.g.cs
 F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Statistical\Index - Copy.cshtml.g.cs
+F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\Test\Index.cshtml.g.cs
+F:\Gitlab\github\iCafe\iCafe\Test-coffe\obj\Debug\netcoreapp3.1\Razor\Views\cp\Statistical\Index - Copy (2).cshtml.g.cs
