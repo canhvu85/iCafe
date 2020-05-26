@@ -443,44 +443,44 @@ function cancelOrder() {
 function checkout() {
 	$("#main-order-1 .checkout .btn-success").on("click", function () {
 		//alert("da thanh toan");
-		$("#showBill").modal("show");
-		drawPrintCheckout();
-		//	getOrderPrinted(tablesId).then(function (rs) {
-		//		$.each(rs.data, function (index, value) {
-		//			billDetails = billDetailsObj(value.id, value.quantity, value.total, 3, user.username);
-		//			updateBillDetail(value.id, billDetails).then(function () {
-		//				let bills = {
-		//					id: billsId,
-		//					status: 1,
-		//					updated_by: user.username
-		//				};
-		//				updateBill(billsId, bills).then(function () {
-		//					updateTable(tablesId, 0).then(function () {
-		//						tables = [];
-		//						let str = '';
-		//						str += '<p><b>0 vnđ</b></p>' +
-		//							'<p>0 vnđ</p>';
-		//						$("#sub-total-money-1 .col-md-4").html(str);
-		//						$("#table-bill-1").html("");
-		//						$("#table-bill-2").html("");
-		//						$("#total-money-1 .col-md-7").html("<p><b>0 vnđ</b></p>");
+		//$("#showBill").modal("show");
+		//drawPrintCheckout();
 
-		//						$("#main-order-1 .checkout").removeClass("active");
-		//						$("#main-order-1 .btn-temp-order").removeClass("active");
-		//					}).catch(function () {
-		//						unAuthorized();
-		//					});
-		//				}).catch(function () {
-		//					unAuthorized();
-		//				});
-		//			}).catch(function () {
-		//				unAuthorized();
-		//			});
-		//		});
-		//	}).catch(function () {
-		//		unAuthorized();
-		//	});
-		//});
+		getOrderPrinted(tablesId).then(function (rs) {
+			$.each(rs.data, function (index, value) {
+				billDetails = billDetailsObj(value.id, value.quantity, value.total, 3, user.username);
+				updateBillDetail(value.id, billDetails).then(function () {
+					let bills = {
+						id: billsId,
+						status: 1,
+						updated_by: user.username
+					};
+					updateBill(billsId, bills).then(function () {
+						updateTable(tablesId, 0).then(function () {
+							tables = [];
+							let str = '';
+							str += '<p><b>0 vnđ</b></p>' +
+								'<p>0 vnđ</p>';
+							$("#sub-total-money-1 .col-md-4").html(str);
+							$("#table-bill-1").html("");
+							$("#table-bill-2").html("");
+							$("#total-money-1 .col-md-7").html("<p><b>0 vnđ</b></p>");
+
+							$("#main-order-1 .checkout").removeClass("active");
+							$("#main-order-1 .btn-temp-order").removeClass("active");
+						}).catch(function () {
+							unAuthorized();
+						});
+					}).catch(function () {
+						unAuthorized();
+					});
+				}).catch(function () {
+					unAuthorized();
+				});
+			});
+		}).catch(function () {
+			unAuthorized();
+		});
 
 		//$("#showBill .modal-footer .btn-primary").on("click", function () {
 		//	printDiv("formPrinted");
@@ -549,51 +549,51 @@ function drawPrintCheckout() {
 //	});
 
 //}
-$("#showBill .modal-footer .btn-primary").on("click", function () {
-	//printDiv('showBill');
+//$("#showBill .modal-footer .btn-primary").on("click", function () {
+//	//printDiv('showBill');
 
-	//if ($('.modal').is(':visible')) {
-	//	var modalid = $(event.target).closest('.modal').attr('id');
-	//	$('body').css('visibility', 'hidden');
-	//	$('body').css('margin', 0);
-	//	$("#" + modalid).css('visibility', 'visible');
-	//	$('#' + modalid).removeclass('modal');
-	//	window.print();
-	//	$('body').css('visibility', 'visible');
-	//	$('#' + modalId).addClass('modal');
-	//} else {
-	//	window.print();
-	//}
+//	//if ($('.modal').is(':visible')) {
+//	//	var modalid = $(event.target).closest('.modal').attr('id');
+//	//	$('body').css('visibility', 'hidden');
+//	//	$('body').css('margin', 0);
+//	//	$("#" + modalid).css('visibility', 'visible');
+//	//	$('#' + modalid).removeclass('modal');
+//	//	window.print();
+//	//	$('body').css('visibility', 'visible');
+//	//	$('#' + modalId).addClass('modal');
+//	//} else {
+//	//	window.print();
+//	//}
 
-	//$("#formprinted").printThis({
-	//	debug: false,
-	//	importcss: true,
-	//	importstyle: true,
-	//	printcontainer: true,
-	//	loadcss: ["/css/bootstrap-4.4.1.min.css", "/css/custom.style.css", "/css/style.css","/css/test.css"],
-	//	removeinline: true,
-	//	printdelay: 333,
-	//	header: null,
-	//	formvalues: true
-	//});
+//	//$("#formprinted").printThis({
+//	//	debug: false,
+//	//	importcss: true,
+//	//	importstyle: true,
+//	//	printcontainer: true,
+//	//	loadcss: ["/css/bootstrap-4.4.1.min.css", "/css/custom.style.css", "/css/style.css","/css/test.css"],
+//	//	removeinline: true,
+//	//	printdelay: 333,
+//	//	header: null,
+//	//	formvalues: true
+//	//});
 
-	$("#showBill").printThis({
-		debug: false,
-		importCSS: true,
-		importStyle: true,
-		printContainer: true,
-		loadCSS: ["/css/bootstrap-4.4.1.min.css", "/css/custom.style.css", "/css/style.css", "/css/test.css"],
-		pageTitle: "",
-		removeInline: false,
-		printDelay: 0,
-		header: null,
-		formValues: true
-	});
-	setTimeout(function () {
-		GetPageData();
-	}, 500);
+//	$("#showBill").printThis({
+//		debug: false,
+//		importCSS: true,
+//		importStyle: true,
+//		printContainer: true,
+//		loadCSS: ["/css/bootstrap-4.4.1.min.css", "/css/custom.style.css", "/css/style.css", "/css/test.css"],
+//		pageTitle: "",
+//		removeInline: false,
+//		printDelay: 0,
+//		header: null,
+//		formValues: true
+//	});
+//	setTimeout(function () {
+//		GetPageData();
+//	}, 500);
 
-});
+//});
 
 function getDateTime() {
 	var now = new Date();

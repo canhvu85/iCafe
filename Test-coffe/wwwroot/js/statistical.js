@@ -1,17 +1,16 @@
-﻿//let billsId;
-////let user = JSON.parse(localStorage.getItem('user'));
-//let totalMn;
+﻿let billsId;
+let user = JSON.parse(sessionStorage.getItem('user'));
+let totalMn;
 
-////var hdnUserSession = $("#hdnUserSession").data("value");
-////console.log("shopsId  " + hdnUserSession.ShopsId);
+//var hdnUserSession = $("#hdnUserSession").data("value");
+//console.log("shopsId  " + hdnUserSession.ShopsId);
 
-//let user = JSON.parse(sessionStorage.getItem('user'));
 
 //getBillsId();
 //getBillDetails(parseInt($("#billsList tr:first td:first").text()));
-//$("#billsList tr:first").addClass("activeClk");
-//dataTableChange();
-//totalMoney();
+$("#billsList tr:first").addClass("activeClk");
+dataTableChange();
+totalMoney();
 
 //function getBillDetails(billsId) {
 //	axios({
@@ -40,132 +39,187 @@
 //	});
 //}
 
-//let startDate,
-//	endDate;
+let startDate,
+	endDate;
 
-//$('#reservation').daterangepicker({
-//	"showDropdowns": true,
-//	ranges: {
-//		'Today': [moment(), moment()],
-//		'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-//		'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-//		'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-//		'This Month': [moment().startOf('month'), moment().endOf('month')],
-//		'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-//	},
-//	"alwaysShowCalendars": true
-//});
+$('#reservation').daterangepicker({
+	"showDropdowns": true,
+	ranges: {
+		'Today': [moment(), moment()],
+		'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+		'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+		'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+		'This Month': [moment().startOf('month'), moment().endOf('month')],
+		'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+	},
+	"alwaysShowCalendars": true
+});
 
-//$('.datePicker, .dateRangeLeft, .dateRangeRight').daterangepicker({
-//	"singleDatePicker": true,
-//	"showDropdowns": true,
-//	"locale": {
-//		"format": 'DD-MM-YYYY'
-//	}
-//});
+$('.datePicker, .dateRangeLeft, .dateRangeRight').daterangepicker({
+	"singleDatePicker": true,
+	"showDropdowns": true,
+	"locale": {
+		"format": 'DD-MM-YYYY'
+	}
+});
 
-//function findByDate(startDate, endDate) {
-//	$("#example1").DataTable({
-//		"destroy": true,
-//		"paging": true,
-//		"searching": true,
-//		"ordering": true,
-//		"info": true,
-//		"ajax": {
-//			"url": `api/BillsAPI/shop/${user.ShopsId}/date/${startDate}/${endDate}`,
-//			"headers": {
-//				'content-type': 'application/json',
-//				'Authorization': user.remember_token
-//			},
-//			"dataSrc": ""
-//		},
-//		columns: [
-//			{ data: 'id' },
-//			{ data: 'name' },
-//			{ title: "Tài Khoản", data: 'created_by' },
-//			{
-//				data: 'time_out',
-//				render: function (data, type, row, meta) {
-//					return moment(data).format('DD-MM-YYYY');
-//				}
-//			},
-//			{
-//				data: 'sub_total',
-//				render: function (data, type, row, meta) {
-//					return addCommas(data) + " vnđ";
-//				}
-//			},
-//			{
-//				data: 'fee_service',
-//				render: function (data, type, row, meta) {
-//					return addCommas(data) + " vnđ";
-//				}
-//			},
-//			{
-//				data: 'total_money',
-//				render: function (data, type, row, meta) {
-//					return addCommas(data) + " vnđ";
-//				}
-//			},
-//			{
-//				data: 'status',
-//				render: function (data, type, row, meta) {
-//					if (data == 0)
-//						return "<span class='badge bg-danger'>Chưa thanh toán</span>";
-//					else
-//						return "<span class='badge bg-secondary'>Đã thanh toán</span>";
-//				}
-//			}
+function findByDate(startDate, endDate) {
+	//$("#example1").DataTable({
+	//	"destroy": true,
+	//	"paging": true,
+	//	"searching": true,
+	//	"ordering": true,
+	//	"info": true,
+	//	"ajax": {
+	//		"url": `api/BillsAPI/shop/${user.ShopsId}/date/${startDate}/${endDate}`,
+	//		"headers": {
+	//			'content-type': 'application/json',
+	//			'Authorization': user.remember_token
+	//		},
+	//		"dataSrc": ""
+	//	},
+	//	columns: [
+	//		{ data: 'id' },
+	//		{ data: 'name' },
+	//		{ title: "Tài Khoản", data: 'created_by' },
+	//		{
+	//			data: 'time_out',
+	//			render: function (data, type, row, meta) {
+	//				return moment(data).format('DD-MM-YYYY');
+	//			}
+	//		},
+	//		{
+	//			data: 'sub_total',
+	//			render: function (data, type, row, meta) {
+	//				return addCommas(data) + " vnđ";
+	//			}
+	//		},
+	//		{
+	//			data: 'fee_service',
+	//			render: function (data, type, row, meta) {
+	//				return addCommas(data) + " vnđ";
+	//			}
+	//		},
+	//		{
+	//			data: 'total_money',
+	//			render: function (data, type, row, meta) {
+	//				return addCommas(data) + " vnđ";
+	//			}
+	//		},
+	//		{
+	//			data: 'status',
+	//			render: function (data, type, row, meta) {
+	//				if (data == 0)
+	//					return "<span class='badge bg-danger'>Chưa thanh toán</span>";
+	//				else
+	//					return "<span class='badge bg-secondary'>Đã thanh toán</span>";
+	//			}
+	//		}
 
-//		],
-//		initComplete: function (data) {
-//			if (data.aoData.length > 0) {
-//				getBillsId();
-//			} else {
-//				$("#billsDTList").html("");
-//				$("#totalMoney").html("");
-//			}
-//		}
-//	});
-//}
+	//	],
+	//	initComplete: function (data) {
+	//		if (data.aoData.length > 0) {
+	//			getBillsId();
+	//		} else {
+	//			$("#billsDTList").html("");
+	//			$("#totalMoney").html("");
+	//		}
+	//	}
+	//});
 
-//$("#datePickerBtn").on("click", function () {
-//	startDate = $("#datePicker").val();
-//	findByDate(startDate, startDate)
-//	return false;
-//});
+    jQuery(grid_selector).jqGrid({
+        subGrid: true,
+        subGridOptions: {
+            plusicon: "ace-icon fa fa-plus center bigger-110 blue",
+            minusicon: "ace-icon fa fa-minus center bigger-110 blue",
+            openicon: "ace-icon fa fa-chevron-right center orange"
+        },
+        subGridRowExpanded: function (subgridDivId, rowId) {
+            var subgridTableId = subgridDivId + "_t";
+            $("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
+            $("#" + subgridTableId).jqGrid({
+                url: `${GetBillDetail}/bills/${rowId}`,
+                datatype: "json",
+                colNames: ['Sản Phẩm', 'Giá', 'Số Lượng', 'Tổng Cộng'],
+                colModel: [
+                    { name: "productsName", index: "productsName", width: 80 },
+                    { name: "price", index: "price", width: 130 },
+                    { name: "quantity", index: "quantity", width: 70, align: "right" },
+                    { name: "total", index: "total", width: 70, align: "right" }
+                ],
+                autowidth: true
+            });
+        },
+        url: `${GetBill}/shop/${user.ShopsId}/date/${startDate}/${endDate}`,
+        datatype: "json",
+        height: 250,
+        colNames: ['id', 'Bàn', 'Tài Khoản', 'Ngày Đã Thanh Toán', 'Tổng Tiền', 'Phí Dịch Vụ',
+            'Tổng Cộng', 'Tình Trạng'],
+        colModel: [
 
-//$('#dateRangeLeft').on('apply.daterangepicker', function (ev, picker) {
-//	startDate = picker.startDate.format('YYYY-MM-DD');
-//	$('.dateRangeRight').daterangepicker({
-//		"singleDatePicker": true,
-//		"showDropdowns": true,
-//		"locale": {
-//			"format": 'DD-MM-YYYY'
-//		},
-//		"minDate": new Date(startDate)
-//	});
-//});
+            { name: 'id', index: 'id' },
+            { name: 'name', index: 'name' },
+            { name: 'created_by', index: 'created_by' },
+            { name: 'time_out', index: 'time_out' },
+            { name: 'sub_total', index: 'sub_total' },
+            { name: 'fee_service', index: 'fee_service' },
+            { name: 'total_money', index: 'total_money' },
+            { name: 'status', index: 'status' }
+        ],
+        autowidth: true,
+        loadonce: true,
+        rowNum: 2,
+        rowList: [2, 5, 30],
+        pager: pager_selector,
+        loadComplete: function () {
+            var table = this;
+            setTimeout(function () {
+                updatePagerIcons(table);
+            }, 0);
+        },
+    });
 
-//$("#dateRangeBtn").on("click", function () {
-//	endDate = $("#dateRangeRight").val();
-//	findByDate(startDate, endDate);
-//	return false;
-//});
 
-//$("#monthYearBtn").on("click", function () {
-//	var month = $("#monthPicker").val();
-//	var year = $("#yearPicker").val();
-//	month == 0 ? showErrorbyAlert('Cảnh báo', 'Hãy chọn tháng') : (year == 0 ? showErrorbyAlert('Cảnh báo', 'Hãy chọn năm') : monthYearValid());
+}
 
-//	function monthYearValid() {
-//		startDate = `01-${month}-${year}`;
-//		endDate = `${lastDay(year, month)}-${month}-${year}`;
-//		console.log(endDate);
-//		findByDate(startDate, endDate);
-//		return false;
-//	}
-//});
+$("#datePickerBtn").on("click", function () {
+	startDate = $("#datePicker").val();
+	console.log(startDate);
+	findByDate(startDate, startDate);
+	return false;
+});
+
+$('#dateRangeLeft').on('apply.daterangepicker', function (ev, picker) {
+	startDate = picker.startDate.format('YYYY-MM-DD');
+	$('.dateRangeRight').daterangepicker({
+		"singleDatePicker": true,
+		"showDropdowns": true,
+		"locale": {
+			"format": 'DD-MM-YYYY'
+		},
+		"minDate": new Date(startDate)
+	});
+});
+
+$("#dateRangeBtn").on("click", function () {
+	endDate = $("#dateRangeRight").val();
+	findByDate(startDate, endDate);
+	return false;
+});
+
+$("#monthYearBtn").on("click", function () {
+	var month = $("#monthPicker").val();
+	var year = $("#yearPicker").val();
+	month == 0 ? showErrorbyAlert('Cảnh báo', 'Hãy chọn tháng') : (year == 0 ? showErrorbyAlert('Cảnh báo', 'Hãy chọn năm') : monthYearValid());
+
+	function monthYearValid() {
+		startDate = `01-${month}-${year}`;
+		endDate = `${lastDay(year, month)}-${month}-${year}`;
+		console.log(endDate);
+		findByDate(startDate, endDate);
+		return false;
+	}
+});
 
 //function getBillsId() {
 //	$("#billsList tr").on("click", function () {
@@ -176,330 +230,162 @@
 //	});
 //}
 
-//function lastDay(y, m) {
-//	return new Date(y, m, 0).getDate();
-//}
+function lastDay(y, m) {
+	return new Date(y, m, 0).getDate();
+}
 
-//function totalMoney() {
-//	if ($("#example1 tbody tr:first td").length > 1) {
-//		totalMn = 0;
-//		$("#example1 tbody tr").each(function () {
-//			totalMn += parseInt($(this).find("td:eq(6)").html().replace(".", "").replace("vnđ", ""));
-//		});
-//		$("#totalMoney").html(addCommas(totalMn) + " vnđ");
-//	} else
-//		$("#totalMoney").html("0 vnđ");
-//}
+function totalMoney() {
+	if ($("#example1 tbody tr:first td").length > 1) {
+		totalMn = 0;
+		$("#example1 tbody tr").each(function () {
+			totalMn += parseInt($(this).find("td:eq(6)").html().replace(".", "").replace("vnđ", ""));
+		});
+		$("#totalMoney").html(addCommas(totalMn) + " vnđ");
+	} else
+		$("#totalMoney").html("0 vnđ");
+}
 
-//function dataTableChange() {
-//	$('#example1').on('init.dt', function () {
-//		totalMoney();
-//	});
-//	$('#example1').dataTable({
-//		"fnDrawCallback": function (oSettings) {
-//			totalMoney();
-//		}
-//	});
-//}
-
-
+function dataTableChange() {
+	$('#example1').on('init.dt', function () {
+		totalMoney();
+	});
+	$('#example1').dataTable({
+		"fnDrawCallback": function (oSettings) {
+			totalMoney();
+		}
+	});
+}
 
 
 
 
 
+var grid_selector = "#grid-table";
+var pager_selector = "#grid-pager";
 
+var parent_column = $(grid_selector).closest('[class*="col-"]');
 
-
-
-
-//$(document).ready(function () {
-//	var grid_selector = "#list4";
-//	var pager_selector = "#pager2";
-//	jQuery(grid_selector).jqGrid({
-//		url: 'https://localhost:5001/api/BillsAPI/?TableId=1',
-//		datatype: "json",
-//		colNames: ['id', 'tablesName', 'created_by', 'sub_total', 'fee_service', 'total_money'],
-//		colModel: [
-//			{ name: 'id', index: 'id', width: 55 },
-//			{ name: 'tablesName', index: 'tablesName', width: 90 },
-//			{ name: 'created_by', index: 'created_by', width: 100 },
-//			{ name: 'sub_total', index: 'sub_total', width: 80 },
-//			{ name: 'fee_service', index: 'fee_service', width: 80 },
-//			{ name: 'total_money', index: 'total_money', width: 80, sortable: false }
-//		],
-//		//loadonce: true,
-//		rowNum: 2,
-//		rowList: [2, 20, 30],
-//		pager: pager_selector,
-//		sortname: 'id',
-//		viewrecords: true,
-//		guiStyle: "bootstrap",
-//		iconSet: "fontAwesome",
-//		rownumbers: true,
-//		sortorder: "desc",
-//		caption: "JSON Example"
-//	});
-//	jQuery(grid_selector).jqGrid('navGrid', pager_selector, { edit: false, add: false, del: false });
-//});
-
-
-$(function () {
-    "use strict";
-    //  $.ajax({
-    //      url: "https://localhost:5001/api/BillsAPI/?TableId=1",
-    //      method: "GET",
-    //      dataType: "json",
-    //      contentType: "application/json"
-    //  }).done(function (data) {
-    //      jQuery("#list4").jqGrid({
-    //          datatype: "local",
-    //          height: 250,
-    //          colNames: ['id', 'tablesName', 'created_by', 'sub_total', 'fee_service', 'total_money'],
-    //          colModel: [
-    //              { name: 'id', index: 'id', width: 55 },
-    //              { name: 'tablesName', index: 'tablesName', width: 90 },
-    //              { name: 'created_by', index: 'created_by', width: 100 },
-    //              { name: 'sub_total', index: 'sub_total', width: 80 },
-    //              { name: 'fee_service', index: 'fee_service', width: 80 },
-    //              { name: 'total_money', index: 'total_money', width: 80, sortable: false }
-    //          ],
-    //          //		rowNum: 2,
-    //rowList: [2, 20, 30],
-    //          pager: "#pager2",
-    //sortname: 'id',
-    //viewrecords: true,
-    //guiStyle: "bootstrap",
-    //iconSet: "fontAwesome",
-    //rownumbers: true,
-    //sortorder: "desc",
-    //caption: "hello Example"
-    //      });
-    //      var mydata = data;
-    //      for (var i = 0; i <= mydata.length; i++)
-    //          jQuery("#list4").jqGrid('addRowData', i + 1, mydata[i]);
-    //      jQuery("#pager2").jqGrid('navGrid', '#pager2', { edit: false, add: false, del: false });
-    //  });
-
-
-    //var tagDataJson;
-    //$.ajax({
-    //    url: "https://localhost:5001/api/BillsAPI/?TableId=1",
-    //    method: "GET",
-    //    dataType: "json",
-    //    contentType: "application/json"
-    //}).done(function (data) {
-    //    tagDataJson = { "id": "sequenceNumber", "page": "1", "records": 0, "rows": JSON.parse(JSON.stringify(data)) };
-
-    //    $("#list4").jqGrid({
-    //        datatype: "jsonstring",
-    //        datastr: tagDataJson,
-    //        jsonReader: { repeatitems: false },
-    //        height: "100%",
-    //        width: "70%",
-    //        
-    //        colNames: ['id', 'tablesName', 'created_by', 'sub_total', 'fee_service', 'total_money'],
-    //        colModel: [
-    //            { name: 'id', index: 'id', width: 55 },
-    //            { name: 'tablesName', index: 'tablesName', width: 90 },
-    //            { name: 'created_by', index: 'created_by', width: 100 },
-    //            { name: 'sub_total', index: 'sub_total', width: 80 },
-    //            { name: 'fee_service', index: 'fee_service', width: 80 },
-    //            { name: 'total_money', index: 'total_money', width: 80, sortable: false }
-    //        ],
-    //rowNum: 2,
-    //        loadonce: true,
-    //        gridview: true,
-    //        viewrecords: true,
-    //        scrollOffset: 0,
-    //        emptyrecords: "Nothing to display",
-    //        pgbuttons: true,
-    //        pginput: true,
-    //        ignoreCase: true,
-    //        localReader: { id: 'sequenceNumber' },
-    //        pgtext: "Page {0} of {1}",
-    //        loadtext: "Loading...",
-    //        pager: "#pager2",
-    //        caption: "&nbsp;Tag Grid",
-    //        hidegrid: false
-    //    });
-    //    $("#list4").jqGrid('filterToolbar', { stringResult: true, defaultSearch: "cn" })
-    //})
-
-    var BillJson;
-    $.ajax({
-        url: "https://localhost:5001/api/BillsAPI/?TableId=1",
-        method: "GET",
-        dataType: "json",
-        contentType: "application/json"
-    }).done(function (data) {
-        BillJson = { "id": "sequenceNumber", "page": "1", "records": 0, "rows": JSON.parse(JSON.stringify(data)) };
-
-        //$("#list4").jqGrid({
-        //    datatype: "jsonstring",
-        //    datastr: tagDataJson,
-        //    jsonReader: { repeatitems: false },
-        //    height: "100%",
-        //    //width: null,
-        //    autowidth: true,
-        //    colNames: ['id', 'tablesName', 'created_by', 'sub_total', 'fee_service', 'total_money'],
-        //    colModel: [
-        //        { name: 'id', index: 'id', width: 55 },
-        //        { name: 'tablesName', index: 'tablesName', width: 90 },
-        //        { name: 'created_by', index: 'created_by', width: 100 },
-        //        { name: 'sub_total', index: 'sub_total', width: 80 },
-        //        { name: 'fee_service', index: 'fee_service', width: 80 },
-        //        { name: 'total_money', index: 'total_money', width: 80, sortable: false }
-        //    ],
-        //    rowNum: 5,
-        //    rowList: [5, 7, 30],
-        //    pager: '#pager2',
-        //    sortname: 'id',
-        //    viewrecords: true,
-        //    sortorder: "desc",
-        //    caption: "JSON Example"
-        //});
-        //jQuery("#list4").jqGrid('navGrid', '#pager2');
-
-
-
-
-
-        jQuery("#list4").jqGrid({
-            datatype: "jsonstring",
-            datastr: BillJson,
-            jsonReader: { repeatitems: false },
-            height: "100%",
-            autowidth: true,
-            colNames: ['id', 'tablesName', 'created_by', 'sub_total', 'fee_service', 'total_money'],
-            colModel: [
-                { name: 'id', index: 'id', width: 55 },
-                { name: 'tablesName', index: 'tablesName', width: 90 },
-                { name: 'created_by', index: 'created_by', width: 100 },
-                { name: 'sub_total', index: 'sub_total', width: 80 },
-                { name: 'fee_service', index: 'fee_service', width: 80 },
-                { name: 'total_money', index: 'total_money', width: 80, sortable: false }
-            ],
-            //rowNum: 5,
-            //rowList: [5, 10, 20, 30],
-            //pager: '#pager2',
-            //sortname: 'id',
-            //viewrecords: true,
-            //sortorder: "desc",
-            //multiselect: false,
-            //subGrid: true,
-            //caption: "Custom Icons in Subgrid",
-            rowNum: 2,
-            rowList: [5, 10, 20, 30],
-            loadonce: true,
-            gridview: true,
-            viewrecords: true,
-            scrollOffset: 0,
-            emptyrecords: "Nothing to display",
-            guiStyle: "bootstrap4",
-            iconSet: "fontAwesome",
-            pgbuttons: true,
-            pginput: true,
-            ignoreCase: true,
-            subGrid: true,
-            localReader: { id: 'sequenceNumber' },
-            pgtext: "Page {0} of {1}",
-            loadtext: "Loading...",
-            pager: "#pager2",
-            caption: "&nbsp;Tag Grid",
-            hidegrid: false,
-            // define the icons in subgrid
-            subGridOptions: {
-                "plusicon": "ui-icon-triangle-1-e",
-                "minusicon": "ui-icon-triangle-1-s",
-                "openicon": "ui-icon-arrowreturn-1-e"
-            },
-            subGridRowExpanded: function (subgrid_id, row_id) {
-                console.log("subgrid_id  " + subgrid_id);
-                console.log(row_id);
-                var subgrid_table_id, pager_id;
-                subgrid_table_id = subgrid_id + "_t";
-                pager_id = "p_" + subgrid_table_id;
-                $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
-                var BillDetailJson;
-                $.ajax({
-                    url: "https://localhost:5001/api/BillDetailsAPI/bills/" + row_id,
-                    method: "GET",
-                    dataType: "json",
-                    contentType: "application/json"
-                }).done(function (data) {
-                    BillDetailJson = { "id": "sequenceNumber", "page": "1", "records": 0, "rows": JSON.parse(JSON.stringify(data)) };
-                    jQuery("#" + subgrid_table_id).jqGrid({
-                        datatype: "jsonstring",
-                        datastr: BillDetailJson,
-                        jsonReader: { repeatitems: false },
-                        height: "100%",
-                        //width: "60%",
-                        autowidth: true,
-                        colNames: ['productsName', 'price', 'quantity', 'total'],
-                        colModel: [
-                            { name: "productsName", index: "productsName", width: 80 },
-                            { name: "price", index: "price", width: 130 },
-                            { name: "quantity", index: "quantity", width: 70, align: "right" },
-                            { name: "total", index: "total", width: 70, align: "right" }
-                        ],
-                        loadonce: true,
-                        //pager: pager_id,
-                        sortname: 'num',
-                        sortorder: "asc"
-                    });
-                    //jQuery("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, { edit: false, add: false, del: false })
-                });
-            }
-        });
-        jQuery("#list4").jqGrid('navGrid', '#pager2', { add: false, edit: false, del: false });
+jQuery(function ($) {
+    //resize to fit page size
+    $(window).on('resize.jqGrid', function () {
+        $(grid_selector).jqGrid('setGridWidth', parent_column.width());
     })
 
+    jQuery(grid_selector).jqGrid({
+        subGrid: true,
+        subGridOptions: {
+            plusicon: "ace-icon fa fa-plus center bigger-110 blue",
+            minusicon: "ace-icon fa fa-minus center bigger-110 blue",
+            openicon: "ace-icon fa fa-chevron-right center orange"
+        },
+        subGridRowExpanded: function (subgridDivId, rowId) {
+            var subgridTableId = subgridDivId + "_t";
+            $("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
+            $("#" + subgridTableId).jqGrid({
+				url: `${GetBillDetail}/bills/${rowId}`,
+                datatype: "json",
+                colNames: ['Sản Phẩm', 'Giá', 'Số Lượng', 'Tổng Cộng'],
+                colModel: [
+                    { name: "productsName", index: "productsName", width: 80 },
+                    { name: "price", index: "price", width: 130 },
+                    { name: "quantity", index: "quantity", width: 70, align: "right" },
+                    { name: "total", index: "total", width: 70, align: "right" }
+                ],
+                autowidth: true
+            });
+        },
+        //url: `${GetBill}/shop/${user.ShopsId}`,
+        url: `${GetBill}/shop/${user.ShopsId}/date/2020-05-25/2020-05-25`,
+        datatype: "json",
+        height: 250,
+        colNames: ['id', 'Bàn', 'Tài Khoản', 'Ngày Đã Thanh Toán', 'Tổng Tiền', 'Phí Dịch Vụ',
+            'Tổng Cộng', 'Tình Trạng'],
+        colModel: [
+
+            { name: 'id', index: 'id' },
+            { name: 'name', index: 'name' },
+            { name: 'created_by', index: 'created_by' },
+            { name: 'time_out', index: 'time_out' },
+            { name: 'sub_total', index: 'sub_total' },
+            { name: 'fee_service', index: 'fee_service' },
+            { name: 'total_money', index: 'total_money' },
+            { name: 'status', index: 'status' }
+        ],
+        autowidth: true,
+        loadonce: true,
+        rowNum: 2,
+        rowList: [2, 5, 30],
+        pager: pager_selector,
+        loadComplete: function () {
+            var table = this;
+            setTimeout(function () {
+                updatePagerIcons(table);
+            }, 0);
+        },
+    });
+    $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 
 
+    //navButtons
+    jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+        { 	//navbar options
+            edit: false,
+            add: false,
+            del: false,
+            search: true,
+            searchicon: 'ace-icon fa fa-search orange',
+            refresh: true,
+            refreshicon: 'ace-icon fa fa-refresh green',
+            view: false
+        },
+        {
+            //search form
+            recreateForm: true,
+            afterShowSearch: function (e) {
+                var form = $(e[0]);
+                form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                style_search_form(form);
+            },
+            afterRedraw: function () {
+                style_search_filters($(this));
+            }
+            ,
+            multipleSearch: true
+        }
+    )
 
+    function style_search_filters(form) {
+        form.find('.delete-rule').val('X');
+        form.find('.add-rule').addClass('btn btn-xs btn-primary');
+        form.find('.add-group').addClass('btn btn-xs btn-success');
+        form.find('.delete-group').addClass('btn btn-xs btn-danger');
+    }
+    function style_search_form(form) {
+        var dialog = form.closest('.ui-jqdialog');
+        var buttons = dialog.find('.EditTable')
+        buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+        buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+        buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+    }
 
+    //replace icons with FontAwesome icons like above
+    function updatePagerIcons(table) {
+        var replacement =
+        {
+            'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+            'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+            'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+            'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+        };
+        $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+            var icon = $(this);
+            var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
 
-
-
+            if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+        })
+    }
+    //$(document).one('ajaxloadstart.page', function (e) {
+    //    $.jgrid.gridDestroy(grid_selector);
+    //    $('.ui-jqdialog').remove();
+    //});
 });
-
-//$(function () {
-//    "use strict";
-//    $("#list4").jqGrid({
-//            colModel: [
-//                { name: "name", label: "Client", width: 53 },
-//                { name: "invdate", label: "Date", width: 75, align: "center", sorttype: "date",
-//                    formatter: "date", formatoptions: { newformat: "d-M-Y" } },
-//                { name: "amount", label: "Amount", width: 65, template: "number" },
-//                { name: "tax", label: "Tax", width: 41, template: "number" },
-//                { name: "total", label: "Total", width: 51, template: "number" },
-//                { name: "closed", label: "Closed", width: 59, template: "booleanCheckbox", firstsortorder: "desc" },
-//                { name: "ship_via", label: "Shipped via", width: 87, align: "center", formatter: "select",
-//                    formatoptions: { value: "FE:FedEx;TN:TNT;DH:DHL", defaultValue: "DH" } }
-//            ],
-//            data: [
-//                { id: "10",  invdate: "2015-10-01", name: "test",   amount: "" },
-//                { id: "20",  invdate: "2015-09-01", name: "test2",  amount: "300.00", tax:"20.00", closed:false, ship_via:"FE", total:"320.00"},
-//                { id: "30",  invdate: "2015-09-01", name: "test3",  amount: "400.00", tax:"30.00", closed:false, ship_via:"FE", total:"430.00"},
-//                { id: "40",  invdate: "2015-10-04", name: "test4",  amount: "200.00", tax:"10.00", closed:true,  ship_via:"TN", total:"210.00"},
-//                { id: "50",  invdate: "2015-10-31", name: "test5",  amount: "300.00", tax:"20.00", closed:false, ship_via:"FE", total:"320.00"},
-//                { id: "60",  invdate: "2015-09-06", name: "test6",  amount: "400.00", tax:"30.00", closed:false, ship_via:"FE", total:"430.00"},
-//                { id: "70",  invdate: "2015-10-04", name: "test7",  amount: "200.00", tax:"10.00", closed:true,  ship_via:"TN", total:"210.00"},
-//                { id: "80",  invdate: "2015-10-03", name: "test8",  amount: "300.00", tax:"20.00", closed:false, ship_via:"FE", total:"320.00"},
-//                { id: "90",  invdate: "2015-09-01", name: "test9",  amount: "400.00", tax:"30.00", closed:false, ship_via:"TN", total:"430.00"},
-//                { id: "100", invdate: "2015-09-08", name: "test10", amount: "500.00", tax:"30.00", closed:true,  ship_via:"TN", total:"530.00"},
-//                { id: "110", invdate: "2015-09-08", name: "test11", amount: "500.00", tax:"30.00", closed:false, ship_via:"FE", total:"530.00"},
-//                { id: "120", invdate: "2015-09-10", name: "test12", amount: "500.00", tax:"30.00", closed:false, ship_via:"FE", total:"530.00"}
-//        ],
-//        loadonce: true,
-//            guiStyle: "bootstrap",
-//            iconSet: "fontAwesome",
-//            idPrefix: "gb1_",
-//            rownumbers: true,
-//            sortname: "invdate",
-//            sortorder: "desc",
-//            caption: "The grid, which uses predefined formatters and templates"
-//    });
-//    jQuery("#list4").jqGrid('navGrid', { edit: false, add: false, del: false });
-//});
