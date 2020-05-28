@@ -81,21 +81,38 @@ namespace Test_coffe.Controllers.Repository
 
         public dynamic GetBillByDate(int? shopsId, string startDate, string endDate)
         {
-            return _context.Bills
-                .FromSqlRaw("SELECT b.* FROM Bills b JOIN Tables t on b.TablesId = t.id JOIN Floors f on f.id = t.FloorsId " +
-                            "WHERE b.isDeleted = 0 AND f.ShopsId = " + shopsId + " AND " +
-                            "CAST(b.time_out as date) >= '" + startDate + "' AND CAST(b.time_out as date) <= '" + endDate + "'")
-                .Select(b => new
-                {
-                    b.id,
-                    b.time_out,
-                    b.Tables.name,
-                    b.status,
-                    b.created_by,
-                    b.sub_total,
-                    b.fee_service,
-                    b.total_money
-                }).ToList();
+            //return _context.Bills
+            //    .FromSqlRaw("SELECT b.* FROM Bills b JOIN Tables t on b.TablesId = t.id JOIN Floors f on f.id = t.FloorsId " +
+            //                "WHERE b.isDeleted = 0 AND f.ShopsId = " + shopsId + " AND " +
+            //                "CAST(b.time_out as date) >= '" + startDate + "' AND CAST(b.time_out as date) <= '" + endDate + "'")
+            //    .Select(b => new
+            //    {
+            //        b.id,
+            //        b.time_out,
+            //        b.Tables.name,
+            //        b.status,
+            //        b.created_by,
+            //        b.sub_total,
+            //        b.fee_service,
+            //        b.total_money
+            //    }).ToList();
+
+             var sql = "SELECT b.id,FORMAT(b.time_out , 'dd/MM/yyyy HH:mm:ss') as time_out,t.name, " +
+                "b.status,b.created_by,b.sub_total,b.fee_service,b.total_money " +
+                "FROM Bills b JOIN Tables t on b.TablesId = t.id JOIN Floors f on "+
+                "f.id = t.FloorsId WHERE b.isDeleted = 0 AND f.ShopsId = @shopsId AND " +
+                "CAST(b.time_out as date) >= @startDate AND " +
+                "CAST(b.time_out as date) <= @endDate";
+
+            var query = SQLUtils.ExecuteCommand(SQLUtils._connStr,
+                      conn => conn.Query(sql,
+                    new
+                    {
+                        shopsId,
+                        startDate,
+                        endDate
+                    }));
+            return query;
         }
 
         //public async Task<ActionResult<Bills>> CreateBills(Bills bills)

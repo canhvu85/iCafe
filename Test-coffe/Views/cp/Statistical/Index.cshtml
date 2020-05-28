@@ -6,11 +6,12 @@
 
 @section css{
     <link rel="stylesheet" href="~/AdminLTE-3.0.2/plugins/daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" type="text/css" href="~/css/sweetalert.css">
-    <link rel="stylesheet" href="~/css/style.css">
-    <link rel="stylesheet" href="~/css/jquery-ui.min_ace-master.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/sweetalert2v8.11.8.css">
+    @*<link rel="stylesheet" href="~/css/jquery-ui.min_ace-master.css" />*@
     <link rel="stylesheet" href="~/jquery.jqGrid-4.4.3/css/ui.jqgrid.css">
     <link rel="stylesheet" href="~/css/statistical.css" />
+    <link rel="stylesheet" href="~/css/style.css">
+
 }
 
 
@@ -88,7 +89,7 @@
                 <div class="card-body">
                     <!-- Date range -->
                     <div class="row">
-                        <div class="col-5">
+                        <div class="col-6">
                             <div class="form-group">
                                 <div class="input-group">
                                     <select id="monthPicker" class="form-control float-right">
@@ -103,7 +104,7 @@
                             </div>
                         </div>
 
-                        <div class="col-5">
+                        <div class="col-6">
                             <div class="form-group">
                                 <div class="input-group">
                                     <select id="yearPicker" class="form-control float-right">
@@ -116,17 +117,13 @@
                                             <option value="@i">@i</option>
                                         }
                                     </select>
+                                    <button class="text-muted" style="padding: 7px" id="monthYearBtn">
+                                        <i class="fas fa-search"></i>
+                                    </button>
                                 </div>
                                 <!-- /.input group -->
                             </div>
                         </div>
-
-                        <div class="col-2">
-                            <button class="text-muted" style="padding: 7px" id="monthYearBtn">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-
                     </div>
 
                     <!-- /.form group -->
@@ -143,7 +140,7 @@
                 <div class="card-body">
                     <!-- Date range -->
                     <div class="row">
-                        <div class="col-5">
+                        <div class="col-6">
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -157,7 +154,7 @@
                             </div>
                         </div>
 
-                        <div class="col-5">
+                        <div class="col-6">
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -166,15 +163,12 @@
                                         </span>
                                     </div>
                                     <input type="text" class="form-control float-right dateRangeRight" id="dateRangeRight">
+                                    <button class="text-muted" style="padding: 7px" id="dateRangeBtn">
+                                        <i class="fas fa-search"></i>
+                                    </button>
                                 </div>
                                 <!-- /.input group -->
                             </div>
-                        </div>
-
-                        <div class="col-2">
-                            <button class="text-muted" style="padding: 7px" id="dateRangeBtn">
-                                <i class="fas fa-search"></i>
-                            </button>
                         </div>
                     </div>
                     <!-- /.form group -->
@@ -190,7 +184,7 @@
                     <h3 class="card-title">Hóa đơn</h3>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body">
+                <div class="card-body" id="gridTb">
                     <div class="row">
                         <div class="col-12">
                             <!-- PAGE CONTENT BEGINS -->
@@ -213,10 +207,11 @@
 
 
 @section scripts{
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    @*<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>*@
+    <script type="text/javascript" src="~/js/axios.min.js"></script>
     <script src="~/AdminLTE-3.0.2/plugins/moment/moment.min.js"></script>
     <script src="~/AdminLTE-3.0.2/plugins/daterangepicker/daterangepicker.js"></script>
-    <script type="text/javascript" src="~/js/sweetalert-dev.js"></script>
+    <script type="text/javascript" src="~/js/sweetalert2@9.js"></script>
     <script type="text/javascript" src="~/js/lib.js"></script>
     <script type="text/javascript">
        var GetBillDetail = "@Url.Action("GetBillDetail2", "BillDetailsAPI")";

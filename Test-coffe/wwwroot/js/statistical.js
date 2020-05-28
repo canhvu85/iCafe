@@ -2,131 +2,21 @@
 let user = JSON.parse(sessionStorage.getItem('user'));
 let totalMn;
 
-//var hdnUserSession = $("#hdnUserSession").data("value");
-//console.log("shopsId  " + hdnUserSession.ShopsId);
-
-
-//getBillsId();
-//getBillDetails(parseInt($("#billsList tr:first td:first").text()));
 $("#billsList tr:first").addClass("activeClk");
-dataTableChange();
-totalMoney();
-
-//function getBillDetails(billsId) {
-//	axios({
-//		url: GetBillDetail + "/bills/" + billsId,
-//		method: "GET",
-//		headers: {
-//			'content-type': 'application/json',
-//			'Authorization': user.remember_token
-//		}
-//	}).then(function (response) {
-//		$("#billsDTList").html("");
-//		if (response.data.length > 0) {
-//			let text = '';
-//			for (let i = 0; i < response.data.length; i++) {
-//				text += "<tr>";
-//				text += "<td>" + (i + 1) + ".</td>";
-//				text += "<td><div>" + response.data[i].productsName + "</div><div><b>" + addCommas(response.data[i].price) + " vnđ</b></div></td>";
-//				text += "<td>" + response.data[i].quantity + "</td>";
-//				text += "<td>" + addCommas(response.data[i].total) + " vnđ</td>";
-//				text += "</tr>";
-//			}
-//			$("#billsDTList").html(text);
-//		}
-//	}).catch(function () {
-//		unAuthorized();
-//	});
-//}
 
 let startDate,
-	endDate;
-
-$('#reservation').daterangepicker({
-	"showDropdowns": true,
-	ranges: {
-		'Today': [moment(), moment()],
-		'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-		'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-		'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-		'This Month': [moment().startOf('month'), moment().endOf('month')],
-		'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-	},
-	"alwaysShowCalendars": true
-});
+    endDate;
 
 $('.datePicker, .dateRangeLeft, .dateRangeRight').daterangepicker({
-	"singleDatePicker": true,
-	"showDropdowns": true,
-	"locale": {
-		"format": 'DD-MM-YYYY'
-	}
+    "singleDatePicker": true,
+    "showDropdowns": true,
+    "locale": {
+        "format": 'DD-MM-YYYY'
+    }
 });
 
 function findByDate(startDate, endDate) {
-	//$("#example1").DataTable({
-	//	"destroy": true,
-	//	"paging": true,
-	//	"searching": true,
-	//	"ordering": true,
-	//	"info": true,
-	//	"ajax": {
-	//		"url": `api/BillsAPI/shop/${user.ShopsId}/date/${startDate}/${endDate}`,
-	//		"headers": {
-	//			'content-type': 'application/json',
-	//			'Authorization': user.remember_token
-	//		},
-	//		"dataSrc": ""
-	//	},
-	//	columns: [
-	//		{ data: 'id' },
-	//		{ data: 'name' },
-	//		{ title: "Tài Khoản", data: 'created_by' },
-	//		{
-	//			data: 'time_out',
-	//			render: function (data, type, row, meta) {
-	//				return moment(data).format('DD-MM-YYYY');
-	//			}
-	//		},
-	//		{
-	//			data: 'sub_total',
-	//			render: function (data, type, row, meta) {
-	//				return addCommas(data) + " vnđ";
-	//			}
-	//		},
-	//		{
-	//			data: 'fee_service',
-	//			render: function (data, type, row, meta) {
-	//				return addCommas(data) + " vnđ";
-	//			}
-	//		},
-	//		{
-	//			data: 'total_money',
-	//			render: function (data, type, row, meta) {
-	//				return addCommas(data) + " vnđ";
-	//			}
-	//		},
-	//		{
-	//			data: 'status',
-	//			render: function (data, type, row, meta) {
-	//				if (data == 0)
-	//					return "<span class='badge bg-danger'>Chưa thanh toán</span>";
-	//				else
-	//					return "<span class='badge bg-secondary'>Đã thanh toán</span>";
-	//			}
-	//		}
-
-	//	],
-	//	initComplete: function (data) {
-	//		if (data.aoData.length > 0) {
-	//			getBillsId();
-	//		} else {
-	//			$("#billsDTList").html("");
-	//			$("#totalMoney").html("");
-	//		}
-	//	}
-	//});
-
+    $.jgrid.gridUnload("#grid-table");
     jQuery(grid_selector).jqGrid({
         subGrid: true,
         subGridOptions: {
@@ -142,122 +32,167 @@ function findByDate(startDate, endDate) {
                 datatype: "json",
                 colNames: ['Sản Phẩm', 'Giá', 'Số Lượng', 'Tổng Cộng'],
                 colModel: [
-                    { name: "productsName", index: "productsName", width: 80 },
-                    { name: "price", index: "price", width: 130 },
-                    { name: "quantity", index: "quantity", width: 70, align: "right" },
-                    { name: "total", index: "total", width: 70, align: "right" }
+                    { name: "productsName", index: "productsName" },
+                    {
+                        name: "price", index: "price",
+                        formatter: 'currency',
+                        formatoptions: {
+                            decimalSeparator: ",",
+                            thousandsSeparator: ".",
+                            decimalPlaces: 0,
+                            suffix: " VND"
+                        }
+                    },
+                    { name: "quantity", index: "quantity" },
+                    {
+                        name: "total", index: "total",
+                        formatter: 'currency',
+                        formatoptions: {
+                            decimalSeparator: ",",
+                            thousandsSeparator: ".",
+                            decimalPlaces: 0,
+                            suffix: " VND"
+                        }
+                    }
                 ],
-                autowidth: true
+                autowidth: true,
+                loadComplete: function (data) {
+                    $(grid_selector).find("thead>tr>th>div").css("text-align", "center");
+                    $(this).find("tbody>tr>td").css("text-align", "center");
+                }
             });
         },
         url: `${GetBill}/shop/${user.ShopsId}/date/${startDate}/${endDate}`,
         datatype: "json",
         height: 250,
-        colNames: ['id', 'Bàn', 'Tài Khoản', 'Ngày Đã Thanh Toán', 'Tổng Tiền', 'Phí Dịch Vụ',
-            'Tổng Cộng', 'Tình Trạng'],
+        colNames: ['id', 'Bàn', 'Tài Khoản', 'Ngày Đã Thanh Toán', 'Tình Trạng', 'Tổng Tiền', 'Phí Dịch Vụ',
+            'Tổng Cộng'],
         colModel: [
 
             { name: 'id', index: 'id' },
             { name: 'name', index: 'name' },
             { name: 'created_by', index: 'created_by' },
             { name: 'time_out', index: 'time_out' },
-            { name: 'sub_total', index: 'sub_total' },
-            { name: 'fee_service', index: 'fee_service' },
-            { name: 'total_money', index: 'total_money' },
-            { name: 'status', index: 'status' }
+            { name: 'status', index: 'status', formatter: statusFmatter },
+            {
+                name: 'sub_total', index: 'sub_total',
+                formatter: 'currency',
+                formatoptions: {
+                    decimalSeparator: ",",
+                    thousandsSeparator: ".",
+                    decimalPlaces: 0,
+                    suffix: " VND"
+                }
+            },
+            {
+                name: 'fee_service', index: 'fee_service',
+                formatter: 'currency',
+                formatoptions: {
+                    decimalSeparator: ",",
+                    thousandsSeparator: ".",
+                    decimalPlaces: 0,
+                    suffix: " VND"
+                }
+            },
+            {
+                name: 'total_money', index: 'total_money',
+                formatter: 'currency',
+                formatoptions: {
+                    decimalSeparator: ",",
+                    thousandsSeparator: ".",
+                    decimalPlaces: 0,
+                    suffix: " VND"
+                }
+            }
         ],
         autowidth: true,
         loadonce: true,
+        "footerrow": true,
+        "userDataOnFooter": false,
         rowNum: 2,
-        rowList: [2, 5, 30],
+        rowList: [2, 5, 30, 'ALL'],
         pager: pager_selector,
-        loadComplete: function () {
+        loadComplete: function (data) {
+            $(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th>div").css("text-align", "center");
+            $(this).find("tbody>tr>td").css("text-align", "center");
             var table = this;
+            $(".ui-pg-selbox option[value='ALL']").val(data.length);
+
+            $(this).jqGrid("footerData", "set", {
+                id: "Tổng cộng",
+                total_money: $(this).jqGrid('getCol', 'total_money', false, 'sum')
+            });
+
+            var $footRow = $(grid_selector).closest(".ui-jqgrid-bdiv")
+                .next(".ui-jqgrid-sdiv")
+                .find(".footrow");
+            $footRow.find('td').each(function () {
+                $(this).css("border-right-color", "transparent");
+            })
+
+
+            if ($(grid_selector).getGridParam('records') === 0) {
+                oldGrid = $('#grid-table tbody').html();
+                $('#grid-table tbody').html("<div style='padding:6px;background:#00000005;text-align:center'>Không tìm thấy dữ liệu</div>");
+            }
+            else
+                oldGrid = "";
+
             setTimeout(function () {
                 updatePagerIcons(table);
             }, 0);
-        },
+        }
     });
-
-
+    navButtonsJqgrid();
 }
 
 $("#datePickerBtn").on("click", function () {
-	startDate = $("#datePicker").val();
-	console.log(startDate);
-	findByDate(startDate, startDate);
-	return false;
+    startDate = $("#datePicker").val();
+    findByDate(startDate, startDate);
+    startDate = null;
+    return false;
 });
 
 $('#dateRangeLeft').on('apply.daterangepicker', function (ev, picker) {
-	startDate = picker.startDate.format('YYYY-MM-DD');
-	$('.dateRangeRight').daterangepicker({
-		"singleDatePicker": true,
-		"showDropdowns": true,
-		"locale": {
-			"format": 'DD-MM-YYYY'
-		},
-		"minDate": new Date(startDate)
-	});
+    startDate = picker.startDate.format('DD-MM-YYYY');
+    $('.dateRangeRight').daterangepicker({
+        "singleDatePicker": true,
+        "showDropdowns": true,
+        "locale": {
+            "format": 'DD-MM-YYYY'
+        },
+        "minDate": new Date(startDate)
+    });
 });
 
 $("#dateRangeBtn").on("click", function () {
-	endDate = $("#dateRangeRight").val();
-	findByDate(startDate, endDate);
-	return false;
+    if (startDate == null)
+        startDate = $("#dateRangeLeft").val();
+    endDate = $("#dateRangeRight").val();
+    console.log(startDate);
+    console.log(endDate);
+    findByDate(startDate, endDate);
+    return false;
 });
 
 $("#monthYearBtn").on("click", function () {
-	var month = $("#monthPicker").val();
-	var year = $("#yearPicker").val();
-	month == 0 ? showErrorbyAlert('Cảnh báo', 'Hãy chọn tháng') : (year == 0 ? showErrorbyAlert('Cảnh báo', 'Hãy chọn năm') : monthYearValid());
+    var month = $("#monthPicker").val();
+    var year = $("#yearPicker").val();
+    month == 0 ? showErrorbyAlert('Hãy chọn tháng') : (year == 0 ? showErrorbyAlert('Hãy chọn năm') : monthYearValid());
 
-	function monthYearValid() {
-		startDate = `01-${month}-${year}`;
-		endDate = `${lastDay(year, month)}-${month}-${year}`;
-		console.log(endDate);
-		findByDate(startDate, endDate);
-		return false;
-	}
+    function monthYearValid() {
+        startDate = `01-${month}-${year}`;
+        endDate = `${lastDay(year, month)}-${month}-${year}`;
+        console.log(startDate);
+        console.log(endDate);
+        findByDate(startDate, endDate);
+        return false;
+    }
 });
 
-//function getBillsId() {
-//	$("#billsList tr").on("click", function () {
-//		billsId = parseInt($(this).find("td:eq(0)").text());
-//		getBillDetails(billsId);
-//		$("#billsList tr").removeClass("activeClk");
-//		$(this).addClass("activeClk");
-//	});
-//}
-
 function lastDay(y, m) {
-	return new Date(y, m, 0).getDate();
+    return new Date(y, m, 0).getDate();
 }
-
-function totalMoney() {
-	if ($("#example1 tbody tr:first td").length > 1) {
-		totalMn = 0;
-		$("#example1 tbody tr").each(function () {
-			totalMn += parseInt($(this).find("td:eq(6)").html().replace(".", "").replace("vnđ", ""));
-		});
-		$("#totalMoney").html(addCommas(totalMn) + " vnđ");
-	} else
-		$("#totalMoney").html("0 vnđ");
-}
-
-function dataTableChange() {
-	$('#example1').on('init.dt', function () {
-		totalMoney();
-	});
-	$('#example1').dataTable({
-		"fnDrawCallback": function (oSettings) {
-			totalMoney();
-		}
-	});
-}
-
-
-
 
 
 var grid_selector = "#grid-table";
@@ -282,50 +217,184 @@ jQuery(function ($) {
             var subgridTableId = subgridDivId + "_t";
             $("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
             $("#" + subgridTableId).jqGrid({
-				url: `${GetBillDetail}/bills/${rowId}`,
+                url: `${GetBillDetail}/bills/${rowId}`,
                 datatype: "json",
                 colNames: ['Sản Phẩm', 'Giá', 'Số Lượng', 'Tổng Cộng'],
                 colModel: [
-                    { name: "productsName", index: "productsName", width: 80 },
-                    { name: "price", index: "price", width: 130 },
-                    { name: "quantity", index: "quantity", width: 70, align: "right" },
-                    { name: "total", index: "total", width: 70, align: "right" }
+                    { name: "productsName", index: "productsName" },
+                    {
+                        name: "price", index: "price",
+                        formatter: 'currency',
+                        formatoptions: {
+                            decimalSeparator: ",",
+                            thousandsSeparator: ".",
+                            decimalPlaces: 0,
+                            suffix: " VND"
+                        }
+                    },
+                    { name: "quantity", index: "quantity" },
+                    {
+                        name: "total", index: "total",
+                        formatter: 'currency',
+                        formatoptions: {
+                            decimalSeparator: ",",
+                            thousandsSeparator: ".",
+                            decimalPlaces: 0,
+                            suffix: " VND"
+                        }
+                    }
                 ],
-                autowidth: true
+                autowidth: true,
+                loadComplete: function (data) {
+                    $(grid_selector).find("thead>tr>th>div").css("text-align", "center");
+                    $(this).find("tbody>tr>td").css("text-align", "center");
+                }
             });
         },
-        //url: `${GetBill}/shop/${user.ShopsId}`,
-        url: `${GetBill}/shop/${user.ShopsId}/date/2020-05-25/2020-05-25`,
+        url: `${GetBill}/shop/${user.ShopsId}`,
         datatype: "json",
         height: 250,
-        colNames: ['id', 'Bàn', 'Tài Khoản', 'Ngày Đã Thanh Toán', 'Tổng Tiền', 'Phí Dịch Vụ',
-            'Tổng Cộng', 'Tình Trạng'],
+        colNames: ['id', 'Bàn', 'Tài Khoản', 'Ngày Đã Thanh Toán', 'Tình Trạng', 'Tổng Tiền', 'Phí Dịch Vụ',
+            'Tổng Cộng'],
         colModel: [
 
             { name: 'id', index: 'id' },
             { name: 'name', index: 'name' },
             { name: 'created_by', index: 'created_by' },
             { name: 'time_out', index: 'time_out' },
-            { name: 'sub_total', index: 'sub_total' },
-            { name: 'fee_service', index: 'fee_service' },
-            { name: 'total_money', index: 'total_money' },
-            { name: 'status', index: 'status' }
+            { name: 'status', index: 'status', formatter: statusFmatter },
+            {
+                name: 'sub_total', index: 'sub_total',
+                formatter: 'currency',
+                formatoptions: {
+                    decimalSeparator: ",",
+                    thousandsSeparator: ".",
+                    decimalPlaces: 0,
+                    suffix: " VND"
+                }
+            },
+            {
+                name: 'fee_service', index: 'fee_service',
+                formatter: 'currency',
+                formatoptions: {
+                    decimalSeparator: ",",
+                    thousandsSeparator: ".",
+                    decimalPlaces: 0,
+                    suffix: " VND"
+                }
+            },
+            {
+                name: 'total_money', index: 'total_money',
+                formatter: 'currency',
+                formatoptions: {
+                    decimalSeparator: ",",
+                    thousandsSeparator: ".",
+                    decimalPlaces: 0,
+                    suffix: " VND"
+                }
+            }
         ],
         autowidth: true,
         loadonce: true,
+        "footerrow": true,
+        "userDataOnFooter": false,
+        shrinktofit: true,
         rowNum: 2,
-        rowList: [2, 5, 30],
+        rowList: [2, 5, 30, 'ALL'],
         pager: pager_selector,
-        loadComplete: function () {
+        loadComplete: function (data) {
+            $(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th>div").css("text-align", "center");
+            $(grid_selector).find("tbody>tr>td").css("text-align", "center");
             var table = this;
+            $(".ui-pg-selbox option[value='ALL']").val(data.length);
+
+            $(this).jqGrid("footerData", "set", {
+                id: "Tổng cộng",
+                total_money: $(this).jqGrid('getCol', 'total_money', false, 'sum')
+            });
+
+            //var $self = $(this),
+            //    sum = $self.jqGrid("getCol", "total_money", false, "sum"),
+            //    i,
+            //    iCol = $("#" + $.jgrid.jqID(this.id) + "_" + "total_money")[0].cellIndex, // get index of "amount" column
+            //    sumFormatted = this.formatter("", sum, iCol);
+
+            //$self.jqGrid(
+            //    "footerData",
+            //    "set",
+            //    {
+            //        id: "Tổng cộng",
+            //        total_money: sum < 100000 ? "<span style='color:red'>" + sumFormatted + "</span>" : sum
+            //    },
+            //    false
+            //);
+
+            var $footRow = $(grid_selector).closest(".ui-jqgrid-bdiv")
+                .next(".ui-jqgrid-sdiv")
+                .find(".footrow");
+
+            //$footRow.find('>td:eq(5)')
+            //    .css("border-right-color", "transparent");
+
+            $footRow.find('td').each(function () {
+                $(this).css("border-right-color", "transparent");
+            });
+
+            if ($(grid_selector).getGridParam('records') === 0) {
+                oldGrid = $('#grid-table tbody').html();
+                $('#grid-table tbody').html("<div style='padding:6px;background:#00000005;text-align:center'>Không tìm thấy dữ liệu</div>");
+            }
+            else
+                oldGrid = "";
+
             setTimeout(function () {
                 updatePagerIcons(table);
             }, 0);
-        },
+        }
     });
-    $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 
 
+
+    //$(grid_selector).jqGrid('footerData', 'set', { "total_money": "Total:" }, true);
+    //$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+    //$(window).triggerHandler($("#grid-table").setGridWidth($("#gridTb").width()));
+    $(".sidebar-mini .navbar-nav .nav-item:eq(0)").click(function () {
+        //setTimeout(function () {
+        //    $(grid_selector).setGridWidth($("#gridTb").width());
+        //}, 200);
+        //while ($("body").hasClass("sidebar-collapse") == false) {
+        //    console.log("sdads");
+        //};
+        //while (!$("body").hasClass("sidebar-collapse")) {
+        //    await new Promise(r => setTimeout(r, 500));
+        //}
+        var waitForEl = function (selector, callback) {
+            if (jQuery(selector).length) {
+                callback();
+            } else {
+                setTimeout(function () {
+                    waitForEl(selector, callback);
+                }, 100);
+            }
+        };
+
+        waitForEl(".sidebar-collapse", function () {
+            setTimeout(function () {
+                $(grid_selector).setGridWidth($("#gridTb").width());
+            }, 300);
+        });
+    });
+    navButtonsJqgrid();
+});
+
+function statusFmatter(cellvalue, options, rowObject) {
+    if (cellvalue == 0)
+        return "<span class='badge bg-danger'>Chưa thanh toán</span>";
+    else
+        return "<span class='badge bg-secondary'>Đã thanh toán</span>";
+}
+
+function navButtonsJqgrid() {
     //navButtons
     jQuery(grid_selector).jqGrid('navGrid', pager_selector,
         { 	//navbar options
@@ -353,39 +422,36 @@ jQuery(function ($) {
             multipleSearch: true
         }
     )
+}
 
-    function style_search_filters(form) {
-        form.find('.delete-rule').val('X');
-        form.find('.add-rule').addClass('btn btn-xs btn-primary');
-        form.find('.add-group').addClass('btn btn-xs btn-success');
-        form.find('.delete-group').addClass('btn btn-xs btn-danger');
-    }
-    function style_search_form(form) {
-        var dialog = form.closest('.ui-jqdialog');
-        var buttons = dialog.find('.EditTable')
-        buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
-        buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
-        buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
-    }
+function style_search_filters(form) {
+    form.find('.delete-rule').val('X');
+    form.find('.add-rule').addClass('btn btn-xs btn-primary');
+    form.find('.add-group').addClass('btn btn-xs btn-success');
+    form.find('.delete-group').addClass('btn btn-xs btn-danger');
+}
 
-    //replace icons with FontAwesome icons like above
-    function updatePagerIcons(table) {
-        var replacement =
-        {
-            'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
-            'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
-            'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
-            'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
-        };
-        $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
-            var icon = $(this);
-            var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+function style_search_form(form) {
+    var dialog = form.closest('.ui-jqdialog');
+    var buttons = dialog.find('.EditTable')
+    buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+    buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+    buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+}
 
-            if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
-        })
-    }
-    //$(document).one('ajaxloadstart.page', function (e) {
-    //    $.jgrid.gridDestroy(grid_selector);
-    //    $('.ui-jqdialog').remove();
-    //});
-});
+//replace icons with FontAwesome icons like above
+function updatePagerIcons(table) {
+    var replacement =
+    {
+        'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+        'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+        'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+        'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+    };
+    $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+        var icon = $(this);
+        var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+        if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+    })
+}

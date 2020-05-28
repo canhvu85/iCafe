@@ -155,6 +155,7 @@ button.text-muted:hover {
 
 button.text-muted {
     border: none;
+    outline: none;
 }
 
 @media (max-width: 739px) {
@@ -172,3 +173,8 @@ button.text-muted {
 .treeview {
     padding-left: 20px;
 }
+
+/*select option:active, select option:focus, select option:hover {
+    background-color: red !important;
+    /*color: #444;*/
+}*/
