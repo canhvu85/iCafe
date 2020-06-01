@@ -1,198 +1,152 @@
 ﻿@{
-    Layout = null;
+	Layout = null;
 }
 
-<!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta charset="utf-8" />
-    <title>jqGrid - Ace Admin</title>
-
-    <meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-
-    <!-- bootstrap & fontawesome -->
-
-    <link rel="stylesheet" href="~/ace-master/assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/ace-master/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
-
-    <!-- page specific plugin styles -->
-    <link rel="stylesheet" href="~/ace-master/assets/css/jquery-ui.min.css" />
-    <link rel="stylesheet" href="~/ace-master/assets/css/bootstrap-datepicker3.min.css" />
-    <link rel="stylesheet" href="~/ace-master/assets/css/ui.jqgrid.min.css" />
-
-    <!-- text fonts -->
-    @*<link rel="stylesheet" href="~/ace-master/assets/css/fonts.googleapis.com.css" />*@
-
-    <!-- ace styles -->
-    <link rel="stylesheet" href="~/ace-master/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
-
-    <!--[if lte IE 9]>
-        <link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
-    <![endif]-->
-    @*<link rel="stylesheet" href="~/ace-master/assets/css/ace-skins.min.css" />
-    <link rel="stylesheet" href="~/ace-master/assets/css/ace-rtl.min.css" />*@
-
-    <!--[if lte IE 9]>
-      <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
-    <![endif]-->
-    <!-- inline styles related to this page -->
-    <!-- ace settings handler -->
-    @*<script src="~/ace-master/assets/js/ace-extra.min.js"></script>*@
-
-    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
-    <!--[if lte IE 8]>
-    <script src="assets/js/html5shiv.min.js"></script>
-    <script src="assets/js/respond.min.js"></script>
-    <![endif]-->
+	<meta charset="utf-8" />
+	<title>Recorrido UTPL 360</title>
+	<meta name="description" content="WebVR - Aframe - VR walkthrough" />
+	<meta name="author" content="Kumar Ahir - VR Designer" />
+	<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+	<script src="https://unpkg.com/aframe-animation-component@4.2.0/dist/aframe-animation-component.min.js"></script>
+	<script src="https://unpkg.com/aframe-look-at-component@0.5.1/dist/aframe-look-at-component.min.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%7CRoboto+Mono" media="all" />
 </head>
 
-<body class="no-skin">
-    <div class="page-content">
-        <div class="row">
-            <div class="col-xs-12">
-                <!-- PAGE CONTENT BEGINS -->
-                <table id="grid-table"></table>
+<body class="a-body ">
+	<a-scene background="color: #ECECEC" class="fullscreen" inspector="" keyboard-shortcuts="" screenshot="" vr-mode-ui="">
+		<canvas class="a-canvas" data-aframe-canvas="true" width="500" height="187"></canvas>
+		<a-assets>
+			<img id="point1" src="~/recorridos-virtuales-UTPL-master/recorrido360/assets/1.jpg" crossorigin="anonymous">
+			<img id="point2" src="~/recorridos-virtuales-UTPL-master/recorrido360/assets/2.jpg" crossorigin="anonymous">
+			<img id="point3" src="~/recorridos-virtuales-UTPL-master/recorrido360/assets/3.jpg" crossorigin="anonymous">
+			<img id="point4" src="~/recorridos-virtuales-UTPL-master/recorrido360/assets/4.jpg" crossorigin="anonymous">
+			<img id="point5" src="~/recorridos-virtuales-UTPL-master/recorrido360/assets/5.jpg" crossorigin="anonymous">
+			<img id="point6" src="~/recorridos-virtuales-UTPL-master/recorrido360/assets/6.jpg" crossorigin="anonymous">
+			<img id="point7" src="~/recorridos-virtuales-UTPL-master/recorrido360/assets/7.jpg" crossorigin="anonymous">
+			<img id="point8" src="~/recorridos-virtuales-UTPL-master/recorrido360/assets/8.jpg" crossorigin="anonymous">
+			<img id="point9" src="~/recorridos-virtuales-UTPL-master/recorrido360/assets/9.jpg" crossorigin="anonymous">
+			<img id="point10" src="~/recorridos-virtuales-UTPL-master/recorrido360/assets/10.jpg" crossorigin="anonymous">
+			<img id="point11" src="~/recorridos-virtuales-UTPL-master/recorrido360/assets/11.jpg" crossorigin="anonymous">
+			<img id="point12" src="~/recorridos-virtuales-UTPL-master/recorrido360/assets/12.jpg" crossorigin="anonymous">
+			<img id="hotspot" src="https://cdn.glitch.com/2087dfa6-bd02-4451-a189-36095a66f386%2Fup-arrow.png?1545397127546">
+		</a-assets>
 
-                <div id="grid-pager"></div>
+		<a-sky id="skybox" src="#point1" material="" geometry=""></a-sky>
 
-                <!-- PAGE CONTENT ENDS -->
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.page-content -->
-    <!-- basic scripts -->
-    <!--[if !IE]> -->
-    <script src="~/ace-master/assets/js/jquery-2.1.4.min.js"></script>
-    <script src="~/ace-master/assets/js/bootstrap.min.js"></script>
-    <script src="~/ace-master/assets/js/jquery.jqGrid.min.js"></script>
-    <script src="~/ace-master/assets/js/grid.locale-en.js"></script>
+		<a-entity id="spots" hotspots="">
+			<a-entity id="group-point1">
+				<a-image spot="linkto:#point2;spotgroup:group-point2" position="-8 0 0" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+			</a-entity>
 
-    <script type="text/javascript">
-        jQuery(function ($) {
-            var grid_selector = "#grid-table";
-            var pager_selector = "#grid-pager";
+			<a-entity id="group-point2" scale="0 0 0">
+				<a-image spot="linkto:#point1;spotgroup:group-point1" position="8 0 0" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+				<a-image spot="linkto:#point3;spotgroup:group-point3" position="-12 0 0" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+			</a-entity>
 
-            var parent_column = $(grid_selector).closest('[class*="col-"]');
-            //resize to fit page size
-            $(window).on('resize.jqGrid', function () {
-                $(grid_selector).jqGrid('setGridWidth', parent_column.width());
-            })
+			<a-entity id="group-point3" scale="0 0 0">
+				<a-image spot="linkto:#point2;spotgroup:group-point2" position="8 0 -4" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+				<a-image spot="linkto:#point4;spotgroup:group-point4" position="-8 0 6" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+			</a-entity>
 
-            jQuery(grid_selector).jqGrid({
-                subGrid: true,
-                subGridOptions: {
-                    plusicon: "ace-icon fa fa-plus center bigger-110 blue",
-                    minusicon: "ace-icon fa fa-minus center bigger-110 blue",
-                    openicon: "ace-icon fa fa-chevron-right center orange"
-                },
-                subGridRowExpanded: function (subgridDivId, rowId) {
-                    var subgridTableId = subgridDivId + "_t";
-                    $("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
-                    $("#" + subgridTableId).jqGrid({
-                        url: "https://localhost:5001/api/BillDetailsAPI/bills/" + rowId,
-                        datatype: "json",
-                        colNames: ['productsName', 'price', 'quantity', 'total'],
-                        colModel: [
-                            { name: "productsName", index: "productsName", width: 80 },
-                            { name: "price", index: "price", width: 130 },
-                            { name: "quantity", index: "quantity", width: 70, align: "right" },
-                            { name: "total", index: "total", width: 70, align: "right" }
-                        ],
-                        autowidth: true
-                    });
-                },
-                url: 'https://localhost:5001/api/BillsAPI/?TableId=1',
-                datatype: "json",
-                height: 250,
-                colNames: ['id', 'tablesName', 'created_by', 'sub_total', 'fee_service', 'total_money'],
-                colModel: [
+			<a-entity id="group-point4" scale="0 0 0">
+				<a-image spot="linkto:#point3;spotgroup:group-point3" position="8 0 -0.8" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+				<a-image spot="linkto:#point5;spotgroup:group-point5" position="-8 0 0" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+			</a-entity>
 
-                    { name: 'id', index: 'id', width: 55 },
-                    { name: 'tablesName', index: 'tablesName', width: 90 },
-                    { name: 'created_by', index: 'created_by', width: 100 },
-                    { name: 'sub_total', index: 'sub_total', width: 80 },
-                    { name: 'fee_service', index: 'fee_service', width: 80 },
-                    { name: 'total_money', index: 'total_money', width: 80, sortable: false }
-                ],
-                loadonce: true,
-                rowNum: 2,
-                rowList: [2, 5, 30],
-                pager: pager_selector,
-                loadComplete: function () {
-                    var table = this;
-                    setTimeout(function () {
-                        updatePagerIcons(table);
-                    }, 0);
-                },
-                caption: "jqGrid with inline editing"
-            });
-            $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+			<a-entity id="group-point5" scale="0 0 0">
+				<a-image spot="linkto:#point4;spotgroup:group-point4" position="8 0 -0.5" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+				<a-image spot="linkto:#point6;spotgroup:group-point6" position="-8 0 -0.8" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+			</a-entity>
+
+			<a-entity id="group-point6" scale="0 0 0">
+				<a-image spot="linkto:#point5;spotgroup:group-point5" position="12 0 0.8" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+				<a-image spot="linkto:#point7;spotgroup:group-point7" position="-8 0 0" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+			</a-entity>
+
+			<a-entity id="group-point7" scale="0 0 0">
+				<a-image spot="linkto:#point6;spotgroup:group-point6" position="12 0 0" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+				<a-image spot="linkto:#point8;spotgroup:group-point8" position="-8 0 -0.8" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+			</a-entity>
+
+			<a-entity id="group-point8" scale="0 0 0">
+				<a-image spot="linkto:#point7;spotgroup:group-point7" position="12 0 0" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+				<a-image spot="linkto:#point9;spotgroup:group-point9" position="-8 0 0" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+			</a-entity>
+
+			<a-entity id="group-point9" scale="0 0 0">
+				<a-image spot="linkto:#point10;spotgroup:group-point10" position="8 0 2" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+				<a-image spot="linkto:#point8;spotgroup:group-point8" position="-12 0 -0.5" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+			</a-entity>
+
+			<a-entity id="group-point10" scale="0 0 0">
+				<a-image spot="linkto:#point9;spotgroup:group-point9" position="8 0 0" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+				<a-image spot="linkto:#point11;spotgroup:group-point11" position="-8 0 0" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+			</a-entity>
+
+			<a-entity id="group-point11" scale="0 0 0">
+				<a-image spot="linkto:#point10;spotgroup:group-point10" position="8 0 2" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+				<a-image spot="linkto:#point12;spotgroup:group-point12" position="-8 0 -5" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+			</a-entity>
+
+			<a-entity id="group-point12" scale="0 0 0">
+				<a-image spot="linkto:#point11;spotgroup:group-point11" position="8 0 0" material="" geometry="" src="#hotspot" look-at="#cam"></a-image>
+			</a-entity>
 
 
-            //navButtons
-            jQuery(grid_selector).jqGrid('navGrid', pager_selector,
-                { 	//navbar options
-                    edit: false,
-                    add: false,
-                    del: false,
-                    search: true,
-                    searchicon: 'ace-icon fa fa-search orange',
-                    refresh: true,
-                    refreshicon: 'ace-icon fa fa-refresh green',
-                    view: false
-                },
-                {
-                    //search form
-                    recreateForm: true,
-                    afterShowSearch: function (e) {
-                        var form = $(e[0]);
-                        form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
-                        style_search_form(form);
-                    },
-                    afterRedraw: function () {
-                        style_search_filters($(this));
-                    }
-                    ,
-                    multipleSearch: true
-                }
-            )
 
-            function style_search_filters(form) {
-                form.find('.delete-rule').val('X');
-                form.find('.add-rule').addClass('btn btn-xs btn-primary');
-                form.find('.add-group').addClass('btn btn-xs btn-success');
-                form.find('.delete-group').addClass('btn btn-xs btn-danger');
-            }
-            function style_search_form(form) {
-                var dialog = form.closest('.ui-jqdialog');
-                var buttons = dialog.find('.EditTable')
-                buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
-                buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
-                buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
-            }
+		</a-entity>
 
-            //replace icons with FontAwesome icons like above
-            function updatePagerIcons(table) {
-                var replacement =
-                {
-                    'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
-                    'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
-                    'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
-                    'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
-                };
-                $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
-                    var icon = $(this);
-                    var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+		<a-entity id="cam" camera="" position="0 1.6 0" look-controls="" rotation="-0.2291831180523293 -0.2291831180523293 0" data-aframe-inspector-original-camera="">
+			<a-entity cursor="fuse:true;fuseTimeout:800" geometry="primitive:ring;radiusInner:0.01;radiusOuter:0.02" position="0 0 -1.8" material="shader:flat;color:#ff0000" animation__mouseenter="dir:reverse;dur:2000;loop:1;property:scale;startEvents:mouseenter;to:3 3 3" raycaster="">
+			</a-entity>
+		</a-entity>
 
-                    if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
-                })
-            }
-            //$(document).one('ajaxloadstart.page', function (e) {
-            //    $.jgrid.gridDestroy(grid_selector);
-            //    $('.ui-jqdialog').remove();
-            //});
-        });
-    </script>
+	</a-scene>
+
+	<script>
+		AFRAME.registerComponent('hotspots', {
+			init: function () {
+				this.el.addEventListener('reloadspots', function (evt) {
+
+					//get the entire current spot group and scale it to 0
+					var currspotgroup = document.getElementById(evt.detail.currspots);
+					currspotgroup.setAttribute("scale", "0 0 0");
+
+					//get the entire new spot group and scale it to 1
+					var newspotgroup = document.getElementById(evt.detail.newspots);
+					newspotgroup.setAttribute("scale", "1 1 1");
+				});
+			}
+		});
+		AFRAME.registerComponent('spot', {
+			schema: {
+				linkto: { type: "string", default: "" },
+				spotgroup: { type: "string", default: "" }
+			},
+			init: function () {
+
+				//add image source of hotspot icon
+				this.el.setAttribute("src", "#hotspot");
+				//make the icon look at the camera all the time
+				this.el.setAttribute("look-at", "#cam");
+
+				var data = this.data;
+
+				this.el.addEventListener('click', function () {
+					//set the skybox source to the new image as per the spot
+					var sky = document.getElementById("skybox");
+					sky.setAttribute("src", data.linkto);
+
+					var spotcomp = document.getElementById("spots");
+					var currspots = this.parentElement.getAttribute("id");
+					//create event for spots component to change the spots data
+					spotcomp.emit('reloadspots', { newspots: data.spotgroup, currspots: currspots });
+				});
+			}
+		});
+	</script>
+
 </body>
 </html>
