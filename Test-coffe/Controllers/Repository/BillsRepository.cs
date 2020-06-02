@@ -101,7 +101,7 @@ namespace Test_coffe.Controllers.Repository
                 "b.status,b.created_by,b.sub_total,b.fee_service,b.total_money " +
                 "FROM Bills b JOIN Tables t on b.TablesId = t.id JOIN Floors f on "+
                 "f.id = t.FloorsId WHERE b.isDeleted = 0 AND f.ShopsId = @shopsId AND " +
-                "CAST(b.time_out as date) >= @startDate AND " +
+                "CAST(b.time_out as date) >=  @startDate AND " +
                 "CAST(b.time_out as date) <= @endDate";
 
             var query = SQLUtils.ExecuteCommand(SQLUtils._connStr,

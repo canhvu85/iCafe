@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Test_coffe.Controllers.Services;
 using Test_coffe.Models;
@@ -37,9 +38,12 @@ namespace Test_coffe.Controllers
         [HttpGet("shop/{shopsId}/date/{startDate}/{endDate}")]
         public IActionResult GetBillByDate(int? shopsId, string? startDate, string? endDate)
         {
-            startDate = String.Format("{0:yyyy/M/d}", DateTime.Parse(startDate));
-            endDate = String.Format("{0:yyyy/M/d}", DateTime.Parse(endDate));
-            result = _billsRepository.GetBillByDate(shopsId, startDate, endDate);
+            //heloo
+            //startDate = String.Format("{0:yyyy/M/d}", DateTime.Parse(startDate));
+            //endDate = String.Format("{0:yyyy/M/d}", DateTime.Parse(endDate));
+            string start_date = DateTime.ParseExact(startDate, "d-M-yyyy", CultureInfo.InvariantCulture).ToString();
+            string end_date = DateTime.ParseExact(endDate, "d-M-yyyy", CultureInfo.InvariantCulture).ToString();
+            result = _billsRepository.GetBillByDate(shopsId, start_date, end_date);
             return Ok(result);
         }
 

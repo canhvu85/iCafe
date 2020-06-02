@@ -177,6 +177,8 @@ $("#dateRangeBtn").on("click", function () {
 
 $("#monthYearBtn").on("click", function () {
     var month = $("#monthPicker").val();
+    //if (month.length == 1)
+    //    month = 0 + month;
     var year = $("#yearPicker").val();
     month == 0 ? showErrorbyAlert('Hãy chọn tháng') : (year == 0 ? showErrorbyAlert('Hãy chọn năm') : monthYearValid());
 

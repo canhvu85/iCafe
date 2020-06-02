@@ -8,7 +8,15 @@ namespace Test_coffe.Migrations
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cities>().HasData(
+     //       modelBuilder.Entity<Cities>().Property(c => c.name)
+     //.HasColumnName("FirstName");
+     //   }
+
+
+
+
+        //=========================================================================
+        modelBuilder.Entity<Cities>().HasData(
                     new Cities
                     {
                         id = 1,
