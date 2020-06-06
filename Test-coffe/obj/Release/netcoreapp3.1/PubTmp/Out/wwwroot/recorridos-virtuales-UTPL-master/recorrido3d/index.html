@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Campus Utpl</title>
+    <meta name="description" content="Cargando....">
+    <script src="aframe-master.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.0.1/dist/aframe-extras.min.js"></script>
+</head>
+<body>
+
+    <a-scene>
+        <a-assets>
+          <a-asset-item id="mtl" src="objetos/aulas.mtl"></a-asset-item>
+          <a-asset-item id="edif4" src="objetos/aulas.obj"></a-asset-item>
+          <a-asset-item id="mtledif3" src="objetos/aulas2.mtl"></a-asset-item>
+          <a-asset-item id="edif3" src="objetos/aulas2.obj"></a-asset-item>
+          <a-asset-item id="cespedtex" src="objetos/cesped.mtl"></a-asset-item>
+          <a-asset-item id="cesped" src="objetos/cesped.obj"></a-asset-item>
+          <a-asset-item id="fuentetex" src="objetos/fuente.mtl"></a-asset-item>
+          <a-asset-item id="fuente" src="objetos/fuente.obj"></a-asset-item>
+          <a-asset-item id="arboltex" src="objetos/pino.mtl"></a-asset-item>
+          <a-asset-item id="arbol" src="objetos/pino.obj"></a-asset-item>
+          <a-asset-item id="arbustotex" src="objetos/arbusto.mtl"></a-asset-item>
+          <a-asset-item id="arbusto" src="objetos/arbusto.obj"></a-asset-item>
+          <a-asset-item id="rosastex" src="objetos/rosas.mtl"></a-asset-item>
+          <a-asset-item id="rosas" src="objetos/rosas.obj"></a-asset-item>
+          <a-asset-item id="puertametaltex" src="objetos/puertametal.mtl"></a-asset-item>
+          <a-asset-item id="puertametal" src="objetos/puertametal.obj"></a-asset-item>
+          <a-asset-item id="florestex" src="objetos/flores.mtl"></a-asset-item>
+          <a-asset-item id="flores" src="objetos/flores.obj"></a-asset-item>
+
+
+        </a-assets>
+
+        <a-entity movement-controls position="15 1 12">
+          <a-camera  position="0 0 0" near="0.1"></a-camera>
+        </a-entity>
+
+
+
+        <a-entity obj-model="obj: #edif4; mtl: #mtl" position="0 0 -1" scale="2.5 1 1"></a-entity>
+        <a-entity obj-model="obj: #edif3; mtl: #mtledif3" position="30 0 -1" scale="2.5 1 1"></a-entity>
+        <a-plane position="5 0 0" rotation="-90 0 0" width="60" height="19" color="green" shadow></a-plane>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="7.56789 0 7.11452" scale="1 0.1 1"></a-entity>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="10.19481 0 7.11452" scale="1 0.1 1"></a-entity>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="12.5 0 7" scale="1 0.1 1"></a-entity>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="12.5 0 4.90437" scale="1 0.1 1"></a-entity>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="9.78453 0 4.7863" scale="1 0.1 1"></a-entity>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="7.6889 0 2.9268" scale="1 0.1 1"></a-entity>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="10.22727 0 2.9268" scale="1 0.1 1"></a-entity>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="10.22727 0 2.9268" scale="1 0.1 1"></a-entity>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="12.73612 0 2.9268" scale="1 0.1 1"></a-entity>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="10.2863 0 0.83117" scale="1 0.1 1"></a-entity>
+        <a-entity obj-model="obj: #arbol; mtl: #arboltex" position="8.36777 1.5 1.79693" scale=""></a-entity>
+        <a-entity obj-model="obj: door.obj" material="src: doortex.png" position="2.85 0.15 4" scale="0.004 0.004 0.004" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+        <a-entity obj-model="obj: door.obj" material="src: doortex.png" position="2.85 0.15 1.6" scale="0.004 0.004 0.004" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+        <a-entity obj-model="obj: door.obj" material="src: doortex.png" position="2.85 0.15 -1" scale="0.004 0.004 0.004" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+        <a-entity obj-model="obj: #puertametal; mtl: #puertametaltex" position="2.85 0.15 -2.5" scale="1 1 1" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+        <a-entity obj-model="obj: door.obj" material="src: doortex.png" position="2.85 1.89144 -1" scale="0.004 0.004 0.004" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+        <a-entity obj-model="obj: door.obj" material="src: doortex.png" position="2.85 1.89144 1.6" scale="0.004 0.004 0.004" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+        <a-entity obj-model="obj: door.obj" material="src: doortex.png" position="2.85 1.89144 4" scale="0.004 0.004 0.004" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+
+        <a-entity obj-model="obj: door.obj" material="src: doortex.png" position="30 0.15 4" scale="0.004 0.004 0.004" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+        <a-entity obj-model="obj: door.obj" material="src: doortex.png" position="30 0.15 1.6" scale="0.004 0.004 0.004" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+        <a-entity obj-model="obj: door.obj" material="src: doortex.png" position="30 0.15 -1" scale="0.004 0.004 0.004" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+        <a-entity obj-model="obj: #puertametal; mtl: #puertametaltex" position="30 0.15 -2.5" scale="1 1 1" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+        <a-entity obj-model="obj: door.obj" material="src: doortex.png" position="30 1.89144 -1" scale="0.004 0.004 0.004" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+        <a-entity obj-model="obj: door.obj" material="src: doortex.png" position="30 1.89144 1.6" scale="0.004 0.004 0.004" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+        <a-entity obj-model="obj: door.obj" material="src: doortex.png" position="30 1.89144 4" scale="0.004 0.004 0.004" rotation="-179.9998479605043 90 -179.9998479605043"></a-entity>
+
+        <a-entity obj-model="obj: MacassarTree.obj; mtl: MacassarTree.mtl" position="12 0 2.1216" scale="0.3 0.25 0.5"></a-entity>
+        <a-entity obj-model="obj: MacassarTree.obj; mtl: MacassarTree.mtl" position="23.43093 0 2.97756" scale="0.3 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: Mesh_RoseBush.obj" material="src: Tex_RoseBush.png" position="11.62455 -0.2 5.63754" scale="0.03 0.02 0.03"></a-entity>
+        <a-entity obj-model="obj: #arbusto;mtl: #arbustotex"  position="12.17355 0 5.63754" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="12.05549 0 6.13931" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="11.4876 0 6.31641" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="11.03069 0 5.99173" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="12.16764 0 5.96221" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="11.81345 0 6.28688" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="11.25265 0 6.19833" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="11.14993 0 5.69656" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="12.11333 0 5.34237" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="11.10979 0 5.43092" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="11.81817 0 5.13576" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="11.22785 0 5.22431" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="11.47933 0 5.10625" scale="0.5 0.5 0.5"></a-entity>
+
+        <a-entity obj-model="obj: Mesh_RoseBush.obj" material="src: Tex_RoseBush.png" position="9.62455 -0.2 5.63754" scale="0.03 0.02 0.03"></a-entity>
+        <a-entity obj-model="obj: #arbusto;mtl: #arbustotex"  position="10.17355 0 5.63754" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="10.05549 0 6.13931" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="9.4876 0 6.31641" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="9.03069 0 5.99173" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="10.16764 0 5.96221" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="9.81345 0 6.28688" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="9.25265 0 6.19833" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="9.14993 0 5.69656" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="10.11333 0 5.34237" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="9.10979 0 5.43092" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="9.81817 0 5.13576" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="9.22785 0 5.22431" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="9.47933 0 5.10625" scale="0.5 0.5 0.5"></a-entity>
+
+        <a-entity obj-model="obj: Mesh_RoseBush.obj" material="src: Tex_RoseBush.png" position="18.62455 -0.2 5.63754" scale="0.03 0.02 0.03"></a-entity>
+        <a-entity obj-model="obj: #arbusto;mtl: #arbustotex"  position="19.17355 0 5.63754" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="19.05549 0 6.13931" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="18.4876 0 6.31641" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="18.03069 0 5.99173" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="19.16764 0 5.96221" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="18.81345 0 6.28688" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="18.25265 0 6.19833" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="18.14993 0 5.69656" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="19.11333 0 5.34237" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="18.10979 0 5.43092" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="18.81817 0 5.13576" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="18.22785 0 5.22431" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="18.47933 0 5.10625" scale="0.5 0.5 0.5"></a-entity>
+
+        <a-entity obj-model="obj: Mesh_RoseBush.obj" material="src: Tex_RoseBush.png" position="22.62455 -0.2 5.63754" scale="0.03 0.02 0.03"></a-entity>
+        <a-entity obj-model="obj: #arbusto;mtl: #arbustotex"  position="23.17355 0 5.63754" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="23.05549 0 6.13931" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="22.4876 0 6.31641" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="22.03069 0 5.99173" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="23.16764 0 5.96221" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="22.81345 0 6.28688" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="22.25265 0 6.19833" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="22.14993 0 5.69656" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="23.11333 0 5.34237" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="22.10979 0 5.43092" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="22.81817 0 5.13576" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="22.22785 0 5.22431" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="22.47933 0 5.10625" scale="0.5 0.5 0.5"></a-entity>
+
+        <a-entity obj-model="obj: rosas.obj; mtl: rosas.mtl" position="12.29161 0.15 7.64462" scale="0.2 0.1 0.2"></a-entity>
+        <a-entity obj-model="obj: rosas.obj; mtl: rosas.mtl" position="11.97048 0.15 7.70365" scale="0.2 0.1 0.2"></a-entity>
+
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="8.33647 0 6.96576" scale="0.5 1 0.5"></a-entity>
+        <a-entity obj-model="obj: #flores; mtl: #florestex" position="7.98582 0.15 6.96576" scale="0.3 0.2 0.3"></a-entity>
+        <a-entity obj-model="obj: #flores; mtl: #florestex" position="7.63517 0.15 6.96576" scale="0.3 0.2 0.3"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="7.28098 0 6.96576" scale="0.5 1 0.5"></a-entity>
+        <a-entity obj-model="obj: #flores; mtl: #florestex" position="7.16292 0.15 7.20188" scale="0.3 0.2 0.3"></a-entity>
+        <a-entity obj-model="obj: #flores; mtl: #florestex" position="7.05312 0.15 7.46752" scale="0.3 0.2 0.3"></a-entity>
+        <a-entity obj-model="obj: #arbusto; mtl: #arbustotex" position="7.04958 0 7.79221" scale="0.5 1 0.5"></a-entity>
+
+      <!--  <a-entity geometry="primitive: cylinder; openEnded: true; thetaLength: 130; height: 0.3; segmentsRadial: 5" rotation="0 -20 0" position="13.01 0 7" material="src: cemento.jpg"></a-entity> -->
+        <a-box position="15 0 4.2" material="src: cemento.jpg; side: double" rotation="0 90 0" depth="2" height="0.3" width="5"></a-box>
+        <a-box position="14 -0.01 8" material="src: cemento.jpg; side: double" rotation="0 50 0" depth="2" height="0.3" width="3"></a-box>
+        <a-box position="16 -0.001 8" material="src: cemento.jpg; side: double" rotation="0 -50 0" depth="2" height="0.3" width="3"></a-box>
+        <a-box position="0.6 0 6.2" material="src: cemento.jpg; side: double" rotation="0 0 0" depth="1.3" height="0.3" width="8"></a-box>
+        <a-entity obj-model="obj: #fuente; mtl: #fuentetex" position="14.9 -0.4 -1" scale="0.3 0.5 0.3" rotation="0 0 0"></a-entity>
+        <a-ring radius-inner="0.1" material="src: objetos/agua.jpg" radius-outer="2" position="14.9 0.01 -1" rotation="-90 0 0" ></a-ring>
+        <a-ring radius-inner="1.8" material="src: cemento.jpg;" width="512"  radius-outer="3" position="14.9 0.03 -1.04" rotation="-90 0 0" ></a-ring>
+        <a-box position="11 0 -1" material="src: cemento.jpg; side: double" depth="1" height="0.3" width="3"></a-box>
+        <a-box position="8 0 -1" material="src: cemento.jpg; side: double" depth="1" height="0.3" width="3"></a-box>
+        <a-box position="6 0 -1" material="src: cemento.jpg; side: double" depth="1" height="0.3" width="1.5"></a-box>
+        <a-box position="8 -0.01 -0.5" material="src: cemento.jpg; side: double" rotation="0 20 0" depth="1" height="0.3" width="3"></a-box>
+        <a-box position="6.15 0 0.2" material="src: cemento.jpg; side: double" rotation="0 20 0" depth="1" height="0.3" width="1"></a-box>
+        <a-box position="5.5 0 5.7" material="src: cemento.jpg; side: double" rotation="0 90 0" depth="2" height="0.3" width="5"></a-box>
+        <a-box position="5.5 -0.001 0.7" material="src: cemento.jpg; side: double" rotation="0 90 0" depth="2" height="0.3" width="5"></a-box>
+        <a-box position="8 -0.01 -1.5" material="src: cemento.jpg; side: double" rotation="0 -20 0" depth="1" height="0.3" width="3"></a-box>
+        <a-box position="6.15 0 -2.17" material="src: cemento.jpg; side: double" rotation="0 -20 0" depth="1" height="0.3" width="1"></a-box>
+        <a-box position="5.5 -0.001 -4.3" material="src: cemento.jpg; side: double" rotation="0 90 0" depth="2" height="0.3" width="5"></a-box>
+        <a-box position="8 -0.01 0" material="src: cemento.jpg; side: double" rotation="0 40 0" depth="1" height="0.3" width="3"></a-box>
+        <a-box position="6.5 0 1.3" material="src: cemento.jpg; side: double" rotation="0 40 0" depth="1" height="0.3" width="1.5"></a-box>
+        <a-box position="19 0 -1" material="src: cemento.jpg; side: double" depth="1" height="0.3" width="3"></a-box>
+        <a-box position="21.95234 0 -1" material="src: cemento.jpg; side: double" depth="1" height="0.3" width="3" geometry=""></a-box>
+        <a-box position="24.18182 0 -1" material="src: cemento.jpg; side: double" depth="1" height="0.3" width="1.5" geometry=""></a-box>
+        <a-box position="15 0 -6.13058" material="src: cemento.jpg; side: double" rotation="0 90 0" depth="2" height="0.3" width="5" geometry=""></a-box>
+        <a-box position="27.5 0.001 -1" material="src: cemento.jpg; side: double" depth="1" height="0.3" width="1.5" geometry=""></a-box>
+        <a-box position="27.5 0.01 5.7" material="src: cemento.jpg; side: double" rotation="0 90 0" depth="2" height="0.3" width="5" geometry=""></a-box>
+        <a-box position="27.5 0.001 0.77084" material="src: cemento.jpg; side: double" rotation="0 90 0" depth="2" height="0.3" width="5" geometry=""></a-box>
+        <a-box position="27.5 0 -4.09929" material="src: cemento.jpg; side: double" rotation="0 90 0" depth="2" height="0.3" width="5" geometry=""></a-box>
+        <a-box position="26.1281 0 1.27048" material="src: cemento.jpg; side: double" rotation="0 -26.28157406265086 0" depth="1" height="0.3" width="1.5" geometry=""></a-box>
+        <a-box position="22.07911 -0.001 -0.5" material="src: cemento.jpg; side: double" rotation="0 -18.06879702724564 0" depth="1" height="0.3" width="3" geometry=""></a-box>
+        <a-box position="24.70484 -0.0001 0.5608" material="src: cemento.jpg; side: double" rotation="0 -25 0" depth="1" height="0.3" width="3" geometry=""></a-box>
+        <a-box position="24.85242 -0.001 -2.53838" material="src: cemento.jpg; side: double" rotation="0 20.83675613552265 0" depth="1" height="0.3" width="3.9" geometry=""></a-box>
+        <a-box position="24.85242 -0.01 -1.6529" material="src: cemento.jpg; side: double" rotation="0 20.83675613552265 0" depth="1" height="0.3" width="3.8" geometry=""></a-box>
+        <a-box position="24.85242 -0.0001 -1.00355" material="src: cemento.jpg; side: double" rotation="0 -0.4709713075975367 0" depth="1" height="0.3" width="3.8" geometry=""></a-box>
+        <a-box position="25.73789 -0.001 -0.70838" material="src: cemento.jpg; side: double" rotation="0 -21.822816500942796 0" depth="3" height="0.3" width="3.8" geometry=""></a-box>
+        <a-box position="3.84711 -0.01 3.19115" material="src: baldosa.jpg; side: double" rotation="0 90 0" depth="2" height="0.3" width="5" geometry=""></a-box>
+        <a-box position="3.84711 -0.01 -1.8" material="src: baldosa.jpg; side: double" rotation="0 90 0" depth="2" height="0.3" width="5" geometry=""></a-box>
+        <a-box position="32.4477 0 6.2" material="src: cemento.jpg; side: double" rotation="" depth="1.3" height="0.3" width="8" geometry=""></a-box>
+        <a-box position="29.02421 -0.01 3.19115" material="src: baldosa.jpg; side: double" rotation="0 90 0" depth="2" height="0.3" width="5" geometry=""></a-box>
+        <a-box position="29.02421 -0.01 -1.8" material="src: baldosa.jpg; side: double" rotation="0 90 0" depth="2" height="0.3" width="5" geometry=""></a-box>
+
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="17.34061 0 4.90437" scale="2 0.1 2"></a-entity>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="19.34061 0 4.90437" scale="2 0.1 2"></a-entity>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="20.55785 0 2.9268" scale="2 0.1 2"></a-entity>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="23.6275 0 5.76033" scale="2 0.1 2"></a-entity>
+        <a-entity obj-model="obj: #cesped; mtl: #cespedtex" position="7.71842 0 5.1405" scale="1 0.1 1"></a-entity>
+
+        <a-box position="17.1098 0.0001 -5.36836" material="src: cemento.jpg; side: double" rotation="0 23.26609718687734" depth="1" height="0.3" width="3" geometry=""></a-box>
+        <a-box position="19.82173 0.001 -6.3719" material="src: cemento.jpg; side: double" rotation="0 17.498131063295343" depth="1" height="0.3" width="3" geometry=""></a-box>
+        <a-box position="22.57025 0.0001 -6.99174" material="src: cemento.jpg; side: double" rotation="0 7.757848546071346" depth="1" height="0.3" width="3" geometry=""></a-box>
+        <a-box position="25.5065 0.0001 -7.19836" material="src: cemento.jpg; side: double" rotation="0 0.725937526430753" depth="1" height="0.3" width="3" geometry=""></a-box>
+        <a-box position="27.98149 0.0001 -7.16885" material="src: cemento.jpg; side: double" rotation="0 0.725937526430753" depth="1" height="0.3" width="3" geometry=""></a-box>
+
+        <a-entity obj-model="obj: rosas.obj; mtl: rosas.mtl" position="17.72609 0.15 7.6151" scale="0.2 0.1 0.2"></a-entity>
+        <a-entity obj-model="obj: rosas.obj; mtl: rosas.mtl" position="18.01771 0.15 7.6151" scale="0.2 0.1 0.2"></a-entity>
+        <a-entity obj-model="obj: rosas.obj; mtl: rosas.mtl" position="18.30933 0.15 7.6151" scale="0.2 0.1 0.2"></a-entity>
+        <a-box position="22.07911 -0.01 -1.53306" material="src: cemento.jpg; side: double" rotation="0 20 0" depth="1" height="0.3" width="3" geometry=""></a-box>
+        <a-plane position="5 0 0" rotation="-90 0 0" width="60" height="19" color="#166412"></a-plane>
+        <a-sky src="cielo.jpg"></a-sky>
+
+    </a-scene>
+    <script>
+    for (var i = -4; i < 36; i=i+6) {
+      var pos = i + " 0 9";
+      var img = "cemento.jpg";
+      var scene = document.querySelector('a-scene');
+      var box = document.createElement('a-box');
+      box.setAttribute('src', img);
+      box.setAttribute('height', '0.3');
+      box.setAttribute('width','6');
+      box.setAttribute('position', pos);
+      box.setAttribute('depth', '1.6');
+      scene.appendChild(box);
+      }
+
+    </script>
+</body>
+</html>

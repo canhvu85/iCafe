@@ -208,6 +208,13 @@ jQuery(function ($) {
         $(grid_selector).jqGrid('setGridWidth', parent_column.width());
     })
 
+    $.ajaxSetup({
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': user.remember_token
+        }
+    });
+
     jQuery(grid_selector).jqGrid({
         subGrid: true,
         subGridOptions: {

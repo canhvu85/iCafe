@@ -1,0 +1,241 @@
+﻿/*.ww {
+    width: 303pt;
+}
+
+#tableBill {
+    width: 277pt;
+}
+
+#showBill #formPrinted {
+    font-size: 11pt;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.marginTop5 {
+    margin-top: -5pt !important;
+}
+
+.marginTop10 {
+    margin-top: -10pt !important;
+}
+
+.fonSize10 {
+    font-size: 10pt;
+}
+
+.nameShop {
+    font-size: bold;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.marginTop2 {
+    margin-top: -2pt;
+}
+
+.marginAuto {
+    margin: auto;
+}
+
+.marginBottom5 {
+    margin-bottom: 5pt;
+}
+
+hr {
+    border-bottom: 1pt dotted;
+}
+
+.phieuTinhTien {
+    font-size: bold;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.pageNum {
+    position: absolute;
+    left: 95pt;
+}
+
+.nameTable {
+    text-align: right;
+    font-size: 13pt;
+    font-weight: 600;
+    margin-top: -5pt;
+}
+
+.userNameCashier {
+    position: absolute;
+    right: 15pt;
+    top: 139pt;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+table th, table td, table tr {
+    border: 2pt solid black !important;
+    color: black !important;
+}
+
+@media print {
+    body {
+        font-size: 7pt;
+        color: #000;
+        background-color: #fff;
+        border: none;
+    }
+    #showBill #formPrinted, #tableBill {
+        font-size: 7pt !important;
+    }
+    .fonSize10 {
+        font-size: 6pt;
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    .modal, #showBill, #tableBill, #formPrinted , .modal-footer{
+        border: none !important;
+    }
+
+    .modal-footer {
+        display: none !important;
+    }
+
+}
+
+@media screen {
+    body {
+        font-family: verdana, arial, sans-serif;
+    }
+}*/
+
+
+
+
+
+
+
+
+
+.ww {
+    width: 595px;
+}
+
+#tableBill {
+    width: 420pt;
+}
+
+#showBill #formPrinted {
+    font-size: 11pt;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.marginTop5 {
+    margin-top: -5pt !important;
+}
+
+.marginTop10 {
+    margin-top: -10pt !important;
+}
+
+.fonSize10 {
+    font-size: 10pt;
+}
+
+.nameShop {
+    font-size: bold;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.marginTop2 {
+    margin-top: -2pt;
+}
+
+.marginAuto {
+    margin: auto;
+}
+
+.marginBottom5 {
+    margin-bottom: 5pt;
+}
+
+hr {
+    border-bottom: 1pt dotted;
+}
+
+.phieuTinhTien {
+    font-size: bold;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.pageNum {
+    position: absolute;
+    left: 95pt;
+}
+
+.nameTable {
+    text-align: right;
+    font-size: 13pt;
+    font-weight: 600;
+    margin-top: -5pt;
+}
+
+.userNameCashier {
+    position: absolute;
+    right: 15pt;
+    top: 139pt;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+table th, table td, table tr {
+    border: 2pt solid black !important;
+    color: black !important;
+}
+
+@media print {
+    body {
+        font-size: 7pt;
+        color: #000;
+        background-color: #fff;
+        border: none;
+    }
+
+    #showBill #formPrinted, #tableBill {
+        font-size: 7pt !important;
+    }
+
+    .fonSize10 {
+        font-size: 6pt;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    .modal, #showBill, #tableBill, #formPrinted, .modal-footer {
+        border: none !important;
+    }
+
+    .modal-footer {
+        display: none !important;
+    }
+}
+
+@media screen {
+    body {
+        font-family: verdana, arial, sans-serif;
+    }
+}

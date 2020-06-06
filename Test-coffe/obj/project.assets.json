@@ -9843,11 +9843,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Gitlab\\github\\iCafe\\iCafe\\Test-coffe\\Test-coffe.csproj",
+      "projectUniqueName": "F:\\Gitlab\\github\\iCafe\\3\\iCafe\\Test-coffe\\Test-coffe.csproj",
       "projectName": "Test-coffe",
-      "projectPath": "F:\\Gitlab\\github\\iCafe\\iCafe\\Test-coffe\\Test-coffe.csproj",
+      "projectPath": "F:\\Gitlab\\github\\iCafe\\3\\iCafe\\Test-coffe\\Test-coffe.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "F:\\Gitlab\\github\\iCafe\\iCafe\\Test-coffe\\obj\\",
+      "outputPath": "F:\\Gitlab\\github\\iCafe\\3\\iCafe\\Test-coffe\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",

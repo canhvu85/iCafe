@@ -1,0 +1,180 @@
+﻿.level2 {
+    margin-left: 20px;
+}
+
+.level3 {
+    margin-left: 30px;
+}
+
+.level4 {
+    margin-left: 40px;
+}
+
+.level5 {
+    margin-left: 50px;
+}
+
+.alert, .alert-success {
+    display: none;
+    /*overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;*/
+}
+
+.btn-action {
+    width: 11%;
+}
+
+.btn-action2 {
+    width: 21%;
+}
+
+#button-addon5 {
+    position: absolute;
+    right: 30px;
+    top: 77px;
+}
+
+.stt {
+    text-align: center;
+}
+
+.activeClk {
+    background: #01ff70 !important;
+}
+
+
+.custom-select {
+    width: 30%;
+}
+
+#tbl2 tbody tr .sorting_1 {
+    display: none;
+}
+
+#tbl2 tr th:nth-child(1) {
+    display: none;
+}
+
+.create-btn {
+    margin-left: -12px;
+    margin-right: 12px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.edit-btn {
+    margin-left: 12px;
+    margin-right: 7px;
+    font-size: 16px;
+    color: #0062cc;
+}
+
+.delete-btn {
+    margin-left: 12px;
+    margin-right: 7px;
+    font-size: 16px;
+    color: #0062cc;
+}
+
+.save-btn {
+    margin-left: -12px;
+    margin-right: 12px;
+    font-size: 18px;
+    color: #fff;
+}
+
+#closeBtn {
+    font-size: 20px;
+}
+
+#ecloseBtn {
+    font-size: 20px;
+}
+
+#blah {
+    max-width: 200px;
+    max-height: 200px;
+    opacity: 0;
+    position: relative;
+}
+
+#eblah {
+    max-width: 200px;
+    max-height: 200px;
+    opacity: 0;
+    position: relative;
+}
+
+#frmAddProduct .col-9 {
+    margin: 0 auto;
+}
+
+.modal-header {
+    background-color: dodgerblue;
+    color: white;
+}
+
+#tableBill {
+    /*width: 100%;*/
+    width: 269px;
+}
+    #tableBill th, #tableBill td {
+        vertical-align: middle !important;
+        padding: .2rem !important;
+    }
+#tableBill tr, #tableBill td, #tableBill th {
+    border: 1px solid;
+}
+    /*#tableBill th:first-child, #tableBill td:first-child {
+        width: 50%;
+    }*/
+    #tableBill td:first-child{
+        text-align: left;
+    }
+    #tableBill tr, #tableBill td:nth-child(2), #tableBill td:nth-child(4) {
+        text-align: center;
+    }
+
+    #tableBill td:nth-child(3), #tableBill td:nth-child(5) {
+        text-align: right;
+    }
+
+.table thead th {
+    text-align: center;
+}
+
+.table tbody tr td {
+    text-align: center;
+}
+
+button.text-muted:hover {
+    color: #007bff !important;
+}
+
+button.text-muted {
+    border: none;
+    outline: none;
+}
+
+@media (max-width: 739px) {
+    #frmAddProduct .col-6 {
+        flex: auto;
+        max-width: 100%;
+    }
+
+    #frmEditProduct .col-6 {
+        flex: auto;
+        max-width: 100%;
+    }
+}
+
+.treeview {
+    padding-left: 20px;
+}
+
+/*select option:active, select option:focus, select option:hover {
+    background-color: red !important;
+    /*color: #444;*/
+}*/
